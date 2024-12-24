@@ -2,3 +2,7 @@ PIDNet-main/PIDNet-main/data/LoveDA/train
 PIDNet-main/PIDNet-main/data/LoveDA/val
 PIDNet-main/PIDNet-main/data/LoveDA/train.zip
 PIDNet-main/PIDNet-main/data/LoveDA/val.zip
+datasets/LoveDA
+**/__pycache__/
+log/
+output/

@@ -1,5 +1,0 @@
-2024-12-23 09:39:15,365 Namespace(cfg='configs/LoveDA/pidnet_small_loveda_pretrained.yaml', seed=0, opts=[])
-2024-12-23 09:41:16,627 Namespace(cfg='configs/LoveDA/pidnet_small_loveda_pretrained.yaml', seed=0, opts=[])
-2024-12-23 09:42:02,871 Namespace(cfg='configs/LoveDA/pidnet_small_loveda_pretrained.yaml', seed=0, opts=[])
-2024-12-23 09:46:45,418 Namespace(cfg='configs/LoveDA/pidnet_small_loveda_pretrained.yaml', seed=0, opts=[])
-2024-12-23 09:47:55,057 SEND Error: Host unreachable

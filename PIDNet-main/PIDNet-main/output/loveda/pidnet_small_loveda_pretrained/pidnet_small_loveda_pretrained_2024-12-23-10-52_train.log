@@ -1,2 +1,0 @@
-2024-12-23 10:52:00,705 Namespace(cfg='configs/LoveDA/pidnet_small_loveda_pretrained.yaml', seed=0, opts=[])
-2024-12-23 10:52:03,004 Epoch: [0/20] Iter:[0/192], Time: 2.04, lr: [0.005], Loss: 21.702129, Acc:0.057747, Semantic loss: 8.800303, BCE loss: 5.566320, SB loss: 7.335506

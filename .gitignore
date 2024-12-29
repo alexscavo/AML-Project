@@ -1,2 +1,6 @@
 PIDNet-main/data/loveda/train
 PIDNet-main/data/loveda/val
+datasets/LoveDA
+**/__pycache__/
+log/
+output/

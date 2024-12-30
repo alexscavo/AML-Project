@@ -1,0 +1,63 @@
+2024-12-30 19:16:07,572 Namespace(cfg='configs/loveda/pidnet_small_loveda.yaml', seed=304, opts=[])
+2024-12-30 19:16:07,572 AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: loveda
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 7
+  ROOT: data/
+  TEST_SET: list/loveda/val.lst
+  TRAIN_SET: list/loveda/train.lst
+GPUS: (0,)
+LOG_DIR: log
+LOSS:
+  BALANCE_WEIGHTS: [0.4, 1.0]
+  CLASS_BALANCE: False
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.9
+  SB_WEIGHTS: 1.0
+  USE_OHEM: True
+MODEL:
+  ALIGN_CORNERS: True
+  NAME: pidnet_small
+  NUM_OUTPUTS: 2
+  PRETRAINED: pretrained_models/imagenet/PIDNet_S_ImageNet.pth.tar
+OUTPUT_DIR: output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+TEST:
+  BASE_SIZE: 2048
+  BATCH_SIZE_PER_GPU: 6
+  FLIP_TEST: False
+  IMAGE_SIZE: [2048, 1024]
+  MODEL_FILE: 
+  MULTI_SCALE: False
+  OUTPUT_INDEX: 1
+TRAIN:
+  BASE_SIZE: 2048
+  BATCH_SIZE_PER_GPU: 6
+  BEGIN_EPOCH: 0
+  END_EPOCH: 20
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: True
+  IGNORE_LABEL: 0
+  IMAGE_SIZE: [1024, 1024]
+  LR: 0.01
+  MOMENTUM: 0.9
+  MULTI_SCALE: True
+  NESTEROV: False
+  OPTIMIZER: sgd
+  RESUME: True
+  SCALE_FACTOR: 16
+  SHUFFLE: True
+  WD: 0.0005
+WORKERS: 4
+2024-12-30 19:16:07,725 Attention!!!
+2024-12-30 19:16:07,725 Loaded 302 parameters!
+2024-12-30 19:16:07,725 Over!!!
+2024-12-30 19:16:19,341 Epoch: [0/20] Iter:[0/227], Time: 10.59, lr: [0.01], Loss: 14.797488, Acc:0.159318, Semantic loss: 6.154703, BCE loss: 3.664701, SB loss: 4.978085
+2024-12-30 19:16:23,198 Epoch: [0/20] Iter:[10/227], Time: 1.30, lr: [0.009980174026451818], Loss: 16.069075, Acc:0.227780, Semantic loss: 7.422794, BCE loss: 2.058063, SB loss: 6.588219

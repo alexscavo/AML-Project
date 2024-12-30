@@ -157,6 +157,7 @@ def main():
     if config.TRAIN.RESUME:
         model_state_file = os.path.join(final_output_dir, 'checkpoint.pth.tar')
         if os.path.isfile(model_state_file):
+            print('-'*60)
             checkpoint = torch.load(model_state_file, map_location={'cuda:0': 'cpu'})
             best_mIoU = checkpoint['best_mIoU']
             last_epoch = checkpoint['epoch']

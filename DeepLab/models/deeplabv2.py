@@ -100,7 +100,7 @@ class ResNetMulti(nn.Module):
         - During training: Returns segmentation predictions.
         - During inference: Returns predictions resized to match the input size
     """
-    def __init__(self, block, layers, num_classes):
+    def __init__(self, block, layers, num_classes, multi_level=False):
 
         """
         Layers: 
@@ -117,7 +117,7 @@ class ResNetMulti(nn.Module):
                 - Implemented as layer6 (using ClassifierModule).
                 - Applies parallel atrous convolutions with dilation rates [6, 12, 18, 24] to the high-level feature map from layer4.
         """
-
+        self.multi_level = multi_level
         self.inplanes = 64
         super(ResNetMulti, self).__init__()
         self.conv1 = nn.Conv2d(3, 64, kernel_size=7, stride=2, padding=3,
@@ -195,7 +195,7 @@ class ResNetMulti(nn.Module):
         x = torch.nn.functional.interpolate(x, size=(H, W), mode='bilinear')
 
         if self.training == True:
-            return x, None, None
+            return x
 
         return x
 
@@ -243,7 +243,7 @@ class ResNetMulti(nn.Module):
 
 
 def get_deeplab_v2(num_classes=19, pretrain=True, pretrain_model_path='DeepLab_resnet_pretrained_imagenet.pth'):
-    model = ResNetMulti(Bottleneck, [3, 4, 23, 3], num_classes)
+    """ model = ResNetMulti(Bottleneck, [3, 4, 23, 3], num_classes)
 
     # Pretraining loading
     if pretrain:
@@ -255,5 +255,26 @@ def get_deeplab_v2(num_classes=19, pretrain=True, pretrain_model_path='DeepLab_r
             i_parts = i.split('.')
             new_params['.'.join(i_parts[1:])] = saved_state_dict[i]
         model.load_state_dict(new_params, strict=False)
+
+    return model """
+
+    model = ResNetMulti(Bottleneck, [3, 4, 23, 3], num_classes)
+
+    # Pretraining loading from torchvision's ResNet-101
+    if pretrain:
+        print('Loading ResNet-101 pretrained weights...')
+        resnet_model = resnet101(pretrained=True)
+        saved_state_dict = resnet_model.state_dict()
+
+        # Load pretrained weights into DeepLab model
+        new_params = model.state_dict().copy()
+        for key in saved_state_dict:
+            # Remove 'layer' prefixes or other modifications if necessary
+            modified_key = key.split('.', 1)[-1] if key.startswith('layer') else key
+            if modified_key in new_params:
+                new_params[modified_key] = saved_state_dict[key]
+
+        model.load_state_dict(new_params, strict=False)
+        print('Pretrained weights loaded successfully.')
 
     return model

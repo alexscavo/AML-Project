@@ -101,15 +101,15 @@ def main():
     start = timeit.default_timer()
     
     
-    if ('test' in config.DATASET.TEST_SET) and ('city' in config.DATASET.DATASET):
-        test(config, 
+    if ('test' in config.DATASET.TEST_SET) and ('loveda' in config.DATASET.DATASET): #per farlo passare qui cambiare test in val
+        test(config, #serve per salvare le predizioni del modello 
              test_dataset, 
              testloader, 
              model,
              sv_dir=final_output_dir)
         
     else:
-        mean_IoU, IoU_array, pixel_acc, mean_acc = testval(config, 
+        mean_IoU, IoU_array, pixel_acc, mean_acc = testval(config,   #serve per calcolare le metriche di valutazione
                                                            test_dataset, 
                                                            testloader, 
                                                            model)

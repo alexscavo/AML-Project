@@ -15,7 +15,8 @@ from torch.utils.data import DataLoader
 from project_datasets.LoveDA import LoveDADataset
 from torchvision import transforms
 import models.deeplabv2 as dlb 
-    
+
+#------------------------------------#
 def squeeze_channel(tensor):
     return tensor.squeeze(0).long()
 
@@ -45,6 +46,11 @@ def mean_iou(predictions, targets, num_classes):
     ious = calculate_iou(predictions, targets, num_classes)
     valid_ious = [iou for iou in ious if not torch.isnan(torch.tensor(iou))]
     return sum(valid_ious) / len(valid_ious) if valid_ious else 0.0
+#------------------------------------#
+
+
+
+
 
 def rescale_labels(tensor):
     """
@@ -56,6 +62,38 @@ def rescale_labels(tensor):
     tensor = tensor - 1  # Shift labels down by 1
     tensor[tensor == -1] = -1  # Ensure 0 becomes -1
     return tensor
+
+def poly_lr_scheduler(optimizer, init_lr, iter, lr_decay_iter=1,
+                      max_iter=300, power=0.9):
+    """Polynomial decay of learning rate
+            :param init_lr is base learning rate
+            :param iter is a current iteration
+            :param lr_decay_iter how frequently decay occurs, default is 1
+            :param max_iter is number of maximum iterations
+            :param power is a polymomial power
+
+    """
+    # if iter % lr_decay_iter or iter > max_iter:
+    # 	return optimizer
+
+    lr = init_lr*(1 - iter/max_iter)**power
+    optimizer.param_groups[0]['lr'] = lr
+    return lr
+
+def fast_hist(a, b, n):
+    '''
+    a and b are label and prediction respectively
+    n is the number of classes
+    '''
+    k = (a >= 0) & (a < n)
+    return np.bincount(n * a[k].astype(int) + b[k], minlength=n ** 2).reshape(n, n)
+
+def per_class_iou(hist):
+    epsilon = 1e-5
+    return (np.diag(hist)) / (hist.sum(1) + hist.sum(0) - np.diag(hist) + epsilon)
+
+
+
 
 
 if __name__ == '__main__':
@@ -93,8 +131,10 @@ if __name__ == '__main__':
     val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False, num_workers=4)
 
     num_classes = 7  # Update based on LoveDA
-    model = dlb.get_deeplab_v2(num_classes=num_classes)
 
+    # Define model
+    model = dlb.get_deeplab_v2(num_classes=num_classes)
+    
     # Define optimizer and loss function
     optimizer = optim.SGD(model.optim_parameters(0.0001), momentum=0.9, weight_decay=0.005)
     criterion = nn.CrossEntropyLoss(ignore_index=-1)
@@ -102,92 +142,127 @@ if __name__ == '__main__':
     # Training loop
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     model.to(device)
-    iou = JaccardIndex(task="multiclass", num_classes=num_classes).to(device)
+    #iou = JaccardIndex(task="multiclass", num_classes=num_classes).to(device)
     num_epochs = 20  # Number of epochs
+    init_lr = 0.0001
+    max_iter = num_epochs * len(train_loader)  # Total iterations, serve per fast_hist
+
     for epoch in range(num_epochs):
         model.train()
         running_loss = 0.0
-        # Training Progress Bar
-        total_miou = 0.0
-        total_accuracy = 0.0
+        #total_miou = 0.0
+        total_correct_predictions = 0
+        total_elements = 0
+        total_confusion_matrix = np.zeros((num_classes, num_classes))
+
         train_pbar = tqdm(train_loader, desc=f"Epoch {epoch+1}/{num_epochs} [Training]")
-        for images, masks in train_pbar:
+
+        for iter, (images, masks) in enumerate(train_pbar):
             images, masks = images.to(device), masks.to(device)
+
+            #Facciamo update di lr
+            current_iter = epoch * len(train_loader) + iter  # Current global iteration
+            current_lr = poly_lr_scheduler(optimizer, init_lr, current_iter, max_iter=max_iter, power=0.9)
+
             # Forward and backward pass
             optimizer.zero_grad()
             outputs = model(images)
 
             preds = torch.argmax(outputs, dim=1)
-
             mask = masks != -1
-
             # Apply the mask to predictions and targets
             masked_preds = preds[mask]
             masked_targets = masks[mask]
 
+            # Compute parameters per accuracy
             correct_predictions = torch.sum(masked_preds == masked_targets).item()
-            total_elements = masked_preds.numel()
+            elements = masked_preds.numel()
+            #accuracy = (correct_predictions / total_elements) * 100
+            #total_accuracy += accuracy
+            total_correct_predictions += correct_predictions
+            total_elements += elements
 
-            accuracy = (correct_predictions / total_elements) * 100
+            # Update confusion matrix per andare a calcolare MioU
+            total_confusion_matrix += fast_hist(masked_targets.cpu().numpy(), masked_preds.cpu().numpy(), num_classes)
             # Compute Mean IoU
-            batch_miou = iou(masked_preds, masked_targets)
+            #batch_miou = iou(masked_preds, masked_targets)
             # Compute IoU
             #batch_miou = mean_iou(preds, masks, num_classes)
-            total_miou += batch_miou.item()
-            total_accuracy += accuracy
-
-
+            #total_miou += batch_miou.item()
+            
+            # Loss computation
             loss = criterion(outputs, masks.long())
             running_loss += loss.item()
-            
             loss.backward()
             optimizer.step()
 
             train_pbar.set_postfix(loss=running_loss / (train_pbar.n + 1))
-        avg_miou = total_miou / len(train_loader)
-        avg_accuracy = total_accuracy / len(train_loader)
+
+        # Calculate per-class IoU and mean IoU    
+        per_class_iou_values = per_class_iou(total_confusion_matrix)
+        mean_iou = np.mean(per_class_iou_values) #non più -> avg_miou = total_miou / len(train_loader)
+        
+        #avg_accuracy = total_accuracy / len(train_loader)
+        avg_accuracy = (total_correct_predictions / total_elements) * 100
          
-        print(f"Epoch [{epoch+1}/{num_epochs}] Training Loss: {running_loss/len(train_loader):.4f}, mIoU: {avg_miou:.4f}, Average accuracy: {avg_accuracy:.4f}")
+        print(f"Epoch [{epoch+1}/{num_epochs}] Training Loss: {running_loss/len(train_loader):.4f}, mIoU: {mean_iou:.4f}, Average accuracy: {avg_accuracy:.4f}")
+
+
+
 
         # Validation
         model.eval()
         val_loss = 0.0
-        total_miou = 0.0
-        total_accuracy = 0.0
+        #total_miou = 0.0
+        total_correct_predictions = 0
+        total_elements = 0
+        total_confusion_matrix = np.zeros((num_classes, num_classes))
+
         val_pbar = tqdm(val_loader, desc=f"Epoch {epoch+1}/{num_epochs} [Validation]")
         # Instantiate Jaccard Index for semantic segmentation
-        iou = JaccardIndex(task="multiclass", num_classes=num_classes).to(device)
+        #iou = JaccardIndex(task="multiclass", num_classes=num_classes).to(device)
 
         with torch.no_grad():
             for images, masks in val_pbar:
                 images, masks = images.to(device), masks.to(device)
+
                 outputs = model(images)
 
-                loss = criterion(outputs, masks.long())
-            
-                val_loss += loss.item()
-               
-                # Get predictions
-                preds = torch.argmax(outputs, dim=1)
-                                
+                preds = torch.argmax(outputs, dim=1)         
                 mask = masks != -1
-
                 # Apply the mask to predictions and targets
                 masked_preds = preds[mask]
                 masked_targets = masks[mask]
 
                 correct_predictions = torch.sum(masked_preds == masked_targets).item()
-                total_elements = masked_preds.numel()
+                elements = masked_preds.numel()
+                #accuracy = (correct_predictions / total_elements) * 100
+                total_correct_predictions += correct_predictions
+                total_elements += elements
 
-                accuracy = (correct_predictions / total_elements) * 100
+                # Update confusion matrix
+                total_confusion_matrix += fast_hist(masked_targets.cpu().numpy(), masked_preds.cpu().numpy(), num_classes)
+
+                # Loss computation
+                loss = criterion(outputs, masks.long())
+                val_loss += loss.item()
+
+                val_pbar.set_postfix(loss=val_loss / (val_pbar.n + 1))
                 
                 # Compute Mean IoU
-                batch_miou = iou(masked_preds, masked_targets)
+                #batch_miou = iou(masked_preds, masked_targets)
                 # Compute IoU
                 #batch_miou = mean_iou(preds, masks, num_classes)
-                total_miou += batch_miou.item()
-                total_accuracy += accuracy
-                val_pbar.set_postfix(loss=val_loss / (val_pbar.n + 1))
-        avg_miou = total_miou / len(val_loader)
-        avg_accuracy = total_accuracy / len(val_loader)
-        print(f"Epoch [{epoch+1}/{num_epochs}] Validation Loss: {val_loss/len(val_loader):.4f}, mIoU: {avg_miou:.4f}, Average accuracy: {avg_accuracy:.4f}")
+                #total_miou += batch_miou.item()
+                #total_accuracy += accuracy
+               
+
+        #avg_miou = total_miou / len(val_loader)
+        # Calculate per-class IoU and mean IoU
+        per_class_iou_values = per_class_iou(total_confusion_matrix)
+        mean_iou = np.mean(per_class_iou_values)
+        
+        #avg_accuracy = total_accuracy / len(val_loader)
+        avg_accuracy = (total_correct_predictions / total_elements) * 100
+
+        print(f"Epoch [{epoch+1}/{num_epochs}] Validation Loss: {val_loss/len(val_loader):.4f}, mIoU: {mean_iou:.4f}, Average accuracy: {avg_accuracy:.4f}")

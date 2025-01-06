@@ -51,5 +51,5 @@ TEST:
   BATCH_SIZE_PER_GPU: 6
   FLIP_TEST: false
   MULTI_SCALE: false
-  MODEL_FILE: ''
+  MODEL_FILE: 'output/loveda/pidnet_small_loveda/final_state.pt'
   OUTPUT_INDEX: 1

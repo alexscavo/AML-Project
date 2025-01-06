@@ -1,6 +1,8 @@
 import sys
 import os
 import numpy as np
+import os
+import logging
 # Add the project root directory to sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
@@ -15,6 +17,19 @@ from torch.utils.data import DataLoader
 from project_datasets.LoveDA import LoveDADataset
 from torchvision import transforms
 import models.deeplabv2 as dlb 
+
+# Configurazione del logger
+log_dir = "training/logs"
+os.makedirs(log_dir, exist_ok=True)  # Crea la cartella dei log se non esiste
+log_file = os.path.join(log_dir, "training_DeepLab.log")
+
+logging.basicConfig(
+    filename=log_file,
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+logging.info("Starting training...")
+
 
 #------------------------------------#
 def squeeze_channel(tensor):
@@ -207,7 +222,12 @@ if __name__ == '__main__':
          
         print(f"Epoch [{epoch+1}/{num_epochs}] Training Loss: {running_loss/len(train_loader):.4f}, mIoU: {mean_iou:.4f}, Average accuracy: {avg_accuracy:.4f}")
 
-
+        logging.info(
+            f"Epoch [{epoch+1}/{num_epochs}] Training - "
+            f"Loss: {running_loss/len(train_loader):.4f}, "
+            f"mIoU: {mean_iou:.4f}, "
+            f"Accuracy: {avg_accuracy:.2f}%"
+        )
 
 
         # Validation
@@ -266,3 +286,12 @@ if __name__ == '__main__':
         avg_accuracy = (total_correct_predictions / total_elements) * 100
 
         print(f"Epoch [{epoch+1}/{num_epochs}] Validation Loss: {val_loss/len(val_loader):.4f}, mIoU: {mean_iou:.4f}, Average accuracy: {avg_accuracy:.4f}")
+
+        logging.info(
+            f"Epoch [{epoch+1}/{num_epochs}] Validation - "
+            f"Loss: {val_loss/len(val_loader):.4f}, "
+            f"mIoU: {mean_iou:.4f}, "
+            f"Accuracy: {avg_accuracy:.2f}%"
+        )
+
+    logging.info("Training completed.")

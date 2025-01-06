@@ -16,8 +16,8 @@ def create_lst_file(image_dir, label_dir, output_lst):
             f.write(f"{img_path} {lbl_path}\n")
 
 # Paths to the LoveDA dataset directories
-train_image_dir = "data/loveda/train/Rural/images_png"
-train_label_dir = "data/loveda/train/Rural/masks_png"
+train_image_dir = "data/loveda/train/Urban/images_png"
+train_label_dir = "data/loveda/train/Urban/masks_png"
 test_image_dir = "data/loveda/val/Rural/images_png"
 test_label_dir = "data/loveda/val/Rural/masks_png"
 

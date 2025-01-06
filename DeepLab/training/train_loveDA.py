@@ -17,6 +17,8 @@ from torch.utils.data import DataLoader
 from project_datasets.LoveDA import LoveDADataset
 from torchvision import transforms
 import models.deeplabv2 as dlb 
+import time
+import torchprofile
 
 # Configurazione del logger
 log_dir = "training/logs"
@@ -29,6 +31,48 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 logging.info("Starting training...")
+
+#------------------------------------#
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
+def measure_latency_on_validation(model, val_loader, device, num_runs=100):
+    """
+    Misura la latenza su un batch reale dal validation set.
+    """
+    model.eval()
+    # Ottieni un batch dal validation set
+    inputs, _ = next(iter(val_loader))
+    inputs = inputs.to(device)
+
+    # Warm-up
+    with torch.no_grad():
+        for _ in range(10):
+            _ = model(inputs)
+
+    # Misura del tempo
+    start_time = time.time()
+    with torch.no_grad():
+        for _ in range(num_runs):
+            _ = model(inputs)
+    end_time = time.time()
+
+    # Calcolo latenza media
+    total_time = end_time - start_time
+    latency = (total_time / num_runs) * 1000  # Converti in millisecondi
+    return latency
+
+
+def calculate_flops_on_validation(model, val_loader):
+    """
+    Calcola i FLOPs su un batch reale dal validation set.
+    """
+    # Ottieni un batch dal validation set
+    inputs, _ = next(iter(val_loader))
+
+    with torch.no_grad():
+        flops = torchprofile.profile_macs(model, inputs)
+    return flops
 
 
 #------------------------------------#
@@ -230,6 +274,7 @@ if __name__ == '__main__':
         )
 
 
+
         # Validation
         model.eval()
         val_loss = 0.0
@@ -286,6 +331,7 @@ if __name__ == '__main__':
         avg_accuracy = (total_correct_predictions / total_elements) * 100
 
         print(f"Epoch [{epoch+1}/{num_epochs}] Validation Loss: {val_loss/len(val_loader):.4f}, mIoU: {mean_iou:.4f}, Average accuracy: {avg_accuracy:.4f}")
+        print()
 
         logging.info(
             f"Epoch [{epoch+1}/{num_epochs}] Validation - "
@@ -293,5 +339,31 @@ if __name__ == '__main__':
             f"mIoU: {mean_iou:.4f}, "
             f"Accuracy: {avg_accuracy:.2f}%"
         )
+        logging.info("-" * 50)  # Linea divisoria nel file di log
 
     logging.info("Training completed.")
+
+    print("Measuring model metrics...")
+    
+
+    #------------------------------------#
+
+    # Calcolo dei parametri
+    num_params = count_parameters(model)
+    print(f"Number of Parameters: {num_params}")
+
+    # Calcolo della latenza su dati reali
+    latency = measure_latency_on_validation(model, val_loader, device)
+    print(f"Latency (real input): {latency:.2f} ms")
+
+    # Calcolo dei FLOPs su dati reali
+    flops = calculate_flops_on_validation(model, val_loader)
+    print(f"FLOPs (real input): {flops / 1e9:.2f} GFLOPs")
+
+
+    logging.info(
+            f"mIoU: {mean_iou:.2f}\n"
+            f"Number of Parameters: {num_params}\n"
+            f"Latency: {latency:.2f} ms\n"
+            f"FLOPs: {flops / 1e9:.2f} GFLOPs\n"
+        )

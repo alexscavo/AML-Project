@@ -11,8 +11,8 @@ PRINT_FREQ: 10
 DATASET:
   DATASET: loveda
   ROOT: data/
-  TEST_SET: 'list/loveda/val.lst'
-  TRAIN_SET: 'list/loveda/train.lst'
+  TEST_SET: 'list/loveda/urban_rural/val.lst'
+  TRAIN_SET: 'list/loveda/urban_rural/train.lst'
   NUM_CLASSES: 7
 MODEL:
   NAME: pidnet_small

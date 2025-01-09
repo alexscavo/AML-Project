@@ -23,6 +23,11 @@ from configs import config
 from configs import update_config
 from utils.function import testval, test
 from utils.utils import create_logger
+from ptflops import get_model_complexity_info
+
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train segmentation network')
@@ -122,7 +127,14 @@ def main():
 
 
     end = timeit.default_timer()
-    logger.info('Mins: %d' % int((end-start)/60))
+
+    logger.info(f"Number of parameters: {count_parameters(model)}")
+    with torch.cuda.device(0):
+        flops, params = get_model_complexity_info(model, (3, 1024, 1024), as_strings=True, print_per_layer_stat=False)
+        logger.info(f"FLOPS: {flops}")
+        logger.info(f"Parameters: {params}")
+
+    logger.info('Mins: %.2f' % ((end-start)/60))
     logger.info('Done')
 
 

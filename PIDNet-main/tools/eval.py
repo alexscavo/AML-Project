@@ -107,7 +107,6 @@ def main():
     
     start = timeit.default_timer()
     
-    
     if ('test' in config.DATASET.TEST_SET) and ('loveda' in config.DATASET.DATASET): #per farlo passare qui cambiare test in val
         test(config, #serve per salvare le predizioni del modello 
              test_dataset, 

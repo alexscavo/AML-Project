@@ -39,8 +39,8 @@ TRAIN:
   WD: 0.0005
   MOMENTUM: 0.9
   NESTEROV: false
-  FLIP: true
-  MULTI_SCALE: true
+  FLIP: false
+  MULTI_SCALE: false
   IGNORE_LABEL: 0
   SCALE_FACTOR: 16
 TEST:

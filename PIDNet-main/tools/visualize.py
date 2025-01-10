@@ -32,7 +32,7 @@ def parse_args():
 
     parser.add_argument('--cfg',
                         help='experiment configure file name',
-                        default="experiments/cityscapes/pidnet_small_cityscapes.yaml",
+                        default="configs/loveda/pidnet_small_loveda.yaml",
                         type=str)
     parser.add_argument('opts',
                         help="Modify config options using the command-line",

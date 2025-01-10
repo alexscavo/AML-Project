@@ -49,6 +49,8 @@ def parse_args():
 def main():
     args = parse_args()
 
+    class_names = ["Building", "Road", "Water", "Barren", "Forest", "Agricolture"]
+
     logger, final_output_dir, _ = create_logger(
         config, args.cfg, 'test')
 
@@ -118,12 +120,14 @@ def main():
                                                            test_dataset, 
                                                            testloader, 
                                                            model)
-    
+        
+        IoU_dict = {key: value for key, value in zip(class_names, IoU_array)}
+
         msg = 'MeanIU: {: 4.4f}, Pixel_Acc: {: 4.4f}, \
             Mean_Acc: {: 4.4f}, Class IoU: '.format(mean_IoU, 
             pixel_acc, mean_acc)
         logging.info(msg)
-        logging.info(IoU_array)
+        logging.info(IoU_dict)
 
 
     end = timeit.default_timer()

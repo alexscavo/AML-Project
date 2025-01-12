@@ -15,6 +15,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.backends.cudnn as cudnn
+import torchprofile
+
 
 import _init_paths
 import models
@@ -120,11 +122,10 @@ def main():
                                                            testloader, 
                                                            model)
         
-        IoU_dict = {key: value for key, value in zip(class_names, IoU_array)}
+        IoU_dict = {key: value for key, value in zip(class_names, IoU_array[1:])}
 
         msg = 'MeanIU: {: 4.4f}, Pixel_Acc: {: 4.4f}, \
-            Mean_Acc: {: 4.4f}, Class IoU: '.format(mean_IoU, 
-            pixel_acc, mean_acc)
+            Mean_Acc: {: 4.4f}, Class IoU: '.format(mean_IoU, pixel_acc, mean_acc)
         logging.info(msg)
         logging.info(IoU_dict)
 

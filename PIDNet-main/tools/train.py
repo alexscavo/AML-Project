@@ -92,8 +92,6 @@ def main():
                         base_size=config.TRAIN.BASE_SIZE,
                         crop_size=crop_size,
                         scale_factor=config.TRAIN.SCALE_FACTOR,
-                        enable_augmentation=config.TRAIN.AUGMENTATION.ENABLE,
-                        augmentation_probability=config.TRAIN.AUGMENTATION.PROBABILITY,
                         horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
                         gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
                         multiply=config.TRAIN.AUGMENTATION.TECHNIQUES.MULTIPLY,

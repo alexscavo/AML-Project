@@ -16,14 +16,31 @@ def create_lst_file(image_dir, label_dir, output_lst):
             f.write(f"{img_path} {lbl_path}\n")
 
 # Paths to the LoveDA dataset directories
-train_image_dir = "data/loveda/train/Urban/images_png"
-train_label_dir = "data/loveda/train/Urban/masks_png"
-test_image_dir = "data/loveda/val/Rural/images_png"
-test_label_dir = "data/loveda/val/Rural/masks_png"
+urban_train_image_dir = "data/loveda/train/Urban/images_png"
+urban_train_label_dir = "data/loveda/train/Urban/masks_png"
 
-train_lst_path = "data/list/loveda/train.lst"
-test_lst_path = "data/list/loveda/val.lst"
+urban_test_image_dir = "data/loveda/val/Urban/images_png"
+urban_test_label_dir = "data/loveda/val/Urban/masks_png"
+
+rural_train_image_dir = "data/loveda/train/Rural/images_png"
+rural_train_label_dir = "data/loveda/train/Rural/masks_png"
+
+rural_test_image_dir = "data/loveda/val/Rural/images_png"
+rural_test_label_dir = "data/loveda/val/Rural/masks_png"
+
+
+
+# train on urban - test on urban
+train_lst_path = "data/list/loveda/urban_urban/train.lst"
+test_lst_path = "data/list/loveda/urban_urban/val.lst"
 
 # Create .lst files
-create_lst_file(train_image_dir, train_label_dir, train_lst_path)
-create_lst_file(test_image_dir, test_label_dir, test_lst_path)
+create_lst_file(urban_train_image_dir, urban_train_label_dir, train_lst_path)
+create_lst_file(urban_test_image_dir, urban_test_label_dir, test_lst_path)
+
+train_lst_path = "data/list/loveda/urban_rural/train.lst"
+test_lst_path = "data/list/loveda/urban_rural/val.lst"
+
+# Create .lst files
+create_lst_file(urban_train_image_dir, urban_train_label_dir, train_lst_path)
+create_lst_file(rural_test_image_dir, rural_test_label_dir, test_lst_path)

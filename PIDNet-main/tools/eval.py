@@ -15,6 +15,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 import torch.backends.cudnn as cudnn
+import torchprofile
+
 
 import _init_paths
 import models
@@ -23,6 +25,11 @@ from configs import config
 from configs import update_config
 from utils.function import testval, test
 from utils.utils import create_logger
+from ptflops import get_model_complexity_info
+
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
+
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train segmentation network')
@@ -43,6 +50,8 @@ def parse_args():
 
 def main():
     args = parse_args()
+
+    class_names = ["Building", "Road", "Water", "Barren", "Forest", "Agricolture"]
 
     logger, final_output_dir, _ = create_logger(
         config, args.cfg, 'test')
@@ -100,7 +109,6 @@ def main():
     
     start = timeit.default_timer()
     
-    
     if ('test' in config.DATASET.TEST_SET) and ('loveda' in config.DATASET.DATASET): #per farlo passare qui cambiare test in val
         test(config, #serve per salvare le predizioni del modello 
              test_dataset, 
@@ -113,16 +121,24 @@ def main():
                                                            test_dataset, 
                                                            testloader, 
                                                            model)
-    
+        
+        IoU_dict = {key: value for key, value in zip(class_names, IoU_array[1:])}
+
         msg = 'MeanIU: {: 4.4f}, Pixel_Acc: {: 4.4f}, \
-            Mean_Acc: {: 4.4f}, Class IoU: '.format(mean_IoU, 
-            pixel_acc, mean_acc)
+            Mean_Acc: {: 4.4f}, Class IoU: '.format(mean_IoU, pixel_acc, mean_acc)
         logging.info(msg)
-        logging.info(IoU_array)
+        logging.info(IoU_dict)
 
 
     end = timeit.default_timer()
-    logger.info('Mins: %d' % int((end-start)/60))
+
+    logger.info(f"Number of parameters: {count_parameters(model)}")
+    with torch.cuda.device(0):
+        flops, params = get_model_complexity_info(model, (3, 1024, 1024), as_strings=True, print_per_layer_stat=False)
+        logger.info(f"FLOPS: {flops}")
+        logger.info(f"Parameters: {params}")
+
+    logger.info('Mins: %.2f' % ((end-start)/60))
     logger.info('Done')
 
 

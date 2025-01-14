@@ -32,7 +32,7 @@ def parse_args():
     
     parser.add_argument('--cfg',
                         help='experiment configure file name',
-                        default="configs/loveda/pidnet_small_loveda.yaml",
+                        default="configs/loveda/pidnet_small_loveda.yaml", #file di configurazione da usare
                         type=str)
     parser.add_argument('--seed', type=int, default=304)    
     parser.add_argument('opts',
@@ -41,7 +41,7 @@ def parse_args():
                         nargs=argparse.REMAINDER)
 
     args = parser.parse_args()
-    update_config(config, args)
+    update_config(config, args) #aggiorna config con tutti i parametri trovati nel file di configurazione
 
     return args
 
@@ -82,7 +82,7 @@ def main():
     batch_size = config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus)
     # prepare data
     crop_size = (config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
-    train_dataset = eval('datasets.'+config.DATASET.DATASET)(
+    train_dataset = eval('datasets.'+config.DATASET.DATASET)( #eval serve per andare a sostituire il fiferimento dataset con il suo valore  
                         root=config.DATASET.ROOT,
                         list_path=config.DATASET.TRAIN_SET,
                         num_classes=config.DATASET.NUM_CLASSES,
@@ -91,7 +91,13 @@ def main():
                         ignore_label=config.TRAIN.IGNORE_LABEL,
                         base_size=config.TRAIN.BASE_SIZE,
                         crop_size=crop_size,
-                        scale_factor=config.TRAIN.SCALE_FACTOR)
+                        scale_factor=config.TRAIN.SCALE_FACTOR,
+                        enable_augmentation=config.TRAIN.AUGMENTATION.ENABLE,
+                        augmentation_probability=config.TRAIN.AUGMENTATION.PROBABILITY,
+                        horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
+                        gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
+                        multiply=config.TRAIN.AUGMENTATION.TECHNIQUES.MULTIPLY,
+                        random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS)
 
     trainloader = torch.utils.data.DataLoader(
         train_dataset,
@@ -112,6 +118,7 @@ def main():
                         ignore_label=config.TRAIN.IGNORE_LABEL,
                         base_size=config.TEST.BASE_SIZE,
                         crop_size=test_size)
+                        #attualmente non vengono applicate tecniche di data augmentation al test set
 
     testloader = torch.utils.data.DataLoader(
         test_dataset,

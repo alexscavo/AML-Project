@@ -32,7 +32,7 @@ def parse_args():
 
     parser.add_argument('--cfg',
                         help='experiment configure file name',
-                        default="experiments/cityscapes/pidnet_small_cityscapes.yaml",
+                        default="configs/loveda/pidnet_small_loveda.yaml",
                         type=str)
     parser.add_argument('opts',
                         help="Modify config options using the command-line",
@@ -138,7 +138,7 @@ def main():
 
 
     # make 3 subplots
-    figs, axes = plt.subplots(1, 3)
+    figs, axes = plt.subplots(1, 3, figsize=(12, 6))
     img_display = axes[1].imshow(matplotlib.colors.Normalize(clip=False)(images[current_index][0]))
     # pred is (7, 1024, 1024), so we need to convert it to (1024, 1024) to display it: np.argmax(pred, axis=0)
     img_display_2 = axes[2].imshow(np.argmax(images[current_index][1], axis=0), vmin=0, vmax=7, cmap='jet')

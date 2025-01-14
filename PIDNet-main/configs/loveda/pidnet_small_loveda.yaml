@@ -11,8 +11,8 @@ PRINT_FREQ: 10
 DATASET:
   DATASET: loveda
   ROOT: data/
-  TEST_SET: 'list/loveda/val.lst'
-  TRAIN_SET: 'list/loveda/train.lst'
+  TEST_SET: 'list/loveda/urban_rural/val.lst'
+  TRAIN_SET: 'list/loveda/urban_rural/train.lst'
   NUM_CLASSES: 7
 MODEL:
   NAME: pidnet_small
@@ -39,10 +39,18 @@ TRAIN:
   WD: 0.0005
   MOMENTUM: 0.9
   NESTEROV: false
-  FLIP: true
-  MULTI_SCALE: true
+  FLIP: false
+  MULTI_SCALE: false
   IGNORE_LABEL: 0
   SCALE_FACTOR: 16
+  AUGMENTATION:
+    ENABLE: true
+    PROBABILITY: 0.5
+    TECHNIQUES:
+      HORIZONTAL_FLIP: true
+      GAUSSIAN_BLUR: false
+      MULTIPLY: false
+      RANDOM_BRIGHTNESS: false
 TEST:
   IMAGE_SIZE:
   - 2048

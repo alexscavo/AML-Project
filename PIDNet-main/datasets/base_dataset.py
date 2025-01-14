@@ -106,6 +106,7 @@ class BaseDataset(data.Dataset):
     def gen_sample(self, image, label,
                    multi_scale=True, is_flip=True, edge_pad=True, edge_size=4, city=True):
         
+        #generazione edge
         edge = cv2.Canny(label, 0.1, 0.2)
         kernel = np.ones((edge_size, edge_size), np.uint8)
         if edge_pad:
@@ -113,17 +114,19 @@ class BaseDataset(data.Dataset):
             edge = np.pad(edge, ((y_k_size,y_k_size),(x_k_size,x_k_size)), mode='constant')
         edge = (cv2.dilate(edge, kernel, iterations=1)>50)*1.0
         
+        #scaling come data augmentation already provided (modifica casualmente la scala dell'immagine) (settato a false in configurazione)
         if multi_scale:
             rand_scale = 0.5 + random.randint(0, self.scale_factor) / 10.0
             image, label, edge = self.multi_scale_aug(image, label, edge,
                                                 rand_scale=rand_scale)
 
-        image = self.input_transform(image, city=city)
-        label = self.label_transform(label)
-        
+        #trasformazioni di input
+        image = self.input_transform(image, city=city) #Se city=True, converte l'immagine da RGB in BGR per opencv
+        label = self.label_transform(label) #converte la label in un array di interi
 
         image = image.transpose((2, 0, 1))
 
+        # Flip come data augmentation already provided (settato a false in configurazione)
         if is_flip:
             flip = np.random.choice(2) * 2 - 1
             image = image[:, :, ::flip]
@@ -148,4 +151,3 @@ class BaseDataset(data.Dataset):
         
         
         return pred.exp()
-

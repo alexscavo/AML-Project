@@ -6,6 +6,7 @@ import os
 import numpy as np
 import random
 from PIL import Image
+import torchvision.transforms as tf
 
 from .base_dataset import BaseDataset
 
@@ -38,14 +39,21 @@ class DataAugmentation:
 
     def horizontal_flip(self, image, label, edge):
         # Inverti orizzontalmente immagine, label ed edge
-        flipped_image = image[:, ::-1, :]
+        flipped_image = image[:, :, ::-1]
         flipped_label = label[:, ::-1]
         flipped_edge = edge[:, ::-1]
         return flipped_image, flipped_label, flipped_edge
 
     def gaussian_blur(self, image, label, edge, kernel_size=5):
         # Applica il Gaussian Blur solo all'immagine
-        blurred_image = cv2.GaussianBlur(image, (kernel_size, kernel_size), 0)
+
+        #versione per OpenCV
+        #image = image.transpose(1, 2, 0)  # Da (3, H, W) a (H, W, 3) per OpevCV
+        #blurred_image = cv2.GaussianBlur(image, (kernel_size, kernel_size), 0)
+        #blurred_image = blurred_image.transpose(2, 0, 1)   # Riporta l'immagine al formato (3, H, W) per PyTorch
+
+        transform = tf.GaussianBlur(kernel_size=kernel_size)
+        blurred_image = transform(image)
         return blurred_image, label, edge
 
     def multiply(self, image, label, edge, factor_range=(0.8, 1.2)):
@@ -142,13 +150,14 @@ class LoveDA(BaseDataset):
         item = self.files[index]
         name = item["name"]
         image = Image.open(item["img"]).convert('RGB')
-        image = np.array(image)
+        image = np.array(image) #H,W,3
         size = image.shape
 
         color_map = Image.open(item["label"]).convert('RGB')
         color_map = np.array(color_map)
-        label = self.color2label(color_map)
+        label = self.color2label(color_map) #label diventa (H,W)
 
+        #edge (H,W)
         image, label, edge = self.gen_sample(image, label,
                                              self.multi_scale, self.flip, edge_pad=False,
                                              edge_size=self.bd_dilate_size, city=False)

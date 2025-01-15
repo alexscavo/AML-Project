@@ -124,14 +124,16 @@ class BaseDataset(data.Dataset):
         image = self.input_transform(image, city=city) #Se city=True, converte l'immagine da RGB in BGR per opencv
         label = self.label_transform(label) #converte la label in un array di interi
 
-        image = image.transpose((2, 0, 1))
+        image = image.transpose((2, 0, 1)) #H,W,C -> C,H,W
 
         # Flip come data augmentation already provided (settato a false in configurazione)
+        ''''
         if is_flip:
             flip = np.random.choice(2) * 2 - 1
             image = image[:, :, ::flip]
             label = label[:, ::flip]
             edge = edge[:, ::flip]
+        '''
 
         return image, label, edge
 

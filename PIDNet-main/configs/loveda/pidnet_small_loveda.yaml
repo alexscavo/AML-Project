@@ -48,9 +48,9 @@ TRAIN:
     PROBABILITY: 0.5
     TECHNIQUES:
       HORIZONTAL_FLIP: true
-      GAUSSIAN_BLUR: true
-      MULTIPLY: true
-      RANDOM_BRIGHTNESS: true
+      GAUSSIAN_BLUR: false
+      MULTIPLY: false
+      RANDOM_BRIGHTNESS: false
 TEST:
   IMAGE_SIZE:
   - 2048

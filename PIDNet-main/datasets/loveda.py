@@ -81,6 +81,8 @@ class LoveDA(BaseDataset):
                  base_size=1024,
                  crop_size=(1024, 1024),
                  scale_factor=16, #multi scale usato come data augmentation alredy provided
+                 enable_augmentation=False,
+                 augmentation_probability=0.5, 
                  horizontal_flip=False,
                  gaussian_blur=False,
                  multiply=False,
@@ -102,6 +104,8 @@ class LoveDA(BaseDataset):
         self.base_size = base_size
         self.crop_size = crop_size
         self.scale_factor = scale_factor
+        self.enable_augmentation = enable_augmentation
+        self.augmentation_probability = augmentation_probability
         self.horizontal_flip = horizontal_flip
         self.gaussian_blur = gaussian_blur
         self.multiply = multiply
@@ -163,7 +167,18 @@ class LoveDA(BaseDataset):
                                              edge_size=self.bd_dilate_size, city=False)
         
         # Augmentation
-        augmentation = DataAugmentation(self.config.TRAIN.AUGMENTATION)
+        config_dict = {
+            "ENABLE": self.enable_augmentation, 
+            "PROBABILITY": self.augmentation_probability, 
+            "TECHNIQUES":{
+                "HORIZONTAL_FLIP": self.horizontal_flip, 
+                "GAUSSIAN_BLUR": self.gaussian_blur, 
+                "MULTIPLY": self.multiply, 
+                "RANDOM_BRIGHTNESS": self.random_brightness
+            }
+            
+        }
+        augmentation = DataAugmentation(config_dict)
         image, label, edge = augmentation.apply(image, label, edge)
         
 

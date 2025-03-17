@@ -82,7 +82,9 @@ def main():
     batch_size = config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus)
     # prepare data
     crop_size = (config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
-    train_dataset = eval('datasets.'+config.DATASET.DATASET)( #eval serve per andare a sostituire il fiferimento dataset con il suo valore  
+
+    #The eval() function evaluates the specified expression, if the expression is a legal Python statement, it will be executed.
+    train_dataset = eval('datasets.'+config.DATASET.DATASET)( # Chiedere
                         root=config.DATASET.ROOT,
                         list_path=config.DATASET.TRAIN_SET,
                         num_classes=config.DATASET.NUM_CLASSES,

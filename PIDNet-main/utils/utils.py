@@ -97,6 +97,12 @@ class AverageMeter(object):
 
 def create_logger(cfg, cfg_name, phase='train'):
     root_output_dir = Path(cfg.OUTPUT_DIR)
+    folder_name = "aug"
+    folder_name+= "_hf" if cfg.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP else ""
+    folder_name+= "_gb" if cfg.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR else ""
+    folder_name+= "_m" if cfg.TRAIN.AUGMENTATION.TECHNIQUES.MULTIPLY else ""
+    folder_name+= "_rb" if cfg.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTENES else ""
+
     # set up logger
     if not root_output_dir.exists():
         print('=> creating {}'.format(root_output_dir))
@@ -106,7 +112,7 @@ def create_logger(cfg, cfg_name, phase='train'):
     model = cfg.MODEL.NAME
     cfg_name = os.path.basename(cfg_name).split('.')[0]
 
-    final_output_dir = root_output_dir / dataset / cfg_name
+    final_output_dir = root_output_dir / dataset / cfg_name / folder_name
 
     print('=> creating {}'.format(final_output_dir))
     final_output_dir.mkdir(parents=True, exist_ok=True)

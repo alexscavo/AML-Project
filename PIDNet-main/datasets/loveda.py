@@ -4,10 +4,12 @@
 import cv2
 import os
 import numpy as np
+import torch
 import random
+import logging
 from PIL import Image
 import torchvision.transforms as tf
-
+import matplotlib.pyplot as plt
 from .base_dataset import BaseDataset
 
 #classe per fare la data augmentation
@@ -48,24 +50,36 @@ class DataAugmentation:
         # Applica il Gaussian Blur solo all'immagine
 
         #versione per OpenCV
-        #image = image.transpose(1, 2, 0)  # Da (3, H, W) a (H, W, 3) per OpevCV
-        #blurred_image = cv2.GaussianBlur(image, (kernel_size, kernel_size), 0)
-        #blurred_image = blurred_image.transpose(2, 0, 1)   # Riporta l'immagine al formato (3, H, W) per PyTorch
+        image = image.transpose(1, 2, 0)  # Da (3, H, W) a (H, W, 3) per OpevCV
+        blurred_image = cv2.GaussianBlur(image, (kernel_size, kernel_size), 0)
+        blurred_image = blurred_image.transpose(2, 0, 1)   # Riporta l'immagine al formato (3, H, W) per PyTorch
 
-        transform = tf.GaussianBlur(kernel_size=kernel_size)
-        blurred_image = transform(image)
+        #transform = tf.GaussianBlur(kernel_size=kernel_size)
+        #blurred_image = transform(image)
         return blurred_image, label, edge
 
     def multiply(self, image, label, edge, factor_range=(0.8, 1.2)):
         # Modifica il contrasto dell'immagine
         factor = random.uniform(*factor_range)
-        multiplied_image = np.clip(image * factor, 0, 255).astype(np.uint8)
+        multiplied_image = np.clip(image * factor, 0, 255).astype(np.float32)
         return multiplied_image, label, edge
 
-    def random_brightness(self, image, label, edge, brightness_range=(-30, 30)):
+    def random_brightness(self, image, label, edge, brightness_range=(-0.2, 0.2), show = False):
         # Modifica la luminosità dell'immagine
-        brightness = random.randint(*brightness_range)
-        brightened_image = np.clip(image + brightness, 0, 255).astype(np.uint8)
+        brightness = np.float32(np.random.uniform(*brightness_range)) 
+        brightened_image = np.clip(image + brightness, 0, 1)  # Keep within [0,1]
+        
+        if show:
+            image_vis = np.transpose(image, (1, 2, 0))
+            brightened_image_vis = np.transpose(brightened_image, (1, 2, 0))
+            fig, axs = plt.subplots(1, 2, figsize=(10,5))
+            axs[0].imshow(image_vis)
+            axs[0].set_title("Original image")
+            axs[0].axis("off")
+            axs[1].imshow(brightened_image_vis)
+            axs[1].set_title("Augmented Image")
+            axs[1].axis("off")
+            plt.show()
         return brightened_image, label, edge
     
 

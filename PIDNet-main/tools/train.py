@@ -90,6 +90,7 @@ def main():
                         num_classes=config.DATASET.NUM_CLASSES,
                         multi_scale=config.TRAIN.MULTI_SCALE,
                         flip=config.TRAIN.FLIP,
+                        enable_augmentation=True,
                         ignore_label=config.TRAIN.IGNORE_LABEL,
                         base_size=config.TRAIN.BASE_SIZE,
                         crop_size=crop_size,

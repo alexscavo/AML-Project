@@ -50,7 +50,7 @@ TRAIN:
       HORIZONTAL_FLIP: true
       GAUSSIAN_BLUR: true
       MULTIPLY: true
-      RANDOM_BRIGHTNESS: false
+      RANDOM_BRIGHTNESS: true
 TEST:
   IMAGE_SIZE:
   - 2048

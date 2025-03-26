@@ -39,8 +39,10 @@ create_lst_file(urban_train_image_dir, urban_train_label_dir, train_lst_path)
 create_lst_file(urban_test_image_dir, urban_test_label_dir, test_lst_path)
 
 train_lst_path = "data/list/loveda/urban_rural/train.lst"
+target_lst_path = "data/list/loveda/rural/train.lst"
 test_lst_path = "data/list/loveda/urban_rural/val.lst"
 
 # Create .lst files
 create_lst_file(urban_train_image_dir, urban_train_label_dir, train_lst_path)
+create_lst_file(rural_train_image_dir, rural_train_label_dir, target_lst_path)
 create_lst_file(rural_test_image_dir, rural_test_label_dir, test_lst_path)

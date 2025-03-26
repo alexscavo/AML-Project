@@ -178,7 +178,8 @@ class LoveDA(BaseDataset):
                  random_brightness=False,
                  mean=[0.485, 0.456, 0.406],
                  std=[0.229, 0.224, 0.225],
-                 bd_dilate_size=4):
+                 bd_dilate_size=4,
+                 pseudo_label=False):
 
         # estende il base_dataset
         super(LoveDA, self).__init__(ignore_label, base_size,
@@ -206,7 +207,7 @@ class LoveDA(BaseDataset):
         self.color_list = [[0, 0, 0], [1, 1, 1], [2, 2, 2],
                             [3, 3, 3], [4, 4, 4], [5, 5, 5], [6, 6, 6]]
         self.class_weights = None
-
+        self.pseudo_label = pseudo_label
         
 
     def read_files(self):

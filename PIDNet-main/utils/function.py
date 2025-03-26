@@ -11,6 +11,7 @@ from tqdm import tqdm
 
 import torch
 from torch.nn import functional as F
+import torch.nn as nn
 
 from utils.utils import AverageMeter
 from utils.utils import get_confusion_matrix
@@ -200,3 +201,198 @@ def test(config, test_dataset, testloader, model,
                 if not os.path.exists(sv_path):
                     os.mkdir(sv_path)
                 test_dataset.save_pred(pred, sv_path, name)
+
+def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
+          num_iters, trainloader, targetloader, optimizer_G, optimizer_D, 
+          model, discriminator, writer_dict, lambda_adv=0.001):
+
+    # Training mode
+    model.train()
+    discriminator.train()
+
+    batch_time = AverageMeter()
+    ave_loss = AverageMeter()
+    ave_acc = AverageMeter()
+    avg_sem_loss = AverageMeter()
+    avg_bce_loss = AverageMeter()
+    
+    tic = time.time()
+    cur_iters = epoch * epoch_iters
+    writer = writer_dict['writer']
+    global_steps = writer_dict['train_global_steps']
+
+    for i_iter, (batch_source, batch_target) in enumerate(zip(trainloader, targetloader)):
+
+        images_source, labels, bd_gts, _, _ = batch_source
+        images_target, _, _, _, _ = batch_target
+
+        images_source = images_source.cuda()
+        images_target = images_target.cuda()
+        labels = labels.long().cuda()
+        bd_gts = bd_gts.float().cuda()
+
+        # 1. Forward seg net per dominio sorgente (supervisionato)
+        losses, output_source, acc, loss_list = model(images_source, labels, bd_gts)  
+        loss_seg = losses.mean()  
+
+        # 2. Forward seg net per dominio target (non supervisionato)
+        output_target = model(images_target)  
+
+        # 3. Discriminatore: distingue tra output sorgente e target
+        real_preds = discriminator(output_source.detach())  # No update su G
+        fake_preds = discriminator(output_target.detach())
+
+        # 4. Calcolo loss del discriminatore
+        loss_D_real = nn.BCEWithLogitsLoss()(real_preds, torch.ones_like(real_preds))
+        loss_D_fake = nn.BCEWithLogitsLoss()(fake_preds, torch.zeros_like(fake_preds))
+        loss_D = (loss_D_real + loss_D_fake) / 2
+
+        # 5. Update discriminator (senza aggiornare G)
+        for param in discriminator.parameters():
+            param.requires_grad = False  
+        optimizer_D.zero_grad()
+        loss_D.backward()
+        optimizer_D.step()
+        for param in model.parameters():
+            param.requires_grad = True  
+
+        # 6. Update generatore (segmentazione) con loss avversaria
+        fake_preds = discriminator(output_target)  # Ora aggiorniamo anche G
+        loss_adv = nn.BCEWithLogitsLoss()(fake_preds, torch.ones_like(fake_preds))
+        loss_G = loss_seg + lambda_adv * loss_adv  
+
+        optimizer_G.zero_grad()
+        loss_G.backward()
+        optimizer_G.step()
+
+        # Log
+        batch_time.update(time.time() - tic)
+        tic = time.time()
+
+        ave_loss.update(loss_G.item())
+        ave_acc.update(acc.mean().item())
+        avg_sem_loss.update(loss_list[0].mean().item())
+        avg_bce_loss.update(loss_list[1].mean().item())
+
+        lr = adjust_learning_rate(optimizer_G, base_lr, num_iters, i_iter + cur_iters)
+
+        if i_iter % config.PRINT_FREQ == 0:
+            msg = ('Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, lr: {}, '
+                   'Loss_G: {:.6f}, Loss_D: {:.6f}, Acc: {:.6f}, Semantic Loss: {:.6f}, BCE Loss: {:.6f}').format(
+                      epoch, num_epoch, i_iter, epoch_iters, batch_time.average(),
+                      [x['lr'] for x in optimizer_G.param_groups], ave_loss.average(), loss_D.item(),
+                      ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average()
+                  )
+            logging.info(msg)
+
+    writer.add_scalar('train_loss_G', ave_loss.average(), global_steps)
+    writer.add_scalar('train_loss_D', loss_D.item(), global_steps)
+    writer_dict['train_global_steps'] = global_steps + 1
+
+def train_adv_multi(config, epoch, num_epoch, epoch_iters, base_lr,
+              num_iters, trainloader, targetloader, optimizer_G, 
+              optimizer_D1, model, discriminator1, discriminator2,
+              writer_dict, lambda_adv1=0.001, lambda_adv2=0.0005):
+
+    # Training mode
+    model.train()
+    discriminator1.train()
+    discriminator2.train()
+
+    batch_time = AverageMeter()
+    ave_loss = AverageMeter()
+    ave_acc = AverageMeter()
+    avg_sem_loss = AverageMeter()
+    avg_bce_loss = AverageMeter()
+
+    tic = time.time()
+    cur_iters = epoch * epoch_iters
+    writer = writer_dict['writer']
+    global_steps = writer_dict['train_global_steps']
+
+    for i_iter, (batch_source, batch_target) in enumerate(zip(trainloader, targetloader)):
+
+        images_source, labels, bd_gts, _, _ = batch_source
+        images_target, _, _, _, _ = batch_target
+
+        images_source = images_source.cuda()
+        images_target = images_target.cuda()
+        labels = labels.long().cuda()
+        bd_gts = bd_gts.float().cuda()
+
+        # 1. Forward pass della rete di segmentazione (Supervisionato su sorgente)
+        losses, output_source_final, output_source_intermediate, acc, loss_list = model(images_source, labels, bd_gts)  
+        loss_seg = losses.mean()  
+
+        # 2. Forward pass della rete di segmentazione su target (Non supervisionato)
+        output_target_final, output_target_intermediate = model(images_target)  
+
+        # ------------------ TRAINING DISCRIMINATOR 1 (OUTPUT FINALE) ------------------
+        real_preds1 = discriminator1(output_source_final.detach())  
+        fake_preds1 = discriminator1(output_target_final.detach())
+
+        loss_D1_real = nn.BCEWithLogitsLoss()(real_preds1, torch.ones_like(real_preds1))
+        loss_D1_fake = nn.BCEWithLogitsLoss()(fake_preds1, torch.zeros_like(fake_preds1))
+        loss_D1 = (loss_D1_real + loss_D1_fake) / 2
+
+        for param in discriminator1.parameters():
+            param.requires_grad = True  
+        optimizer_D1.zero_grad()
+        loss_D1.backward()
+        optimizer_D1.step()
+        for param in discriminator1.parameters():
+            param.requires_grad = False  
+
+        # ------------------ TRAINING DISCRIMINATOR 2 (FEATURE INTERMEDIE) ------------------
+        real_preds2 = discriminator2(output_source_intermediate.detach())  
+        fake_preds2 = discriminator2(output_target_intermediate.detach())
+
+        loss_D2_real = nn.BCEWithLogitsLoss()(real_preds2, torch.ones_like(real_preds2))
+        loss_D2_fake = nn.BCEWithLogitsLoss()(fake_preds2, torch.zeros_like(fake_preds2))
+        loss_D2 = (loss_D2_real + loss_D2_fake) / 2
+
+        for param in discriminator2.parameters():
+            param.requires_grad = True  
+        optimizer_D1.zero_grad()
+        loss_D2.backward()
+        optimizer_D1.step()
+        for param in discriminator2.parameters():
+            param.requires_grad = False  
+
+        # ------------------ TRAINING DEL GENERATORE (Segmentazione con Adversarial Loss) ------------------
+        fake_preds1 = discriminator1(output_target_final)  # Output finale
+        fake_preds2 = discriminator2(output_target_intermediate)  # Output intermedio
+
+        loss_adv1 = nn.BCEWithLogitsLoss()(fake_preds1, torch.ones_like(fake_preds1))
+        loss_adv2 = nn.BCEWithLogitsLoss()(fake_preds2, torch.ones_like(fake_preds2))
+
+        loss_G = loss_seg + lambda_adv1 * loss_adv1 + lambda_adv2 * loss_adv2  
+
+        optimizer_G.zero_grad()
+        loss_G.backward()
+        optimizer_G.step()
+
+        # Log
+        batch_time.update(time.time() - tic)
+        tic = time.time()
+
+        ave_loss.update(loss_G.item())
+        ave_acc.update(acc.mean().item())
+        avg_sem_loss.update(loss_list[0].mean().item())
+        avg_bce_loss.update(loss_list[1].mean().item())
+
+        lr = adjust_learning_rate(optimizer_G, base_lr, num_iters, i_iter + cur_iters)
+
+        if i_iter % config.PRINT_FREQ == 0:
+            msg = ('Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, lr: {}, '
+                   'Loss_G: {:.6f}, Loss_D1: {:.6f}, Loss_D2: {:.6f}, Acc: {:.6f}, Semantic Loss: {:.6f}, BCE Loss: {:.6f}').format(
+                      epoch, num_epoch, i_iter, epoch_iters, batch_time.average(),
+                      [x['lr'] for x in optimizer_G.param_groups], ave_loss.average(), loss_D1.item(), loss_D2.item(),
+                      ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average()
+                  )
+            logging.info(msg)
+
+    writer.add_scalar('train_loss_G', ave_loss.average(), global_steps)
+    writer.add_scalar('train_loss_D1', loss_D1.item(), global_steps)
+    writer.add_scalar('train_loss_D2', loss_D2.item(), global_steps)
+    writer_dict['train_global_steps'] = global_steps + 1

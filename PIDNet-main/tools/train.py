@@ -23,7 +23,9 @@ import datasets
 from configs import config
 from configs import update_config
 from utils.criterion import CrossEntropy, OhemCrossEntropy, BondaryLoss
-from utils.function import train, validate
+from utils.function import train, validate, train_adv, train_adv_multi
+from models.discriminator import FCDiscriminator
+from torch import optim
 from utils.utils import create_logger, FullModel
 
 
@@ -107,6 +109,26 @@ def main():
         num_workers=config.WORKERS,
         pin_memory=False,
         drop_last=True)
+    
+
+    #use in the two domain adaptation techniques
+    target_dataset = eval('datasets.'+config.DATASET.DATASET)(
+        root=config.DATASET.ROOT, list_path=config.DATASET.TARGET_SET,
+        num_classes=config.DATASET.NUM_CLASSES, multi_scale=config.TRAIN.MULTI_SCALE,
+        flip=config.TRAIN.FLIP, enable_augmentation=True, ignore_label=config.TRAIN.IGNORE_LABEL,
+        base_size=config.TRAIN.BASE_SIZE, crop_size=crop_size, scale_factor=config.TRAIN.SCALE_FACTOR,
+        horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
+        gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
+        multiply=config.TRAIN.AUGMENTATION.TECHNIQUES.MULTIPLY,
+        random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS)
+    
+    targetloader = torch.utils.data.DataLoader(
+        target_dataset,
+        batch_size=batch_size,
+        shuffle=config.TRAIN.SHUFFLE,
+        num_workers=config.WORKERS,
+        pin_memory=False,
+        drop_last=True)
 
 
     test_size = (config.TEST.IMAGE_SIZE[1], config.TEST.IMAGE_SIZE[0])
@@ -119,7 +141,6 @@ def main():
                         ignore_label=config.TRAIN.IGNORE_LABEL,
                         base_size=config.TEST.BASE_SIZE,
                         crop_size=test_size)
-                        #attualmente non vengono applicate tecniche di data augmentation al test set
 
     testloader = torch.utils.data.DataLoader(
         test_dataset,
@@ -186,13 +207,24 @@ def main():
         if current_trainloader.sampler is not None and hasattr(current_trainloader.sampler, 'set_epoch'):
             current_trainloader.sampler.set_epoch(epoch)
 
-        train(config, epoch, config.TRAIN.END_EPOCH, 
+        if config.TRAIN.GAN.ENABLE:
+            
+            discriminator = FCDiscriminator(input_channels=7).cuda()
+            optimizer_G = optim.SGD(model.parameters(), lr=2.5e-4, momentum=0.9, weight_decay=1e-4)
+            optimizer_D = optim.Adam(discriminator.parameters(), lr=1e-4, betas=(0.9, 0.99)) #given by the paper
+
+            if config.TRAIN.GAN.MULTI:
+                 train_adv_multi(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D, model, discriminator, writer_dict)
+            else:
+                train_adv(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D, model, discriminator,discriminator, writer_dict)
+           
+        else:
+            train(config, epoch, config.TRAIN.END_EPOCH, 
                   epoch_iters, config.TRAIN.LR, num_iters,
                   trainloader, optimizer, model, writer_dict)
 
         if flag_rm == 1 or (epoch % 5 == 0 and epoch < real_end - 100) or (epoch >= real_end - 100):
-            valid_loss, mean_IoU, IoU_array = validate(config, 
-                        testloader, model, writer_dict)
+            valid_loss, mean_IoU, IoU_array = validate(config, testloader, model, writer_dict)
         if flag_rm == 1:
             flag_rm = 0
 

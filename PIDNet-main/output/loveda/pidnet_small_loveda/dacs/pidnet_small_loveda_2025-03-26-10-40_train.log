@@ -1,0 +1,73 @@
+2025-03-26 10:40:45,766 Namespace(cfg='configs/loveda/pidnet_small_loveda.yaml', opts=[], seed=304)
+2025-03-26 10:40:45,766 AUTO_RESUME: False
+CUDNN:
+  BENCHMARK: True
+  DETERMINISTIC: False
+  ENABLED: True
+DATASET:
+  DATASET: loveda
+  EXTRA_TRAIN_SET: 
+  NUM_CLASSES: 7
+  ROOT: data/
+  TARGET_SET: list/loveda/rural/train.lst
+  TEST_SET: list/loveda/urban_rural/val.lst
+  TRAIN_SET: list/loveda/urban_rural/train.lst
+GPUS: (0,)
+LOG_DIR: log
+LOSS:
+  BALANCE_WEIGHTS: [0.4, 1.0]
+  CLASS_BALANCE: False
+  OHEMKEEP: 131072
+  OHEMTHRES: 0.9
+  SB_WEIGHTS: 1.0
+  USE_OHEM: True
+MODEL:
+  ALIGN_CORNERS: True
+  NAME: pidnet_small
+  NUM_OUTPUTS: 2
+  PRETRAINED: pretrained_models/imagenet/PIDNet_S_ImageNet.pth.tar
+OUTPUT_DIR: output
+PIN_MEMORY: True
+PRINT_FREQ: 10
+TEST:
+  BASE_SIZE: 2048
+  BATCH_SIZE_PER_GPU: 6
+  FLIP_TEST: False
+  IMAGE_SIZE: [2048, 1024]
+  MODEL_FILE: output/loveda/pidnet_small_loveda/final_state.pt
+  MULTI_SCALE: False
+  OUTPUT_INDEX: 1
+TRAIN:
+  AUGMENTATION:
+    ENABLE: True
+    PROBABILITY: 0.5
+    TECHNIQUES:
+      GAUSSIAN_BLUR: False
+      HORIZONTAL_FLIP: False
+      MULTIPLY: False
+      RANDOM_BRIGHTNESS: False
+  BASE_SIZE: 2048
+  BATCH_SIZE_PER_GPU: 6
+  BEGIN_EPOCH: 0
+  DACS:
+    ENABLE: True
+    THRESHOLD: 0.968
+  END_EPOCH: 20
+  EXTRA_EPOCH: 0
+  EXTRA_LR: 0.001
+  FLIP: False
+  IGNORE_LABEL: 0
+  IMAGE_SIZE: [1024, 1024]
+  LR: 0.01
+  MOMENTUM: 0.9
+  MULTI_SCALE: False
+  NESTEROV: False
+  OPTIMIZER: sgd
+  RESUME: True
+  SCALE_FACTOR: 16
+  SHUFFLE: True
+  WD: 0.0005
+WORKERS: 4
+2025-03-26 10:40:45,895 Attention!!!
+2025-03-26 10:40:45,896 Loaded 302 parameters!
+2025-03-26 10:40:45,896 Over!!!

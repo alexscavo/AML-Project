@@ -48,8 +48,8 @@ class DataAugmentation:
 
     def apply(self, image, label, edge):
         
-        '''if not self.enable or random.random() > self.probability: #50% di probabilità di applicare la data augmentation
-            return image,label,edge #non faccio augmentation'''
+        if not self.enable or random.random() > self.probability: #50% di probabilità di applicare la data augmentation
+            return image,label,edge #non faccio augmentation
 
         if self.techniques.get("HORIZONTAL_FLIP", False):
             image,label,edge = self.horizontal_flip(image, label, edge)

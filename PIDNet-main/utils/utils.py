@@ -105,12 +105,13 @@ def create_logger(cfg, cfg_name, phase='train'):
         not cfg.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS
         ):
         folder_name = "no_aug"
+    else:
+        folder_name = "aug"
     
     if cfg.TRAIN.DACS.ENABLE:
         folder_name = "dacs"
 
-    elif cfg.TRAIN.AUGMENTATION.ENABLE:
-        folder_name = "aug"
+    if cfg.TRAIN.AUGMENTATION.ENABLE:
         folder_name+= "_hf" if cfg.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP else ""
         folder_name+= "_gb" if cfg.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR else ""
         folder_name+= "_m" if cfg.TRAIN.AUGMENTATION.TECHNIQUES.MULTIPLY else ""

@@ -99,7 +99,7 @@ def classmix(x1, y1, x2, y2):
     y_mix = torch.where(mask.squeeze(1), y1, y2)
     return x_mix, y_mix, mask.squeeze(1)
 
-def generate_safe_edge_map(y_mixed, source_mask, edge_size=4, edge_pad=False, ignore_label=255):
+def generate_safe_edge_map(y_mixed, source_mask, conf_t, threshold, edge_size=4, edge_pad=False, ignore_label=255):
     B, H, W = y_mixed.shape
     edge_maps = []
     kernel = np.ones((edge_size, edge_size), np.uint8)
@@ -109,13 +109,18 @@ def generate_safe_edge_map(y_mixed, source_mask, edge_size=4, edge_pad=False, ig
     for i in range(B):
         label_np = y_mixed[i].cpu().numpy().astype(np.uint8)
         mask_np = source_mask[i].cpu().numpy().astype(np.uint8)
-        label_masked = label_np * mask_np
+        conf_np = conf_t[i].cpu().numpy()
+
+        confident_regions = conf_np > threshold      # matrix of 0 and 1
+        label_masked = label_np * mask_np * confident_regions   #confident_regions filters out uncertain edges
+
         edge = cv2.Canny(label_masked, 0.1, 0.2)
         if edge_pad:
             edge = edge[y_k_size:-y_k_size, x_k_size:-x_k_size]
             edge = np.pad(edge, ((y_k_size, y_k_size), (x_k_size, x_k_size)), mode='constant')
         edge = (cv2.dilate(edge, kernel, iterations=1) > 50).astype(np.uint8)
         edge[mask_np == 0] = ignore_label
+        
         edge_maps.append(torch.tensor(edge, dtype=torch.long).unsqueeze(0))
 
     return torch.cat(edge_maps, dim=0).to(y_mixed.device)
@@ -200,8 +205,8 @@ if __name__ == '__main__':
             pseudo_t = torch.argmax(logits_t, dim=1)
             conf_t = torch.softmax(logits_t, dim=1).max(dim=1)[0]
 
-        x_mixed, y_mixed, source_mask = classmix(x_s, y_s, x_t, pseudo_t)
-        bd_mixed = generate_safe_edge_map(y_mixed, source_mask, edge_size=3,
-                                          edge_pad=True, ignore_label=config.TRAIN.IGNORE_LABEL)
+        x_mixed, y_mixed, source_mask = classmix(x_s, y_s, x_t, pseudo_t)  
+        bd_mixed = generate_safe_edge_map(y_mixed, source_mask, conf_t, threshold = 0.7, edge_size=3,
+                                          edge_pad=True, ignore_label=config.TRAIN.IGNORE_LABEL)        # secondo me threshold tra 0.5 e 0.7 massimo
 
         show_mixed_visualization(x_s, y_s, x_t, pseudo_t, x_mixed, y_mixed, bd_mixed)

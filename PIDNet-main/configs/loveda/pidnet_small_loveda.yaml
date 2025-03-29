@@ -48,7 +48,6 @@ TRAIN:
     ENABLE: true
     PROBABILITY: 0.5
     TECHNIQUES:
-<<<<<<< Updated upstream
       HORIZONTAL_FLIP: false
       GAUSSIAN_BLUR: false
       MULTIPLY: false
@@ -59,12 +58,6 @@ TRAIN:
   GAN:
     ENABLE: false
     MULTI_LEVEL: false
-=======
-      HORIZONTAL_FLIP: true
-      GAUSSIAN_BLUR: true
-      MULTIPLY: true
-      RANDOM_BRIGHTNESS: true
->>>>>>> Stashed changes
 TEST:
   IMAGE_SIZE:
   - 2048

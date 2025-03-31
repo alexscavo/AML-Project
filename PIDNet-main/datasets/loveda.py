@@ -163,7 +163,7 @@ class LoveDA(BaseDataset):
     def __init__(self,
                  root,
                  list_path,
-                 num_classes=6,
+                 num_classes=7, 
                  multi_scale=False, 
                  flip=False,
                  ignore_label=0,
@@ -205,7 +205,7 @@ class LoveDA(BaseDataset):
         self.img_list = [line.strip().split() for line in open(root + list_path)]
         self.files = self.read_files()
         self.color_list = [[0, 0, 0], [1, 1, 1], [2, 2, 2],
-                            [3, 3, 3], [4, 4, 4], [5, 5, 5], [6, 6, 6]]
+                            [3, 3, 3], [4, 4, 4], [5, 5, 5], [6, 6, 6], [7, 7, 7]]
         self.class_weights = None
         self.pseudo_label = pseudo_label
         

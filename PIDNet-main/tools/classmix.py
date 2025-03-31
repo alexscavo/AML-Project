@@ -78,9 +78,11 @@ def show_mixed_visualization(x_s, y_s, x_t, y_t, x_mixed, y_mixed, bd_mixed):
     plt.tight_layout()
     plt.show() 
 
-def classmix(x1, y1, x2, y2, verbose=False):
+def classmix(x1, y1, x2, y2, verbose=False, deterministic=False):
     classes = y1.unique().tolist()
     selected = random.sample(classes, len(classes) // 2)
+    if deterministic:
+        selected = classes[:len(classes) // 2]
     mask = torch.zeros_like(y1, dtype=torch.bool)
     if verbose:
         print(f"Classes from the source domain: {selected}") 
@@ -184,7 +186,7 @@ if __name__ == '__main__':
 
     source_iter = iter(trainloader)
     target_iter = iter(targetloader)
-    n_to_show = 1
+    n_to_show = 10
     for batch_idx, (source_batch, target_batch) in enumerate(zip(source_iter, target_iter)):
         if batch_idx > n_to_show-1:
            break
@@ -197,10 +199,7 @@ if __name__ == '__main__':
 
         print(f"Unique labels found in urban image: {y_s.unique().tolist()}")
         print(f"Unique labels found in rural image: {real_gt.unique().tolist()}")
-        
-        if 7 in real_gt.unique().tolist() or 7 in y_s.unique().tolist():
-            print("Found")
-            break
+    
 
         with torch.no_grad():
             logits_t = model.module.model(x_t)[-2]

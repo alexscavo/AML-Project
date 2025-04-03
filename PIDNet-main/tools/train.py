@@ -261,9 +261,12 @@ def main():
 
         plt.show()
 
+        plot_dir = os.path.join("PIDNet-main", "plots")
+        os.makedirs(plot_dir, exist_ok=True)
+
         # Salva e visualizza i grafici ogni 5 epoche
         if epoch % 5 == 0 or epoch == real_end - 1:
-            plot_path = os.path.join("PIDNet-main/figs", f'epoch_{epoch}_plot.png')
+            plot_path = os.path.join(plot_dir, f'epoch_{epoch}_plot.png')
             plt.savefig(plot_path)
 
         logger.info('=> saving checkpoint to {}'.format(

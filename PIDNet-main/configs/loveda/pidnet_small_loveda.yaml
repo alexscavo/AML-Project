@@ -48,7 +48,7 @@ TRAIN:
     ENABLE: true
     PROBABILITY: 0.5
     TECHNIQUES:
-      HORIZONTAL_FLIP: true
+      HORIZONTAL_FLIP: false
       GAUSSIAN_BLUR: false
       MULTIPLY: false  
       RANDOM_BRIGHTNESS: false
@@ -56,7 +56,7 @@ TRAIN:
     ENABLE: false
     THRESHOLD: 0.968 
   GAN:
-    ENABLE: true
+    ENABLE: false
     MULTI_LEVEL: false
 TEST:
   IMAGE_SIZE:

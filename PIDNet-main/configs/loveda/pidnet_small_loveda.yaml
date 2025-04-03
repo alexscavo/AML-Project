@@ -55,9 +55,9 @@ TRAIN:
   DACS:
     ENABLE: false
     THRESHOLD: 0.968 
-  #GAN:
-  #  ENABLE: false
-  #  MULTI_LEVEL: false
+  GAN:
+    ENABLE: true
+    MULTI_LEVEL: false
 TEST:
   IMAGE_SIZE:
   - 2048

@@ -145,6 +145,9 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
     writer.add_scalar('train_loss', ave_loss.average(), global_steps)
     writer_dict['train_global_steps'] = global_steps + 1
 
+    # Ritorna la loss media per l'epoca
+    return ave_loss.average()
+
 def validate(config, testloader, model, writer_dict):
     model.eval()
     ave_loss = AverageMeter()

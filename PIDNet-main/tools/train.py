@@ -27,6 +27,7 @@ from utils.function import train, validate, train_adv, train_adv_multi
 from models.discriminator import FCDiscriminator
 from torch import optim
 from utils.utils import create_logger, FullModel
+import matplotlib.pyplot as plt
 
 
 def parse_args():
@@ -197,6 +198,13 @@ def main():
     num_iters = config.TRAIN.END_EPOCH * epoch_iters
     real_end = 120+1 if 'camvid' in config.DATASET.TRAIN_SET else end_epoch
     
+    # grafici
+    plt.ion()  # Modalità interattiva
+    fig, ax = plt.subplots(2, 1, figsize=(10, 8))  # Due grafici: uno per le loss, uno per la mean IoU
+    train_loss_history = []
+    eval_loss_history = []
+    mean_iou_history = []
+
     for epoch in range(last_epoch, real_end):
 
         current_trainloader = trainloader
@@ -215,14 +223,41 @@ def main():
                 train_adv(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D, model, discriminator, writer_dict)
            
         else:
-            train(config, epoch, config.TRAIN.END_EPOCH, 
+            train_loss=train(config, epoch, config.TRAIN.END_EPOCH, 
                   epoch_iters, config.TRAIN.LR, num_iters,
                   trainloader, optimizer, model, writer_dict, targetloader=targetloader)
 
+        train_loss_history.append(train_loss)
+
         if flag_rm == 1 or (epoch % 5 == 0 and epoch < real_end - 100) or (epoch >= real_end - 100):
             valid_loss, mean_IoU, IoU_array = validate(config, testloader, model, writer_dict)
+            eval_loss_history.append(valid_loss)
+            mean_iou_history.append(mean_IoU)
+
         if flag_rm == 1:
             flag_rm = 0
+
+        # Aggiorna i grafici
+        ax[0].clear()
+        ax[0].plot(train_loss_history, label='Training Loss', color='blue')
+        ax[0].plot(eval_loss_history, label='Evaluation Loss', color='orange')
+        ax[0].set_title('Loss')
+        ax[0].set_xlabel('Epoch')
+        ax[0].set_ylabel('Loss')
+        ax[0].legend()
+        ax[0].grid()
+
+        ax[1].clear()
+        ax[1].plot(mean_iou_history, label='Mean IoU', color='green')
+        ax[1].set_title('Mean IoU')
+        ax[1].set_xlabel('Epoch')
+        ax[1].set_ylabel('IoU')
+        ax[1].legend()
+        ax[1].grid()
+
+        plt.pause(0.1)  # Aggiorna i grafici senza bloccare il codice
+
+
 
         logger.info('=> saving checkpoint to {}'.format(
             final_output_dir + 'checkpoint.pth.tar'))
@@ -251,5 +286,7 @@ def main():
     logger.info('Hours: %d' % int((end-start)/3600))
     logger.info('Done')
 
+    plt.ioff()
+    plt.show()
 if __name__ == '__main__':
     main()

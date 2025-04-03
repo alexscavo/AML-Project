@@ -14,7 +14,7 @@ DATASET:
   TEST_SET: 'list/loveda/urban_rural/val.lst'
   TRAIN_SET: 'list/loveda/urban_rural/train.lst'
   TARGET_SET: 'list/loveda/rural/train.lst'
-  NUM_CLASSES: 7
+  NUM_CLASSES: 8
 MODEL:
   NAME: pidnet_small
   NUM_OUTPUTS: 2
@@ -34,7 +34,7 @@ TRAIN:
   SHUFFLE: true
   BEGIN_EPOCH: 0
   END_EPOCH: 20
-  RESUME: true
+  RESUME: false
   OPTIMIZER: sgd
   LR: 0.01
   WD: 0.0005
@@ -48,9 +48,9 @@ TRAIN:
     ENABLE: true
     PROBABILITY: 0.5
     TECHNIQUES:
-      HORIZONTAL_FLIP: false
+      HORIZONTAL_FLIP: true
       GAUSSIAN_BLUR: false
-      MULTIPLY: false
+      MULTIPLY: false  
       RANDOM_BRIGHTNESS: false
   DACS:
     ENABLE: false

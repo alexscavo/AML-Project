@@ -53,10 +53,14 @@ def main():
 
     print("\n⚖️ Class Weights:")
     
-    normalized = False
+    normalized = True
     if normalized:
-        inv_freq = 1.0 / (class_counts + 1e-8)
-        weights = inv_freq / np.sum(inv_freq)
+        # inv_freq = 1.0 / (class_counts[1:] + 1e-8)
+        # weights = inv_freq / np.sum(inv_freq)
+        freq = class_counts / (total_pixels-class_counts[0])
+        weights = 1 / freq
+        print("Mean: ", np.mean(weights[1:]))
+        weights = weights / np.mean(weights[1:])
     else:
         weights = 1.0 / (class_counts + 1e-8)
     weights[0] = 0.0 # exclude class 0 (ignored)

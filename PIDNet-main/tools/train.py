@@ -28,7 +28,7 @@ from models.discriminator import FCDiscriminator
 from torch import optim
 from utils.utils import create_logger, FullModel
 import matplotlib.pyplot as plt
-from IPython.display import clear_output
+from IPython.display import clear_output, Image, display
 import sys
 
 
@@ -239,9 +239,6 @@ def main():
         if flag_rm == 1:
             flag_rm = 0
 
-        # Aggiorna i grafici
-        is_notebook = 'ipykernel' in sys.modules
-
         clear_output(wait=True)  # Pulisce l'output precedente
         fig, ax = plt.subplots(2, 1, figsize=(10, 8))
 
@@ -263,10 +260,11 @@ def main():
         ax[1].grid()
 
         plt.show()
-        if not is_notebook:
-            plt.pause(0.1)  # Aggiorna i grafici senza bloccare il codice
 
-
+        # Salva e visualizza i grafici ogni 5 epoche
+        if epoch % 5 == 0 or epoch == real_end - 1:
+            plot_path = os.path.join("PIDNet-main/figs", f'epoch_{epoch}_plot.png')
+            plt.savefig(plot_path)
 
         logger.info('=> saving checkpoint to {}'.format(
             final_output_dir + 'checkpoint.pth.tar'))

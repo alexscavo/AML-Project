@@ -115,7 +115,7 @@ def main():
     
 
     targetloader = None
-    if config.TRAIN.DACS.ENABLE:
+    if config.TRAIN.DACS.ENABLE or config.TRAIN.GAN.ENABLE:
         target_dataset = eval('datasets.'+config.DATASET.DATASET)(
         root=config.DATASET.ROOT, list_path=config.DATASET.TARGET_SET,
         num_classes=config.DATASET.NUM_CLASSES, multi_scale=config.TRAIN.MULTI_SCALE,

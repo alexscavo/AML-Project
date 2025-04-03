@@ -28,6 +28,8 @@ from models.discriminator import FCDiscriminator
 from torch import optim
 from utils.utils import create_logger, FullModel
 import matplotlib.pyplot as plt
+from IPython.display import clear_output
+import sys
 
 
 def parse_args():
@@ -238,6 +240,11 @@ def main():
             flag_rm = 0
 
         # Aggiorna i grafici
+        is_notebook = 'ipykernel' in sys.modules
+
+        clear_output(wait=True)  # Pulisce l'output precedente
+        fig, ax = plt.subplots(2, 1, figsize=(10, 8))
+
         ax[0].clear()
         ax[0].plot(train_loss_history, label='Training Loss', color='blue')
         ax[0].plot(eval_loss_history, label='Evaluation Loss', color='orange')
@@ -255,7 +262,9 @@ def main():
         ax[1].legend()
         ax[1].grid()
 
-        plt.pause(0.1)  # Aggiorna i grafici senza bloccare il codice
+        plt.show()
+        if not is_notebook:
+            plt.pause(0.1)  # Aggiorna i grafici senza bloccare il codice
 
 
 

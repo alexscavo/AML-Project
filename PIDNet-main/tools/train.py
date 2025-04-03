@@ -209,7 +209,7 @@ def main():
 
         if config.TRAIN.GAN.ENABLE:
             
-            discriminator = FCDiscriminator(input_channels=7).cuda()
+            discriminator = FCDiscriminator(num_classes=7).cuda()
             optimizer_G = optim.SGD(model.parameters(), lr=2.5e-4, momentum=0.9, weight_decay=1e-4)
             optimizer_D = optim.Adam(discriminator.parameters(), lr=1e-4, betas=(0.9, 0.99)) #given by the paper
 

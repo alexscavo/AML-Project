@@ -111,6 +111,9 @@ def create_logger(cfg, cfg_name, phase='train'):
     if cfg.TRAIN.DACS.ENABLE:
         folder_name = "dacs"
 
+    if cfg.TRAIN.GAN.ENABLE:
+        folder_name = "gan"
+
     if cfg.TRAIN.AUGMENTATION.ENABLE:
         folder_name+= "_hf" if cfg.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP else ""
         folder_name+= "_gb" if cfg.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR else ""

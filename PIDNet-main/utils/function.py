@@ -296,10 +296,7 @@ def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
 
     for i_iter, (batch_source, batch_target) in enumerate(zip(trainloader, targetloader)):
 
-        print(f"Labels dtype: {labels.dtype}, shape: {labels.shape}, unique values: {torch.unique(labels)}")
-        assert labels.dtype == torch.long, "Labels devono essere di tipo torch.LongTensor"
-        assert labels.min() >= 0, f"Labels contengono valori negativi: {labels.min()}"
-        assert labels.max() < 7, f"Labels contengono valori >= n_classes: {labels.max()}"
+        
 
         images_source, labels, bd_gts, _, _ = batch_source
         images_target, _, _, _, _ = batch_target
@@ -308,6 +305,11 @@ def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
         images_target = images_target.cuda()
         labels = labels.long().cuda()
         bd_gts = bd_gts.float().cuda()
+
+        print(f"Labels dtype: {labels.dtype}, shape: {labels.shape}, unique values: {torch.unique(labels)}")
+        assert labels.dtype == torch.long, "Labels devono essere di tipo torch.LongTensor"
+        assert labels.min() >= 0, f"Labels contengono valori negativi: {labels.min()}"
+        assert labels.max() < 7, f"Labels contengono valori >= n_classes: {labels.max()}"
 
         # 1. Forward seg net per dominio sorgente (supervisionato)
         losses, output_source, acc, loss_list = model(images_source, labels, bd_gts)  

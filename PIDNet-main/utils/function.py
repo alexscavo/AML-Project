@@ -16,11 +16,11 @@ import torch.nn as nn
 from utils.utils import AverageMeter
 from utils.utils import get_confusion_matrix
 from utils.utils import adjust_learning_rate
-
+from tools.classmix import classmix, generate_safe_edge_map
 
 
 def train(config, epoch, num_epoch, epoch_iters, base_lr,
-          num_iters, trainloader, optimizer, model, writer_dict):
+          num_iters, trainloader, optimizer, model, writer_dict, targetloader=None):
     # Training
     model.train()
 
@@ -34,16 +34,86 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
     writer = writer_dict['writer']
     global_steps = writer_dict['train_global_steps']
 
-    for i_iter, batch in enumerate(trainloader, 0):
-        images, labels, bd_gts, _, _ = batch
-        images = images.cuda()
-        labels = labels.long().cuda()
-        bd_gts = bd_gts.float().cuda()
-        
+    if targetloader is not None:
+        target_iter = iter(targetloader)
 
-        losses, _, acc, loss_list = model(images, labels, bd_gts)
-        loss = losses.mean()
-        acc  = acc.mean()
+    for i_iter, batch in enumerate(trainloader, 0):
+        if config.TRAIN.DACS.ENABLE:
+            # DACS
+
+            # === SOURCE BATCH ==
+            x_s, y_s, bd_s, _, _ = batch
+            x_s, y_s, bd_s = x_s.cuda(), y_s.long().cuda(), bd_s.float().cuda()
+
+            # === TARGET BATCH ===
+            try:
+                x_t, real_gt, _, _, _ = next(target_iter)
+            except StopIteration:
+                target_iter = iter(targetloader)
+                x_t, _, _, _, _ = next(target_iter)
+            x_t = x_t.cuda()
+
+            print(f"Unique labels found in urban image: {y_s.unique().tolist()}")
+            print(f"Unique labels found in rural image: {real_gt.unique().tolist()}")
+            if 7 in real_gt.unique().tolist() or 7 in y_s.unique().tolist():
+                print("Found")
+                break
+
+            with torch.no_grad():
+                logits_t = model.module.model(x_t)[-2]
+                logits_t = torch.nn.functional.interpolate(
+                    logits_t, size=x_t.shape[2:], mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
+                )
+                pseudo_t = torch.argmax(logits_t, dim=1)
+                conf_t = torch.softmax(logits_t, dim=1).max(dim=1)[0]
+            
+            
+            # === CONFIDENCE USAGE ==
+
+            # Confidence_mask tells the position of the pixel whose pseudo-labels have 
+            # a confidence higher than  the threshold
+            confidence_mask = conf_t > config.TRAIN.DACS.THRESHOLD
+            
+            # Where confidence mask is True put the pixel from pseudo_t, otherwise insert the ignore label (0) 
+            pseudo_t_filtered = torch.where(
+                confidence_mask,
+                pseudo_t,
+                torch.tensor(config.TRAIN.IGNORE_LABEL, device=pseudo_t.device)
+            )
+
+            # Apply classmix
+            x_mixed, y_mixed, source_mask = classmix(x_s, y_s, x_t, pseudo_t_filtered)
+            
+            # Generate edges from the mixed image
+            bd_mixed = generate_safe_edge_map(y_mixed, source_mask, edge_size=3,
+                                              edge_pad=True, ignore_label=config.TRAIN.IGNORE_LABEL)
+            x_mixed = x_mixed.cuda()
+            y_mixed = y_mixed.long().cuda()
+            bd_mixed = bd_mixed.float().cuda()
+
+            # === FORWARD PASSES ===
+            loss_src, _, acc_src, loss_list_src = model(x_s, y_s, bd_s)
+            loss_mix, _, acc_mix, loss_list_mix = model(x_mixed, y_mixed, bd_mixed)
+
+            # === COMBINE LOSSES ===
+            lambda_weight = confidence_mask.float().mean().item()
+            loss = (loss_src + lambda_weight * loss_mix).mean()
+            acc = (acc_src + acc_mix) / 2 # TO BE VERIFIED
+            
+            sem_loss = loss_list_src[0] + lambda_weight * loss_list_mix[0]
+            bce_loss = loss_list_src[1] + lambda_weight * loss_list_mix[1]
+        else: 
+            images, labels, bd_gts, _, _ = batch
+            images = images.cuda()
+            labels = labels.long().cuda()
+            bd_gts = bd_gts.float().cuda()
+            
+
+            losses, _, acc, loss_list = model(images, labels, bd_gts)
+            loss = losses.mean()
+            acc  = acc.mean()
+            sem_loss = loss_list[0]
+            bce_loss = loss_list[1]
 
         model.zero_grad()
         loss.backward()
@@ -56,8 +126,8 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
         # update average loss
         ave_loss.update(loss.item())
         ave_acc.update(acc.item())
-        avg_sem_loss.update(loss_list[0].mean().item())
-        avg_bce_loss.update(loss_list[1].mean().item())
+        avg_sem_loss.update(sem_loss.mean().item())
+        avg_bce_loss.update(bce_loss.mean().item())
 
         lr = adjust_learning_rate(optimizer,
                                   base_lr,

@@ -213,7 +213,7 @@ def main():
             optimizer_G = optim.SGD(model.parameters(), lr=2.5e-4, momentum=0.9, weight_decay=1e-4)
             optimizer_D = optim.Adam(discriminator.parameters(), lr=1e-4, betas=(0.9, 0.99)) #given by the paper
 
-            if config.TRAIN.GAN.MULTI:
+            if config.TRAIN.GAN.MULTI_LEVEL:
                  train_adv_multi(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D, model, discriminator, writer_dict)
             else:
                 train_adv(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D, model, discriminator,discriminator, writer_dict)

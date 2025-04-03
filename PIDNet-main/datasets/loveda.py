@@ -206,7 +206,7 @@ class LoveDA(BaseDataset):
         self.files = self.read_files()
         self.color_list = [[0, 0, 0], [1, 1, 1], [2, 2, 2],
                             [3, 3, 3], [4, 4, 4], [5, 5, 5], [6, 6, 6], [7, 7, 7]]
-        self.class_weights = None
+        self.class_weights = torch.tensor([0.000000, 0.116411, 0.266041, 0.607794, 1.511413, 0.745507, 0.712438, 3.040396])
         self.pseudo_label = pseudo_label
         
 

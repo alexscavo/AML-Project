@@ -111,8 +111,9 @@ def main():
         drop_last=True)
     
 
-    #use in the two domain adaptation techniques
-    target_dataset = eval('datasets.'+config.DATASET.DATASET)(
+    targetloader = None
+    if config.TRAIN.DACS.ENABLE:
+        target_dataset = eval('datasets.'+config.DATASET.DATASET)(
         root=config.DATASET.ROOT, list_path=config.DATASET.TARGET_SET,
         num_classes=config.DATASET.NUM_CLASSES, multi_scale=config.TRAIN.MULTI_SCALE,
         flip=config.TRAIN.FLIP, enable_augmentation=True, ignore_label=config.TRAIN.IGNORE_LABEL,
@@ -121,14 +122,9 @@ def main():
         gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
         multiply=config.TRAIN.AUGMENTATION.TECHNIQUES.MULTIPLY,
         random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS)
-    
-    targetloader = torch.utils.data.DataLoader(
-        target_dataset,
-        batch_size=batch_size,
-        shuffle=config.TRAIN.SHUFFLE,
-        num_workers=config.WORKERS,
-        pin_memory=False,
-        drop_last=True)
+        targetloader = torch.utils.data.DataLoader(
+        target_dataset, batch_size=batch_size, shuffle=config.TRAIN.SHUFFLE,
+        num_workers=config.WORKERS, pin_memory=False, drop_last=True)
 
 
     test_size = (config.TEST.IMAGE_SIZE[1], config.TEST.IMAGE_SIZE[0])
@@ -221,7 +217,7 @@ def main():
         else:
             train(config, epoch, config.TRAIN.END_EPOCH, 
                   epoch_iters, config.TRAIN.LR, num_iters,
-                  trainloader, optimizer, model, writer_dict)
+                  trainloader, optimizer, model, writer_dict, targetloader=targetloader)
 
         if flag_rm == 1 or (epoch % 5 == 0 and epoch < real_end - 100) or (epoch >= real_end - 100):
             valid_loss, mean_IoU, IoU_array = validate(config, testloader, model, writer_dict)

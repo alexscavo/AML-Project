@@ -320,10 +320,10 @@ def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
             bd_gts = bd_gts.float().cuda()
 
             # Checks
-            print(f"Labels dtype: {labels.dtype}, shape: {labels.shape}, unique values: {torch.unique(labels)}")
-            assert labels.dtype == torch.long, "Labels devono essere di tipo torch.LongTensor"
-            assert labels.min() >= 0, f"Labels contengono valori negativi: {labels.min()}"
-            assert labels.max() < 8, f"Labels contengono valori >= n_classes: {labels.max()}"
+            #print(f"Labels dtype: {labels.dtype}, shape: {labels.shape}, unique values: {torch.unique(labels)}")
+            #assert labels.dtype == torch.long, "Labels devono essere di tipo torch.LongTensor"
+            #assert labels.min() >= 0, f"Labels contengono valori negativi: {labels.min()}"
+            #assert labels.max() < 8, f"Labels contengono valori >= n_classes: {labels.max()}"
 
         
 

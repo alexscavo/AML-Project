@@ -348,10 +348,10 @@ def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
 
             for param in discriminator.parameters():
                 param.requires_grad = True
-                
+
             # Aggiorna il discriminatore
-            real_preds = discriminator(output_source.detach())
-            fake_preds = discriminator(output_target.detach())
+            real_preds = discriminator(F.softmax(output_source[-2], dim=1)) #TODO: check -2
+            fake_preds = discriminator(F.softmax(output_source[-2], dim=1))
             loss_D_real = nn.BCEWithLogitsLoss()(real_preds, torch.ones_like(real_preds))
             loss_D_fake = nn.BCEWithLogitsLoss()(fake_preds, torch.zeros_like(fake_preds))
             loss_D = (loss_D_real + loss_D_fake) / 2

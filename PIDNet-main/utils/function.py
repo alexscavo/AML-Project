@@ -351,7 +351,7 @@ def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
 
             # Aggiorna il discriminatore
             real_preds = discriminator(F.softmax(output_source[-2], dim=1)) #TODO: check -2
-            fake_preds = discriminator(F.softmax(output_source[-2], dim=1))
+            fake_preds = discriminator(F.softmax(output_target[-2], dim=1))
             loss_D_real = nn.BCEWithLogitsLoss()(real_preds, torch.ones_like(real_preds))
             loss_D_fake = nn.BCEWithLogitsLoss()(fake_preds, torch.zeros_like(fake_preds))
             loss_D = (loss_D_real + loss_D_fake) / 2
@@ -378,13 +378,13 @@ def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
             msg = ('Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, lr: {}, '
                    'Loss_G: {:.6f}, Loss_D: {:.6f}, Acc: {:.6f}, Semantic Loss: {:.6f}, BCE Loss: {:.6f}').format(
                       epoch, num_epoch, i_iter, epoch_iters, batch_time.average(),
-                      [x['lr'] for x in optimizer_G.param_groups], ave_loss.average(), cumulative_loss_D.item(),
+                      [x['lr'] for x in optimizer_G.param_groups], ave_loss.average(), cumulative_loss_D,
                       ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average()
                   )
             logging.info(msg)
 
     writer.add_scalar('train_loss_G', ave_loss.average(), global_steps)
-    writer.add_scalar('train_loss_D', cumulative_loss_D.item(), global_steps)
+    writer.add_scalar('train_loss_D', cumulative_loss_D, global_steps)
     writer_dict['train_global_steps'] = global_steps + 1
 
 def train_adv_multi(config, epoch, num_epoch, epoch_iters, base_lr,

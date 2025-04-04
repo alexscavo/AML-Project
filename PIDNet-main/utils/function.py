@@ -343,6 +343,12 @@ def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
             loss_adv.backward()
         
 
+            output_source = [t.detach() for t in output_source]
+            output_target = [t.detach() for t in output_target]
+
+            for param in discriminator.parameters():
+                param.requires_grad = True
+                
             # Aggiorna il discriminatore
             real_preds = discriminator(output_source.detach())
             fake_preds = discriminator(output_target.detach())

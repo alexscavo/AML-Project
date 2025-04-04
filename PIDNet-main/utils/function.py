@@ -328,7 +328,8 @@ def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
         
 
             # 1. Forward seg net per dominio sorgente (supervisionato)
-            loss_seg1, output_source, _, _ = model(images_source, labels, bd_gts)  
+            loss_seg1, output_source, _, _ = model(images_source, labels, bd_gts) 
+            loss_seg1 = loss_seg1.squeeze()  
             loss_seg1 = loss_seg1 / iter_size
             cumulative_loss_G += loss_seg1.item()
             loss_seg1.backward()

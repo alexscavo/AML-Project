@@ -14,7 +14,7 @@ DATASET:
   TEST_SET: 'list/loveda/urban_rural/val.lst'
   TRAIN_SET: 'list/loveda/urban_rural/train.lst'
   TARGET_SET: 'list/loveda/rural/train.lst'
-  NUM_CLASSES: 8
+  NUM_CLASSES: 7
 MODEL:
   NAME: pidnet_small
   NUM_OUTPUTS: 2

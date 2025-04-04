@@ -60,9 +60,7 @@ def main():
         random.seed(args.seed)
         torch.manual_seed(args.seed)        
 
-    logger, final_output_dir, tb_log_dir = create_logger(
-        config, args.cfg, 'train')
-
+    logger, final_output_dir, tb_log_dir = create_logger(config, args.cfg, 'train')
     logger.info(pprint.pformat(args))
     logger.info(config)
 
@@ -89,7 +87,7 @@ def main():
     crop_size = (config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
 
     #The eval() function evaluates the specified expression, if the expression is a legal Python statement, it will be executed.
-    train_dataset = eval('datasets.'+config.DATASET.DATASET)( # Chiedere
+    train_dataset = eval('datasets.'+config.DATASET.DATASET)(
                         root=config.DATASET.ROOT,
                         list_path=config.DATASET.TRAIN_SET,
                         num_classes=config.DATASET.NUM_CLASSES,
@@ -117,17 +115,28 @@ def main():
     targetloader = None
     if config.TRAIN.DACS.ENABLE or config.TRAIN.GAN.ENABLE:
         target_dataset = eval('datasets.'+config.DATASET.DATASET)(
-        root=config.DATASET.ROOT, list_path=config.DATASET.TARGET_SET,
-        num_classes=config.DATASET.NUM_CLASSES, multi_scale=config.TRAIN.MULTI_SCALE,
-        flip=config.TRAIN.FLIP, enable_augmentation=True, ignore_label=config.TRAIN.IGNORE_LABEL,
-        base_size=config.TRAIN.BASE_SIZE, crop_size=crop_size, scale_factor=config.TRAIN.SCALE_FACTOR,
+        root=config.DATASET.ROOT, 
+        list_path=config.DATASET.TARGET_SET,
+        num_classes=config.DATASET.NUM_CLASSES, 
+        multi_scale=config.TRAIN.MULTI_SCALE,
+        flip=config.TRAIN.FLIP, 
+        enable_augmentation=True,
+        ignore_label=config.TRAIN.IGNORE_LABEL,
+        base_size=config.TRAIN.BASE_SIZE,
+        crop_size=crop_size, 
+        scale_factor=config.TRAIN.SCALE_FACTOR,
         horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
         gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
         multiply=config.TRAIN.AUGMENTATION.TECHNIQUES.MULTIPLY,
         random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS)
+
         targetloader = torch.utils.data.DataLoader(
-        target_dataset, batch_size=batch_size, shuffle=config.TRAIN.SHUFFLE,
-        num_workers=config.WORKERS, pin_memory=False, drop_last=True)
+            target_dataset, 
+            batch_size=batch_size,
+            shuffle=config.TRAIN.SHUFFLE,
+            num_workers=config.WORKERS, 
+            pin_memory=False, 
+            drop_last=True)
 
 
     test_size = (config.TEST.IMAGE_SIZE[1], config.TEST.IMAGE_SIZE[0])
@@ -161,7 +170,7 @@ def main():
     bd_criterion = BondaryLoss()
     
     model = FullModel(model, sem_criterion, bd_criterion)
-    model = nn.DataParallel(model, device_ids=gpus).cuda()
+    model = nn.DataParallel(model, device_ids=gpus).cuda() #per noi inutile
 
     # optimizer
     if config.TRAIN.OPTIMIZER == 'sgd':
@@ -216,11 +225,12 @@ def main():
         if config.TRAIN.GAN.ENABLE:
             
             discriminator = FCDiscriminator(num_classes=7).cuda()
-            optimizer_G = optim.SGD(model.parameters(), lr=2.5e-4, momentum=0.9, weight_decay=1e-4)
+            #optimizer_G = optim.SGD(model.parameters(), lr=2.5e-4, momentum=0.9, weight_decay=1e-4) paper infos, but our net is different
+            optimizer_G = optimizer
             optimizer_D = optim.Adam(discriminator.parameters(), lr=1e-4, betas=(0.9, 0.99)) #given by the paper
 
             if config.TRAIN.GAN.MULTI_LEVEL:
-                 train_adv_multi(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D, model, discriminator,discriminator, writer_dict)
+                train_adv_multi(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D, model, discriminator,discriminator, writer_dict)
             else:
                 train_adv(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D, model, discriminator, writer_dict)
            

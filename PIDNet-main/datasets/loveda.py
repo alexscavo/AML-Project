@@ -39,6 +39,39 @@ def compare_images(image, blurred_image):
 
     return diff
 
+
+def show_images(x_original, x_augmented):
+    
+    # ImageNet mean and std
+    imagenet_mean = np.array([0.485, 0.456, 0.406])[:, None, None]
+    imagenet_std = np.array([0.229, 0.224, 0.225])[:, None, None]
+
+    # Denormalize using NumPy broadcasting
+    x_original = x_original * imagenet_std + imagenet_mean
+    x_augmented = x_augmented * imagenet_std + imagenet_mean
+
+    # Clip to [0, 1] in case of overflows
+    x_original = np.clip(x_original, 0, 1)
+    x_augmented = np.clip(x_augmented, 0, 1)
+
+    # Transpose to HWC for matplotlib
+    x_original = np.transpose(x_original, (1, 2, 0))
+    x_augmented = np.transpose(x_augmented, (1, 2, 0))
+
+    # Plot
+    fig, axs = plt.subplots(1, 2, figsize=(12, 6))
+    axs[0].imshow(x_original)
+    axs[0].set_title("Original Image")
+    axs[0].axis("off")
+
+    axs[1].imshow(x_augmented)
+    axs[1].set_title("Augmented Image")
+    axs[1].axis("off")
+
+    plt.tight_layout()
+    plt.show()
+
+
 #classe per fare la data augmentation
 class DataAugmentation:
     def __init__(self, config):
@@ -76,7 +109,7 @@ class DataAugmentation:
     
     
 
-    def gaussian_blur(self, image, label, edge, kernel_size=5):
+    def gaussian_blur(self, image, label, edge, kernel_size=5, show = False):
         # Applica il Gaussian Blur solo all'immagine
         image = image.transpose(1, 2, 0)  # From (C, H, W) to (H, W, C)
     
@@ -86,28 +119,29 @@ class DataAugmentation:
         # If you want to return it to the PyTorch format (C, H, W)
         blurred_image = blurred_image.transpose(2, 0, 1)  # From (H, W, C) to (C, H, W)
 
-        '''# Plot original and blurred images side by side
-        fig, axs = plt.subplots(1, 2, figsize=(10, 5))
+        if show:
+            # Plot original and blurred images side by side
+            fig, axs = plt.subplots(1, 2, figsize=(10, 5))
 
-        # Display original image
-        axs[0].imshow(image)  # Image is already in (H, W, C) format for OpenCV
-        axs[0].set_title("Original Image")
-        axs[0].axis("off")
+            # Display original image
+            axs[0].imshow(image)  # Image is already in (H, W, C) format for OpenCV
+            axs[0].set_title("Original Image")
+            axs[0].axis("off")
 
-        # Display blurred image
-        axs[1].imshow(blurred_image.transpose(1, 2, 0))  # Convert back to (H, W, C) for plotting
-        axs[1].set_title("Blurred Image")
-        axs[1].axis("off")
+            # Display blurred image
+            axs[1].imshow(blurred_image.transpose(1, 2, 0))  # Convert back to (H, W, C) for plotting
+            axs[1].set_title("Blurred Image")
+            axs[1].axis("off")
 
-        plt.show()  # Show the figure'''
+            plt.show()  # Show the figure'''
 
-        '''compare_images(image, blurred_image)'''
+            '''compare_images(image, blurred_image)'''
 
         return blurred_image, label, edge
     
 
 
-    def multiply(self, image, label, edge, factor_range=(0.8, 1.2)):
+    def multiply(self, image, label, edge, factor_range=(0.8, 1.2), show = False):
         # Convert image to float32 to avoid overflow issues
         factor = random.uniform(*factor_range)
         image = image.astype(np.float32)  # Ensure safe multiplication
@@ -117,44 +151,19 @@ class DataAugmentation:
             image *= 255.0  # Scale to 0-255 range before multiplication
 
         multiplied_image = image * factor
-        multiplied_image = np.clip(multiplied_image, 0.0, 1.0)
 
-        '''# If image is in (C, H, W), convert to (H, W, C) for visualization
-        if image.shape[0] == 3:  # Assuming 3 channels (RGB)
-            image = np.transpose(image, (1, 2, 0))  # Convert to (H, W, C)
-            multiplied_image = np.transpose(multiplied_image, (1, 2, 0))  # Convert to (H, W, C)
-
-        # Display original and modified images side by side
-        fig, axs = plt.subplots(1, 2, figsize=(10, 5))
-
-        axs[0].imshow(image)  # Original image
-        axs[0].set_title("Original Image")
-        axs[0].axis("off")
-
-        axs[1].imshow(multiplied_image)  # Augmented image
-        axs[1].set_title(f"Augmented Image (Factor: {factor:.2f})")
-        axs[1].axis("off")
-
-        plt.show()  # Show the figure'''
+        if show:
+            show_images(image, multiplied_image)
         
         return multiplied_image, label, edge
 
-    def random_brightness(self, image, label, edge, brightness_range=(-0.2, 0.2), show = False):
-        # Modifica la luminosità dell'immagine
+    def random_brightness(self, image, label, edge, brightness_range=(-0.5, 0.5), show = False):
+        # Modify image brightness
         brightness = np.float32(np.random.uniform(*brightness_range)) 
-        brightened_image = np.clip(image + brightness, 0, 1)  # Keep within [0,1]
+        brightened_image = image + brightness  # Keep within [0,1]
         
         if show:
-            image_vis = np.transpose(image, (1, 2, 0))
-            brightened_image_vis = np.transpose(brightened_image, (1, 2, 0))
-            fig, axs = plt.subplots(1, 2, figsize=(10,5))
-            axs[0].imshow(image_vis)
-            axs[0].set_title("Original image")
-            axs[0].axis("off")
-            axs[1].imshow(brightened_image_vis)
-            axs[1].set_title("Augmented Image")
-            axs[1].axis("off")
-            plt.show()
+            show_images(image, brightened_image)
         return brightened_image, label, edge
     
 

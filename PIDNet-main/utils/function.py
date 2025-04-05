@@ -294,6 +294,13 @@ def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
     writer = writer_dict['writer']
     global_steps = writer_dict['train_global_steps']
 
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
+
     for i_iter, (batch_source, batch_target) in enumerate(zip(trainloader, targetloader)):
         
         optimizer_G.zero_grad()
@@ -314,10 +321,10 @@ def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
             images_source, labels, bd_gts, _, _ = batch_source
             images_target, _, _, _, _ = batch_target
 
-            images_source = images_source.cuda()
-            images_target = images_target.cuda()
-            labels = labels.long().cuda()
-            bd_gts = bd_gts.float().cuda()
+            images_source = images_source.to(device)
+            images_target = images_target.to(device)
+            labels = labels.long().to(device)
+            bd_gts = bd_gts.float().to(device)
 
             # Checks
             #print(f"Labels dtype: {labels.dtype}, shape: {labels.shape}, unique values: {torch.unique(labels)}")

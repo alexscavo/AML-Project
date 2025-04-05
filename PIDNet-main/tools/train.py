@@ -70,14 +70,26 @@ def main():
         'valid_global_steps': 0,
     }
 
-    # cudnn related setting
-    cudnn.benchmark = config.CUDNN.BENCHMARK
-    cudnn.deterministic = config.CUDNN.DETERMINISTIC
-    cudnn.enabled = config.CUDNN.ENABLED
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+        print("Using CUDA")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+        print("Using MPS")
+    else:
+        device = torch.device("cpu")
+        print("Using CPU")
+
+    if torch.cuda.is_available():
+        # cudnn related setting
+        cudnn.benchmark = config.CUDNN.BENCHMARK
+        cudnn.deterministic = config.CUDNN.DETERMINISTIC
+        cudnn.enabled = config.CUDNN.ENABLED
+        gpus = list(config.GPUS)
+        if torch.cuda.device_count() != len(gpus):
+            print("The gpu numbers do not match!")
+            return 0
     gpus = list(config.GPUS)
-    if torch.cuda.device_count() != len(gpus):
-        print("The gpu numbers do not match!")
-        return 0
     
     imgnet = 'imagenet' in config.MODEL.PRETRAINED
     model = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet)
@@ -170,7 +182,10 @@ def main():
     bd_criterion = BondaryLoss()
     
     model = FullModel(model, sem_criterion, bd_criterion)
-    model = nn.DataParallel(model, device_ids=gpus).cuda() #per noi inutile
+    if torch.cuda.is_available():
+        model = nn.DataParallel(model, device_ids=gpus).cuda() #per noi inutile
+    else:
+        model = model.to(device)
 
     # optimizer
     if config.TRAIN.OPTIMIZER == 'sgd':
@@ -224,7 +239,7 @@ def main():
 
         if config.TRAIN.GAN.ENABLE:
             
-            discriminator = FCDiscriminator(num_classes=8).cuda()
+            discriminator = FCDiscriminator(num_classes=8).to(device)
             #optimizer_G = optim.SGD(model.parameters(), lr=2.5e-4, momentum=0.9, weight_decay=1e-4) paper infos, but our net is different
             optimizer_G = optimizer
             optimizer_D = optim.Adam(discriminator.parameters(), lr=1e-4, betas=(0.9, 0.99)) #given by the paper

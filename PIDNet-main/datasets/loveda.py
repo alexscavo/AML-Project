@@ -254,7 +254,7 @@ class LoveDA(BaseDataset):
         #edge (H,W)
         image, label, edge = self.gen_sample(image, label,
                                              self.multi_scale, self.flip, edge_pad=False,
-                                             edge_size=self.bd_dilate_size, city=False)
+                                             edge_size=self.bd_dilate_size, city=False) #image diventa (C,H,W)
         
         # Augmentation
         config_dict = {

@@ -1,7 +1,7 @@
 import sys
 import os
 
-#TO MAKE IT WORKING JUST REMOVE THE . IN BASE DATASET
+#TO MAKE IT WORKING JUST REMOVE THE . IN THW IMPORT OF BASE DATASET IN LOVEDA.PY
 
 # Aggiungi la directory principale del progetto al PYTHONPATH
 project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
@@ -15,7 +15,7 @@ from configs import config
 from configs import update_config
 import datasets
 
-crop_size = (config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
+crop_size = (512, 512)
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train segmentation network')
@@ -36,8 +36,8 @@ def parse_args():
     return args
 
 args = parse_args()
-
-print(config.DATASET.DATASET)
+#print(config)
+#print(config.DATASET.DATASET)
 
 train_dataset = eval('datasets.'+'loveda')(
                     root=config.DATASET.ROOT,
@@ -53,7 +53,9 @@ train_dataset = eval('datasets.'+'loveda')(
                     horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
                     gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
                     multiply=config.TRAIN.AUGMENTATION.TECHNIQUES.MULTIPLY,
-                    random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS)
+                    random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS,
+                    random_crop=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_CROP
+                    )
 
 
 # Carica un'immagine dal dataset
@@ -111,7 +113,7 @@ config_dict = {
     "PROBABILITY": 1.0,  # Applica sempre le augmentation
     "TECHNIQUES": {}
 }
-augmentation = DataAugmentation(config_dict)
+augmentation = DataAugmentation(config_dict,train_dataset)
 
 # Testa il Gaussian Blur
 augmented_image, augmented_label, augmented_edge = augmentation.gaussian_blur(image, label, edge)
@@ -128,3 +130,7 @@ visualize_original(augmented_image, augmented_label, augmented_edge, title_prefi
 # Testa il Multiply
 augmented_image, augmented_label, augmented_edge = augmentation.multiply(image, label, edge)
 visualize_original(augmented_image, augmented_label, augmented_edge, title_prefix="Multiply ")
+
+# Testa il Random Crop
+augmented_image, augmented_label, augmented_edge = augmentation.random_crop(image, label, edge)
+visualize_original(augmented_image, augmented_label, augmented_edge, title_prefix="Random Crop ")

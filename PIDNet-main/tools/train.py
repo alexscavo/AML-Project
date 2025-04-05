@@ -96,7 +96,9 @@ def main():
  
     batch_size = config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus)
     # prepare data
-    crop_size = (config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
+    #crop_size = (config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
+    crop_size = (512, 512)
+
 
     #The eval() function evaluates the specified expression, if the expression is a legal Python statement, it will be executed.
     train_dataset = eval('datasets.'+config.DATASET.DATASET)(
@@ -113,7 +115,8 @@ def main():
                         horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
                         gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
                         multiply=config.TRAIN.AUGMENTATION.TECHNIQUES.MULTIPLY,
-                        random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS)
+                        random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS,
+                        random_crop=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_CROP)
 
     trainloader = torch.utils.data.DataLoader(
         train_dataset,
@@ -140,7 +143,8 @@ def main():
         horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
         gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
         multiply=config.TRAIN.AUGMENTATION.TECHNIQUES.MULTIPLY,
-        random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS)
+        random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS,
+        random_crop=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_CROP)
 
         targetloader = torch.utils.data.DataLoader(
             target_dataset, 

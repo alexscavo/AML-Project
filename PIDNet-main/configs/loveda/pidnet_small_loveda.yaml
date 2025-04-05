@@ -52,6 +52,7 @@ TRAIN:
       GAUSSIAN_BLUR: false
       MULTIPLY: false  
       RANDOM_BRIGHTNESS: false
+      RANDOM_CROP: false
   DACS:
     ENABLE: false
     THRESHOLD: 0.968 

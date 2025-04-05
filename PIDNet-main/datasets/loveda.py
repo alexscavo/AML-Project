@@ -10,7 +10,7 @@ import logging
 from PIL import Image
 import torchvision.transforms as tf
 import matplotlib.pyplot as plt
-from .base_dataset import BaseDataset
+from base_dataset import BaseDataset
 
 def compare_images(image, blurred_image):
     # Compute the absolute difference between the images
@@ -41,10 +41,11 @@ def compare_images(image, blurred_image):
 
 #classe per fare la data augmentation
 class DataAugmentation:
-    def __init__(self, config):
+    def __init__(self, config, dataset_instance):
         self.enable = config["ENABLE"]
         self.probability = config["PROBABILITY"]
         self.techniques = config["TECHNIQUES"]
+        self.dataset = dataset_instance  # Riferimento all'istanza del dataset
 
     def apply(self, image, label, edge):
         
@@ -63,7 +64,16 @@ class DataAugmentation:
         if self.techniques.get("RANDOM_BRIGHTNESS", False):
             image, label, edge = self.random_brightness(image, label, edge)
 
+        if self.techniques.get("RANDOM_CROP", False):
+            image, label, edge = self.random_crop(image, label, edge) 
+
+
         return image, label, edge
+
+
+
+    def random_crop(self, image, label, edge):
+        return self.dataset.rand_crop(image, label, edge)  # Usa l'istanza del dataset
 
 
 
@@ -78,7 +88,8 @@ class DataAugmentation:
 
     def gaussian_blur(self, image, label, edge, kernel_size=5):
         # Applica il Gaussian Blur solo all'immagine
-        image = image.transpose(1, 2, 0)  # From (C, H, W) to (H, W, C)
+        if len(image.shape) == 3 and image.shape[0] <= 3:  # Se è in formato (C, H, W)
+            image = np.transpose(image, (1, 2, 0))  # Converti in (H, W, C)
     
         # Apply Gaussian blur
         blurred_image = cv2.GaussianBlur(image, (kernel_size, kernel_size), 0)
@@ -168,7 +179,7 @@ class LoveDA(BaseDataset):
                  flip=False,
                  ignore_label=0,
                  base_size=1024,
-                 crop_size=(1024, 1024),
+                 crop_size=(512, 512),
                  scale_factor=16, #multi scale usato come data augmentation alredy provided
                  enable_augmentation=False,
                  augmentation_probability=0.5, 
@@ -176,6 +187,7 @@ class LoveDA(BaseDataset):
                  gaussian_blur=False,
                  multiply=False,
                  random_brightness=False,
+                 random_crop=True,
                  mean=[0.485, 0.456, 0.406],
                  std=[0.229, 0.224, 0.225],
                  bd_dilate_size=4,
@@ -200,6 +212,7 @@ class LoveDA(BaseDataset):
         self.gaussian_blur = gaussian_blur
         self.multiply = multiply
         self.random_brightness = random_brightness
+        self.random_crop = random_crop
         self.bd_dilate_size = bd_dilate_size
 
         self.img_list = [line.strip().split() for line in open(root + list_path)]
@@ -264,11 +277,12 @@ class LoveDA(BaseDataset):
                 "HORIZONTAL_FLIP": self.horizontal_flip, 
                 "GAUSSIAN_BLUR": self.gaussian_blur, 
                 "MULTIPLY": self.multiply, 
-                "RANDOM_BRIGHTNESS": self.random_brightness
+                "RANDOM_BRIGHTNESS": self.random_brightness,
+                "RANDOM_CROP": self.random_crop
             }
             
         }
-        augmentation = DataAugmentation(config_dict)
+        augmentation = DataAugmentation(config_dict,self)
         image, label, edge = augmentation.apply(image, label, edge)
         
 

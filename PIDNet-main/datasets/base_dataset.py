@@ -15,7 +15,7 @@ class BaseDataset(data.Dataset):
     def __init__(self,
                  ignore_label=255,
                  base_size=2048,
-                 crop_size=(512, 1024),
+                 crop_size=(512, 512),
                  scale_factor=16,
                  mean=[0.485, 0.456, 0.406],
                  std=[0.229, 0.224, 0.225]):
@@ -47,31 +47,66 @@ class BaseDataset(data.Dataset):
         return np.array(label).astype(np.uint8)
 
     def pad_image(self, image, h, w, size, padvalue):
-        pad_image = image.copy()
         pad_h = max(size[0] - h, 0)
         pad_w = max(size[1] - w, 0)
-        if pad_h > 0 or pad_w > 0:
-            pad_image = cv2.copyMakeBorder(image, 0, pad_h, 0,
-                                           pad_w, cv2.BORDER_CONSTANT,
-                                           value=padvalue)
+
+        # Se non è necessario il padding, restituisci l'immagine originale
+        if pad_h == 0 and pad_w == 0:
+            return image
+
+        # Verifica il formato dell'immagine (deve essere H, W, C)
+        if len(image.shape) == 3 and image.shape[0] <= 3:  # Se è in formato (C, H, W)
+            image = np.transpose(image, (1, 2, 0))  # Converti in (H, W, C)
+
+        # Aggiungi il padding
+        pad_image = cv2.copyMakeBorder(image, 0, pad_h, 0, pad_w, cv2.BORDER_CONSTANT, value=padvalue)
+
+        # Ripristina il formato originale (C, H, W) se necessario
+        if len(image.shape) == 3 and image.shape[2] <= 3:  # Se era in formato (C, H, W)
+            pad_image = np.transpose(pad_image, (2, 0, 1))  # Converti di nuovo in (C, H, W)
 
         return pad_image
 
     def rand_crop(self, image, label, edge):
-        h, w = image.shape[:-1]
-        image = self.pad_image(image, h, w, self.crop_size,
-                               (0.0, 0.0, 0.0))
-        label = self.pad_image(label, h, w, self.crop_size,
-                               (self.ignore_label,))
-        edge = self.pad_image(edge, h, w, self.crop_size,
-                               (0.0,))
+        # Verifica il formato dell'immagine
+        if len(image.shape) == 3 and image.shape[0] <= 3:  # Se è in formato (C, H, W)
+            image = np.transpose(image, (1, 2, 0))  # Converti in (H, W, C)
 
+        h, w = image.shape[:2]
+
+        # Aggiungi padding se necessario
+        if h < self.crop_size[0] or w < self.crop_size[1]:
+            image = self.pad_image(image, h, w, self.crop_size, (0.0, 0.0, 0.0))
+            label = self.pad_image(label, h, w, self.crop_size, (self.ignore_label,))
+            edge = self.pad_image(edge, h, w, self.crop_size, (0.0,))
+
+        # Aggiorna le dimensioni dopo il padding
         new_h, new_w = label.shape
+        if new_h < self.crop_size[0] or new_w < self.crop_size[1]:
+            raise ValueError(f"Dimensioni insufficienti per il ritaglio: label={label.shape}, crop_size={self.crop_size}")
+
+        # Calcola le coordinate per il ritaglio casuale
         x = random.randint(0, new_w - self.crop_size[1])
         y = random.randint(0, new_h - self.crop_size[0])
+
+        # Esegui il ritaglio
         image = image[y:y+self.crop_size[0], x:x+self.crop_size[1]]
         label = label[y:y+self.crop_size[0], x:x+self.crop_size[1]]
         edge = edge[y:y+self.crop_size[0], x:x+self.crop_size[1]]
+
+        #in questo modo l'iimagine è 512x512x3
+        #se volessi croppare quella regione 
+        '''
+        # Estrai la regione da sfocare
+        cropped_region = image[y:y+crop_size[0], x:x+crop_size[1]]
+
+        # Applica il Gaussian Blur alla regione
+        blurred_region = cv2.GaussianBlur(cropped_region, (15, 15), 0)
+
+        # Sostituisci la regione originale con quella sfocata
+        augmented_image = image.copy()
+        augmented_image[y:y+crop_size[0], x:x+crop_size[1]] = blurred_region
+        '''
 
         return image, label, edge
 

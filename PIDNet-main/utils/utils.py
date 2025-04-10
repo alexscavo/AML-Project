@@ -57,7 +57,7 @@ class FullModel(nn.Module):
         loss_sb = self.sem_loss([outputs[-2]], labels)
     loss = loss_s + loss_b + loss_sb
 
-    return torch.unsqueeze(loss,0), outputs[:-1], acc, [loss_s, loss_b]
+    return torch.unsqueeze(loss,0), outputs[:-1], acc, [loss_s, loss_b] #aoutputs[:-1] è una lista di tensori
 
 
 class AverageMeter(object):

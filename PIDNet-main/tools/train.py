@@ -27,6 +27,9 @@ from utils.function import train, validate, train_adv, train_adv_multi
 from models.discriminator import FCDiscriminator
 from torch import optim
 from utils.utils import create_logger, FullModel
+import matplotlib.pyplot as plt
+from IPython.display import clear_output, Image, display
+import sys
 
 
 def parse_args():
@@ -57,9 +60,7 @@ def main():
         random.seed(args.seed)
         torch.manual_seed(args.seed)        
 
-    logger, final_output_dir, tb_log_dir = create_logger(
-        config, args.cfg, 'train')
-
+    logger, final_output_dir, tb_log_dir = create_logger(config, args.cfg, 'train')
     logger.info(pprint.pformat(args))
     logger.info(config)
 
@@ -69,24 +70,38 @@ def main():
         'valid_global_steps': 0,
     }
 
-    # cudnn related setting
-    cudnn.benchmark = config.CUDNN.BENCHMARK
-    cudnn.deterministic = config.CUDNN.DETERMINISTIC
-    cudnn.enabled = config.CUDNN.ENABLED
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+        print("Using CUDA")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+        print("Using MPS")
+    else:
+        device = torch.device("cpu")
+        print("Using CPU")
+
+    if torch.cuda.is_available():
+        # cudnn related setting
+        cudnn.benchmark = config.CUDNN.BENCHMARK
+        cudnn.deterministic = config.CUDNN.DETERMINISTIC
+        cudnn.enabled = config.CUDNN.ENABLED
+        gpus = list(config.GPUS)
+        if torch.cuda.device_count() != len(gpus):
+            print("The gpu numbers do not match!")
+            return 0
     gpus = list(config.GPUS)
-    if torch.cuda.device_count() != len(gpus):
-        print("The gpu numbers do not match!")
-        return 0
     
     imgnet = 'imagenet' in config.MODEL.PRETRAINED
     model = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet)
  
     batch_size = config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus)
     # prepare data
-    crop_size = (config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
+    #crop_size = (config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
+    crop_size = (512, 512)
+
 
     #The eval() function evaluates the specified expression, if the expression is a legal Python statement, it will be executed.
-    train_dataset = eval('datasets.'+config.DATASET.DATASET)( # Chiedere
+    train_dataset = eval('datasets.'+config.DATASET.DATASET)(
                         root=config.DATASET.ROOT,
                         list_path=config.DATASET.TRAIN_SET,
                         num_classes=config.DATASET.NUM_CLASSES,
@@ -100,7 +115,8 @@ def main():
                         horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
                         gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
                         multiply=config.TRAIN.AUGMENTATION.TECHNIQUES.MULTIPLY,
-                        random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS)
+                        random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS,
+                        random_crop=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_CROP)
 
     trainloader = torch.utils.data.DataLoader(
         train_dataset,
@@ -112,19 +128,31 @@ def main():
     
 
     targetloader = None
-    if config.TRAIN.DACS.ENABLE:
+    if config.TRAIN.DACS.ENABLE or config.TRAIN.GAN.ENABLE:
         target_dataset = eval('datasets.'+config.DATASET.DATASET)(
-        root=config.DATASET.ROOT, list_path=config.DATASET.TARGET_SET,
-        num_classes=config.DATASET.NUM_CLASSES, multi_scale=config.TRAIN.MULTI_SCALE,
-        flip=config.TRAIN.FLIP, enable_augmentation=True, ignore_label=config.TRAIN.IGNORE_LABEL,
-        base_size=config.TRAIN.BASE_SIZE, crop_size=crop_size, scale_factor=config.TRAIN.SCALE_FACTOR,
+        root=config.DATASET.ROOT, 
+        list_path=config.DATASET.TARGET_SET,
+        num_classes=config.DATASET.NUM_CLASSES, 
+        multi_scale=config.TRAIN.MULTI_SCALE,
+        flip=config.TRAIN.FLIP, 
+        enable_augmentation=True,
+        ignore_label=config.TRAIN.IGNORE_LABEL,
+        base_size=config.TRAIN.BASE_SIZE,
+        crop_size=crop_size, 
+        scale_factor=config.TRAIN.SCALE_FACTOR,
         horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
         gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
         multiply=config.TRAIN.AUGMENTATION.TECHNIQUES.MULTIPLY,
-        random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS)
+        random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS,
+        random_crop=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_CROP)
+
         targetloader = torch.utils.data.DataLoader(
-        target_dataset, batch_size=batch_size, shuffle=config.TRAIN.SHUFFLE,
-        num_workers=config.WORKERS, pin_memory=False, drop_last=True)
+            target_dataset, 
+            batch_size=batch_size,
+            shuffle=config.TRAIN.SHUFFLE,
+            num_workers=config.WORKERS, 
+            pin_memory=False, 
+            drop_last=True)
 
 
     test_size = (config.TEST.IMAGE_SIZE[1], config.TEST.IMAGE_SIZE[0])
@@ -158,7 +186,10 @@ def main():
     bd_criterion = BondaryLoss()
     
     model = FullModel(model, sem_criterion, bd_criterion)
-    model = nn.DataParallel(model, device_ids=gpus).cuda()
+    if torch.cuda.is_available():
+        model = nn.DataParallel(model, device_ids=gpus).cuda() #per noi inutile
+    else:
+        model = model.to(device)
 
     # optimizer
     if config.TRAIN.OPTIMIZER == 'sgd':
@@ -197,6 +228,13 @@ def main():
     num_iters = config.TRAIN.END_EPOCH * epoch_iters
     real_end = 120+1 if 'camvid' in config.DATASET.TRAIN_SET else end_epoch
     
+    # grafici
+    plt.ion()  # Modalità interattiva
+    fig, ax = plt.subplots(2, 1, figsize=(10, 8))  # Due grafici: uno per le loss, uno per la mean IoU
+    train_loss_history = []
+    eval_loss_history = []
+    mean_iou_history = []
+
     for epoch in range(last_epoch, real_end):
 
         current_trainloader = trainloader
@@ -205,24 +243,60 @@ def main():
 
         if config.TRAIN.GAN.ENABLE:
             
-            discriminator = FCDiscriminator(num_classes=7).cuda()
-            optimizer_G = optim.SGD(model.parameters(), lr=2.5e-4, momentum=0.9, weight_decay=1e-4)
+            discriminator = FCDiscriminator(num_classes=8).to(device)
+            #optimizer_G = optim.SGD(model.parameters(), lr=2.5e-4, momentum=0.9, weight_decay=1e-4) paper infos, but our net is different
+            optimizer_G = optimizer
             optimizer_D = optim.Adam(discriminator.parameters(), lr=1e-4, betas=(0.9, 0.99)) #given by the paper
 
             if config.TRAIN.GAN.MULTI_LEVEL:
-                 train_adv_multi(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D, model, discriminator,discriminator, writer_dict)
+                train_adv_multi(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D, model, discriminator,discriminator, writer_dict)
             else:
                 train_adv(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D, model, discriminator, writer_dict)
            
         else:
-            train(config, epoch, config.TRAIN.END_EPOCH, 
+            train_loss=train(config, epoch, config.TRAIN.END_EPOCH, 
                   epoch_iters, config.TRAIN.LR, num_iters,
                   trainloader, optimizer, model, writer_dict, targetloader=targetloader)
 
+        train_loss_history.append(train_loss)
+
         if flag_rm == 1 or (epoch % 5 == 0 and epoch < real_end - 100) or (epoch >= real_end - 100):
             valid_loss, mean_IoU, IoU_array = validate(config, testloader, model, writer_dict)
+            eval_loss_history.append(valid_loss)
+            mean_iou_history.append(mean_IoU)
+
         if flag_rm == 1:
             flag_rm = 0
+
+        clear_output(wait=True)  # Pulisce l'output precedente
+        fig, ax = plt.subplots(2, 1, figsize=(10, 8))
+
+        ax[0].clear()
+        ax[0].plot(train_loss_history, label='Training Loss', color='blue')
+        ax[0].plot(eval_loss_history, label='Evaluation Loss', color='orange')
+        ax[0].set_title('Loss')
+        ax[0].set_xlabel('Epoch')
+        ax[0].set_ylabel('Loss')
+        ax[0].legend()
+        ax[0].grid()
+
+        ax[1].clear()
+        ax[1].plot(mean_iou_history, label='Mean IoU', color='green')
+        ax[1].set_title('Mean IoU')
+        ax[1].set_xlabel('Epoch')
+        ax[1].set_ylabel('IoU')
+        ax[1].legend()
+        ax[1].grid()
+
+        plt.show()
+
+        plot_dir = os.path.join("PIDNet-main", "plots")
+        os.makedirs(plot_dir, exist_ok=True)
+
+        # Salva e visualizza i grafici ogni 5 epoche
+        if epoch % 5 == 0 or epoch == real_end - 1:
+            plot_path = os.path.join(plot_dir, f'epoch_{epoch}_plot.png')
+            plt.savefig(plot_path)
 
         logger.info('=> saving checkpoint to {}'.format(
             final_output_dir + 'checkpoint.pth.tar'))
@@ -251,5 +325,7 @@ def main():
     logger.info('Hours: %d' % int((end-start)/3600))
     logger.info('Done')
 
+    plt.ioff()
+    plt.show()
 if __name__ == '__main__':
     main()

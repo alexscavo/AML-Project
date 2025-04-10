@@ -50,14 +50,14 @@ TRAIN:
     TECHNIQUES:
       HORIZONTAL_FLIP: false
       GAUSSIAN_BLUR: false
-      MULTIPLY: false
-      RANDOM_BRIGHTNESS: false
       RANDOM_CROP: false
+      GAUSSIAN_NOISE: true
+      COLOR_JITTER : false
   DACS:
     ENABLE: false
     THRESHOLD: 0.968 
   GAN:
-    ENABLE: true
+    ENABLE: false
     MULTI_LEVEL: false
 TEST:
   IMAGE_SIZE:

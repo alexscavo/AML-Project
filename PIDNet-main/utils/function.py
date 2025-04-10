@@ -102,7 +102,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
             
             sem_loss = loss_list_src[0] + lambda_weight * loss_list_mix[0]
             bce_loss = loss_list_src[1] + lambda_weight * loss_list_mix[1]
-        else: 
+        else:
             images, labels, bd_gts, _, _ = batch
             images = images.cuda()
             labels = labels.long().cuda()

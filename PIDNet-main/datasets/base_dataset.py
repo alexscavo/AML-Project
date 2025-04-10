@@ -190,7 +190,7 @@ class BaseDataset(data.Dataset):
 
 
 
-        #generazione edge
+        #It' important keeping the edge generation after the data augmentation
         edge = cv2.Canny(label, 0.1, 0.2)
         kernel = np.ones((edge_size, edge_size), np.uint8)
         if edge_pad:

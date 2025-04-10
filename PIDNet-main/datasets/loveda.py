@@ -10,7 +10,7 @@ import logging
 from PIL import Image
 import torchvision.transforms as tf
 import matplotlib.pyplot as plt
-from base_dataset import BaseDataset
+from .base_dataset import BaseDataset
 
 def compare_images(image, blurred_image):
     # Compute the absolute difference between the images
@@ -262,51 +262,16 @@ class LoveDA(BaseDataset):
         item = self.files[index]
         name = item["name"]
         image = cv2.imread(item["img"], cv2.IMREAD_COLOR)
-        # image = Image.open(item["img"]).convert('RGB')
-        # image = np.array(image) #H,W,3
+
         size = image.shape
-
-        """ if 'val' in self.list_path:
-            label = cv2.imread(item["label"], cv2.IMREAD_GRAYSCALE)
-            image = self.input_transform(image)
-            image = image.transpose((2, 0, 1))
-            #generazione edge
-            edge_size=4
-            edge = cv2.Canny(label, 0.1, 0.2)
-            kernel = np.ones((edge_size, edge_size), np.uint8)
-            edge = (cv2.dilate(edge, kernel, iterations=1)>50)*1.0
-
-            return image.copy(), label.copy(), edge.copy(), np.array(size), name
-        """
-        # color_map = Image.open(item["label"]).convert('RGB')
-        # color_map = np.array(color_map)
-        # label = self.color2label(color_map) #label diventa (H,W)
          
         label = cv2.imread(item["label"], cv2.IMREAD_GRAYSCALE)
 
 
 
         #edge (H,W)
-        image, label, edge = self.gen_sample(image, label,
-                                             self.multi_scale, self.flip, edge_pad=False,
-                                             edge_size=self.bd_dilate_size, city=False) #image diventa (C,H,W)
-        
-        # Augmentation
-        config_dict = {
-            "ENABLE": self.enable_augmentation, 
-            "PROBABILITY": self.augmentation_probability, 
-            "TECHNIQUES":{
-                "HORIZONTAL_FLIP": self.horizontal_flip, 
-                "GAUSSIAN_BLUR": self.gaussian_blur, 
-                "MULTIPLY": self.multiply, 
-                "RANDOM_BRIGHTNESS": self.random_brightness,
-                "RANDOM_CROP": self.random_crop
-            }
-            
-        }
-        # augmentation = DataAugmentation(config_dict,self)
-        # image, label, edge = augmentation.apply(image, label, edge)
-        
+        image, label, edge = self.gen_sample(image, label, edge_pad=False,
+                                             edge_size=self.bd_dilate_size, city=False, transform=self.transform, show=True) #image diventa (C,H,W)
 
         return image.copy(), label.copy(), edge.copy(), np.array(size), name
 

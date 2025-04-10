@@ -100,12 +100,23 @@ def main():
     #crop_size = (config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
     crop_size = (512, 512)
 
+    train_trasform = None
 
-    list_augmentations = [A.GaussNoise(std_range=(0.1, 0.2), p=0.5)]
+    if config.TRAIN.AUGMENTATION.ENABLE:
+        list_augmentations = []
+        if config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_CROP:
+            list_augmentations.append(A.RandomResizedCrop(1024, 1024, p=0.5))
+        if config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP:
+            list_augmentations.append(A.HorizontalFlip(p=0.5))
+        if config.TRAIN.AUGMENTATION.TECHNIQUES.COLOR_JITTER:
+            list_augmentations.append(A.ColorJitter(p=0.5))
+        if config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR:
+            list_augmentations.append(A.GaussianBlur(p=0.5))
+        if config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_NOISE:
+            list_augmentations.append(A.GaussNoise(var_limit=(100, 1000), p=1.0))
+        if len(list_augmentations) != 0:
+            train_trasform = A.Compose(list_augmentations)
 
-    train_trasform = A.Compose(list_augmentations)
-
-    
     #The eval() function evaluates the specified expression, if the expression is a legal Python statement, it will be executed.
     train_dataset = eval('datasets.'+config.DATASET.DATASET)(
                         root=config.DATASET.ROOT,
@@ -120,8 +131,6 @@ def main():
                         scale_factor=config.TRAIN.SCALE_FACTOR,
                         horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
                         gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
-                        multiply=config.TRAIN.AUGMENTATION.TECHNIQUES.MULTIPLY,
-                        random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS,
                         transform=train_trasform)
 
     trainloader = torch.utils.data.DataLoader(
@@ -148,8 +157,6 @@ def main():
         scale_factor=config.TRAIN.SCALE_FACTOR,
         horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
         gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
-        multiply=config.TRAIN.AUGMENTATION.TECHNIQUES.MULTIPLY,
-        random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS,
         random_crop=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_CROP)
 
         targetloader = torch.utils.data.DataLoader(
@@ -235,8 +242,8 @@ def main():
     real_end = 120+1 if 'camvid' in config.DATASET.TRAIN_SET else end_epoch
     
     # grafici
-    plt.ion()  # Modalità interattiva
-    fig, ax = plt.subplots(2, 1, figsize=(10, 8))  # Due grafici: uno per le loss, uno per la mean IoU
+    #plt.ion()  # Modalità interattiva
+    #fig, ax = plt.subplots(2, 1, figsize=(10, 8))  # Due grafici: uno per le loss, uno per la mean IoU
     train_loss_history = []
     eval_loss_history = []
     mean_iou_history = []
@@ -274,6 +281,8 @@ def main():
         if flag_rm == 1:
             flag_rm = 0
 
+        
+        """ 
         clear_output(wait=True)  # Pulisce l'output precedente
         fig, ax = plt.subplots(2, 1, figsize=(10, 8))
 
@@ -294,7 +303,7 @@ def main():
         ax[1].legend()
         ax[1].grid()
 
-        plt.show()
+        plt.show() """
 
         plot_dir = os.path.join("PIDNet-main", "plots")
         os.makedirs(plot_dir, exist_ok=True)

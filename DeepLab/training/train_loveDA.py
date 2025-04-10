@@ -196,8 +196,8 @@ if __name__ == '__main__':
     
     # Define optimizer and loss function
     # optimizer = optim.SGD(model.optim_parameters(0.0001), momentum=0.9, weight_decay=0.0001) Migliori parametri trovati
-    optimizer = optim.SGD(model.optim_parameters(0.0001), momentum=0.9, weight_decay=0.00001)
-    criterion = nn.CrossEntropyLoss(ignore_index=-1)
+    optimizer = optim.SGD(model.optim_parameters(0.0001), momentum=0.9, weight_decay=0.0001)
+    criterion = nn.CrossEntropyLoss(ignore_index=-1, weight=torch.tensor([0.116411, 0.266041, 0.607794, 1.511413, 0.745507, 0.712438, 3.040396]).cuda())
 
     # Training loop
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')

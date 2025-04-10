@@ -51,9 +51,10 @@ class FullModel(nn.Module):
 
     filler = torch.ones_like(labels) * config.TRAIN.IGNORE_LABEL
     try:
-        bd_label = torch.where(torch.sigmoid(outputs[-1][:, 0, :, :]) > 0.7, labels, filler)
+        bd_label = torch.where(torch.sigmoid(outputs[-1][:, 0, :, :]) > 0.8, labels, filler) # 0.7
         loss_sb = self.sem_loss([outputs[-2]], bd_label)
     except:
+        print("Error in loss computation")
         loss_sb = self.sem_loss([outputs[-2]], labels)
     loss = loss_s + loss_b + loss_sb
 

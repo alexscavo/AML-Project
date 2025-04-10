@@ -38,7 +38,7 @@ TRAIN:
   OPTIMIZER: sgd
   LR: 0.01
   WD: 0.0005
-  MOMENTUM: 0.9
+  MOMENTUM: 0.7 # 0.9
   NESTEROV: false
   FLIP: false
   MULTI_SCALE: false
@@ -50,7 +50,7 @@ TRAIN:
     TECHNIQUES:
       HORIZONTAL_FLIP: false
       GAUSSIAN_BLUR: false
-      MULTIPLY: false  
+      MULTIPLY: false
       RANDOM_BRIGHTNESS: false
       RANDOM_CROP: false
   DACS:

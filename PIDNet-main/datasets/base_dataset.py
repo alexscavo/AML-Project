@@ -4,12 +4,48 @@
 import cv2
 import numpy as np
 import random
-
+import albumentations as A
 from torch.nn import functional as F
 from torch.utils import data
-
+import matplotlib.pyplot as plt
 y_k_size = 6
 x_k_size = 6
+
+def show_images(x_original, x_augmented, unnormalize = False):
+    
+    if unnormalize:
+        # ImageNet mean and std
+        imagenet_mean = np.array([0.485, 0.456, 0.406])[:, None, None]
+        imagenet_std = np.array([0.229, 0.224, 0.225])[:, None, None]
+
+        # Denormalize using NumPy broadcasting
+        x_original = x_original * imagenet_std + imagenet_mean
+        x_augmented = x_augmented * imagenet_std + imagenet_mean
+
+        # Clip to [0, 1] in case of overflows
+        x_original = np.clip(x_original, 0, 1)
+        x_augmented = np.clip(x_augmented, 0, 1)
+
+        # Transpose to HWC for matplotlib
+        x_original = np.transpose(x_original, (1, 2, 0))
+        x_augmented = np.transpose(x_augmented, (1, 2, 0))
+
+    # Plot
+    fig, axs = plt.subplots(1, 2, figsize=(12, 6))
+    axs[0].imshow(x_original)
+    axs[0].set_title("Original Image")
+    axs[0].axis("off")
+
+    axs[1].imshow(x_augmented)
+    axs[1].set_title("Augmented Image")
+    axs[1].axis("off")
+
+    plt.tight_layout()
+    plt.show()
+
+
+
+
 
 class BaseDataset(data.Dataset):
     def __init__(self,
@@ -33,7 +69,7 @@ class BaseDataset(data.Dataset):
     def __len__(self):
         return len(self.files)
 
-    def input_transform(self, image, city=True):
+    def input_transform(self, image, city=False):
         if city:
             image = image.astype(np.float32)[:, :, ::-1]
         else:
@@ -138,35 +174,36 @@ class BaseDataset(data.Dataset):
         return image, label, edge
 
 
-    def gen_sample(self, image, label,
-                   multi_scale=True, is_flip=True, edge_pad=True, edge_size=4, city=True):
+    def gen_sample(self, image, label, edge_pad=True, edge_size=4, city=False, transform=None, show=False):
         
-        # Generazione edge
+
+        if transform:
+            # Pass both image and mask
+            augmented = transform(image=image, mask=label)
+            
+            if show:
+                show_images(image, augmented["image"])
+            
+            # Extract results
+            image = augmented['image']
+            label = augmented['mask']
+
+
+
+        #generazione edge
         edge = cv2.Canny(label, 0.1, 0.2)
         kernel = np.ones((edge_size, edge_size), np.uint8)
         if edge_pad:
             edge = edge[y_k_size:-y_k_size, x_k_size:-x_k_size]
             edge = np.pad(edge, ((y_k_size,y_k_size),(x_k_size,x_k_size)), mode='constant')
-        edge = (cv2.dilate(edge, kernel, iterations=1)>50)*1.0
-        
-        #scaling come data augmentation already provided (modifica casualmente la scala dell'immagine) (settato a false in configurazione)
-        #if multi_scale:
-        #    rand_scale = 0.5 + random.randint(0, self.scale_factor) / 10.0
-        #    image, label, edge = self.multi_scale_aug(image, label, edge,rand_scale=rand_scale)
+        edge = (cv2.dilate(edge, kernel, iterations=1)>50)*1.0    
+
 
         #trasformazioni di input
         image = self.input_transform(image, city=city) #Se city=True, converte l'immagine da RGB in BGR per opencv
         label = self.label_transform(label) #converte la label in un array di interi
         image = image.transpose((2, 0, 1)) #H,W,C -> C,H,W
 
-        # Flip come data augmentation already provided (settato a false in configurazione)
-        ''''
-        if is_flip:
-            flip = np.random.choice(2) * 2 - 1
-            image = image[:, :, ::flip]
-            label = label[:, ::flip]
-            edge = edge[:, ::flip]
-        '''
         return image, label, edge
 
 

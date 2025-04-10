@@ -40,23 +40,24 @@ def compare_images(image, blurred_image):
     return diff
 
 
-def show_images(x_original, x_augmented):
+def show_images(x_original, x_augmented, unnormalize = False):
     
-    # ImageNet mean and std
-    imagenet_mean = np.array([0.485, 0.456, 0.406])[:, None, None]
-    imagenet_std = np.array([0.229, 0.224, 0.225])[:, None, None]
+    if unnormalize:
+        # ImageNet mean and std
+        imagenet_mean = np.array([0.485, 0.456, 0.406])[:, None, None]
+        imagenet_std = np.array([0.229, 0.224, 0.225])[:, None, None]
 
-    # Denormalize using NumPy broadcasting
-    x_original = x_original * imagenet_std + imagenet_mean
-    x_augmented = x_augmented * imagenet_std + imagenet_mean
+        # Denormalize using NumPy broadcasting
+        x_original = x_original * imagenet_std + imagenet_mean
+        x_augmented = x_augmented * imagenet_std + imagenet_mean
 
-    # Clip to [0, 1] in case of overflows
-    x_original = np.clip(x_original, 0, 1)
-    x_augmented = np.clip(x_augmented, 0, 1)
+        # Clip to [0, 1] in case of overflows
+        x_original = np.clip(x_original, 0, 1)
+        x_augmented = np.clip(x_augmented, 0, 1)
 
-    # Transpose to HWC for matplotlib
-    x_original = np.transpose(x_original, (1, 2, 0))
-    x_augmented = np.transpose(x_augmented, (1, 2, 0))
+        # Transpose to HWC for matplotlib
+        x_original = np.transpose(x_original, (1, 2, 0))
+        x_augmented = np.transpose(x_augmented, (1, 2, 0))
 
     # Plot
     fig, axs = plt.subplots(1, 2, figsize=(12, 6))
@@ -121,32 +122,16 @@ class DataAugmentation:
 
     def gaussian_blur(self, image, label, edge, kernel_size=5, show = False):
         # Applica il Gaussian Blur solo all'immagine
-        if len(image.shape) == 3 and image.shape[0] <= 3:  # Se è in formato (C, H, W)
-            image = np.transpose(image, (1, 2, 0))  # Converti in (H, W, C)
+        transposed_image = image.transpose(1, 2, 0)  # From (C, H, W) to (H, W, C)
     
         # Apply Gaussian blur
-        blurred_image = cv2.GaussianBlur(image, (kernel_size, kernel_size), 0)
+        blurred_image = cv2.GaussianBlur(transposed_image, (kernel_size, kernel_size), 0)
         
         # If you want to return it to the PyTorch format (C, H, W)
         blurred_image = blurred_image.transpose(2, 0, 1)  # From (H, W, C) to (C, H, W)
 
         if show:
-            # Plot original and blurred images side by side
-            fig, axs = plt.subplots(1, 2, figsize=(10, 5))
-
-            # Display original image
-            axs[0].imshow(image)  # Image is already in (H, W, C) format for OpenCV
-            axs[0].set_title("Original Image")
-            axs[0].axis("off")
-
-            # Display blurred image
-            axs[1].imshow(blurred_image.transpose(1, 2, 0))  # Convert back to (H, W, C) for plotting
-            axs[1].set_title("Blurred Image")
-            axs[1].axis("off")
-
-            plt.show()  # Show the figure'''
-
-            '''compare_images(image, blurred_image)'''
+            show_images(image, blurred_image)
 
         return blurred_image, label, edge
     
@@ -200,7 +185,8 @@ class LoveDA(BaseDataset):
                  mean=[0.485, 0.456, 0.406],
                  std=[0.229, 0.224, 0.225],
                  bd_dilate_size=4,
-                 pseudo_label=False):
+                 pseudo_label=False,
+                 transform=None):
 
         # estende il base_dataset
         super(LoveDA, self).__init__(ignore_label, base_size,
@@ -230,7 +216,7 @@ class LoveDA(BaseDataset):
                             [3, 3, 3], [4, 4, 4], [5, 5, 5], [6, 6, 6], [7, 7, 7]]
         self.class_weights = torch.tensor([0.000000, 0.116411, 0.266041, 0.607794, 1.511413, 0.745507, 0.712438, 3.040396])
         self.pseudo_label = pseudo_label
-        
+        self.transform=transform
 
     def read_files(self):
         files = []
@@ -253,6 +239,16 @@ class LoveDA(BaseDataset):
             label[(color_map == v).sum(2) == 3] = i
 
         return label.astype(np.uint8)
+    
+    def convert_label(self, label, inverse=False):
+        temp = label.copy()
+        if inverse:
+            for v, k in self.label_mapping.items():
+                label[temp == k] = v
+        else:
+            for k, v in self.label_mapping.items():
+                label[temp == k] = v
+        return label
 
     # da label a immagine
     def label2color(self, label):
@@ -265,13 +261,30 @@ class LoveDA(BaseDataset):
     def __getitem__(self, index):
         item = self.files[index]
         name = item["name"]
-        image = Image.open(item["img"]).convert('RGB')
-        image = np.array(image) #H,W,3
+        image = cv2.imread(item["img"], cv2.IMREAD_COLOR)
+        # image = Image.open(item["img"]).convert('RGB')
+        # image = np.array(image) #H,W,3
         size = image.shape
 
-        color_map = Image.open(item["label"]).convert('RGB')
-        color_map = np.array(color_map)
-        label = self.color2label(color_map) #label diventa (H,W)
+        """ if 'val' in self.list_path:
+            label = cv2.imread(item["label"], cv2.IMREAD_GRAYSCALE)
+            image = self.input_transform(image)
+            image = image.transpose((2, 0, 1))
+            #generazione edge
+            edge_size=4
+            edge = cv2.Canny(label, 0.1, 0.2)
+            kernel = np.ones((edge_size, edge_size), np.uint8)
+            edge = (cv2.dilate(edge, kernel, iterations=1)>50)*1.0
+
+            return image.copy(), label.copy(), edge.copy(), np.array(size), name
+        """
+        # color_map = Image.open(item["label"]).convert('RGB')
+        # color_map = np.array(color_map)
+        # label = self.color2label(color_map) #label diventa (H,W)
+         
+        label = cv2.imread(item["label"], cv2.IMREAD_GRAYSCALE)
+
+
 
         #edge (H,W)
         image, label, edge = self.gen_sample(image, label,
@@ -291,8 +304,8 @@ class LoveDA(BaseDataset):
             }
             
         }
-        augmentation = DataAugmentation(config_dict,self)
-        image, label, edge = augmentation.apply(image, label, edge)
+        # augmentation = DataAugmentation(config_dict,self)
+        # image, label, edge = augmentation.apply(image, label, edge)
         
 
         return image.copy(), label.copy(), edge.copy(), np.array(size), name

@@ -5,7 +5,7 @@
 import argparse
 import os
 import pprint
-
+import albumentations as A
 import logging
 import timeit
 
@@ -30,6 +30,7 @@ from utils.utils import create_logger, FullModel
 import matplotlib.pyplot as plt
 from IPython.display import clear_output, Image, display
 import sys
+os.environ["NO_ALBUMENTATIONS_UPDATE"] = "1"
 
 
 def parse_args():
@@ -100,6 +101,11 @@ def main():
     crop_size = (512, 512)
 
 
+    list_augmentations = [A.GaussNoise(std_range=(0.1, 0.2), p=0.5)]
+
+    train_trasform = A.Compose(list_augmentations)
+
+    
     #The eval() function evaluates the specified expression, if the expression is a legal Python statement, it will be executed.
     train_dataset = eval('datasets.'+config.DATASET.DATASET)(
                         root=config.DATASET.ROOT,
@@ -116,7 +122,7 @@ def main():
                         gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
                         multiply=config.TRAIN.AUGMENTATION.TECHNIQUES.MULTIPLY,
                         random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS,
-                        random_crop=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_CROP)
+                        transform=train_trasform)
 
     trainloader = torch.utils.data.DataLoader(
         train_dataset,

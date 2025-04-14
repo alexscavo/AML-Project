@@ -23,7 +23,7 @@ import datasets
 from configs import config
 from configs import update_config
 from utils.criterion import CrossEntropy, OhemCrossEntropy, BondaryLoss
-from utils.function import train, validate, train_adv, train_adv_multi
+from utils.function import train, validate, train_adv, train_adv_multi, train_FDA
 from models.discriminator import FCDiscriminator
 from torch import optim
 from utils.utils import create_logger, FullModel
@@ -143,7 +143,7 @@ def main():
     
 
     targetloader = None
-    if config.TRAIN.DACS.ENABLE or config.TRAIN.GAN.ENABLE:
+    if config.TRAIN.DACS.ENABLE or config.TRAIN.GAN.ENABLE or config.TRAIN.FDA.ENABLE:
         target_dataset = eval('datasets.'+config.DATASET.DATASET)(
         root=config.DATASET.ROOT, 
         list_path=config.DATASET.TARGET_SET,
@@ -265,7 +265,10 @@ def main():
                 train_adv_multi(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D, model, discriminator,discriminator, writer_dict)
             else:
                 train_adv(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D, model, discriminator, writer_dict)
-           
+        
+        elif config.TRAIN.FDA.ENABLE:
+            train_loss=train_FDA(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters,trainloader,targetloader, optimizer, model, writer_dict)
+        
         else:
             train_loss=train(config, epoch, config.TRAIN.END_EPOCH, 
                   epoch_iters, config.TRAIN.LR, num_iters,

@@ -17,6 +17,7 @@ from utils.utils import AverageMeter
 from utils.utils import get_confusion_matrix
 from utils.utils import adjust_learning_rate
 from tools.classmix import classmix, generate_safe_edge_map
+import utils.fda as fda
 
 
 def train(config, epoch, num_epoch, epoch_iters, base_lr,
@@ -394,6 +395,7 @@ def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
     writer.add_scalar('train_loss_D', cumulative_loss_D, global_steps)
     writer_dict['train_global_steps'] = global_steps + 1
 
+#TODO: fix it as the single one
 def train_adv_multi(config, epoch, num_epoch, epoch_iters, base_lr,
                     num_iters, trainloader, targetloader, optimizer_G, 
                     optimizer_D1, optimizer_D2, model, discriminator1, discriminator2,
@@ -512,3 +514,78 @@ def train_adv_multi(config, epoch, num_epoch, epoch_iters, base_lr,
     writer.add_scalar('train_loss_D1', cumulative_loss_D1, global_steps)
     writer.add_scalar('train_loss_D2', cumulative_loss_D2, global_steps)
     writer_dict['train_global_steps'] = global_steps + 1
+
+
+def train_FDA(config, epoch, num_epoch, epoch_iters, base_lr,
+          num_iters, trainloader, targetloader, optimizer, model, writer_dict):
+    
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
+    # Training
+    model.train()
+
+    batch_time = AverageMeter()
+    ave_loss = AverageMeter()
+    ave_acc  = AverageMeter()
+    avg_sem_loss = AverageMeter()
+    avg_bce_loss = AverageMeter()
+    tic = time.time()
+    cur_iters = epoch*epoch_iters
+    writer = writer_dict['writer']
+    global_steps = writer_dict['train_global_steps']
+
+    for i_iter, (batch_source, batch_target) in enumerate(zip(trainloader, targetloader)):
+
+        images_source, labels, bd_gts, _, _ = batch_source
+        images_target, _, _, _, _ = batch_target
+
+        images_source = images_source.to(device)
+        images_target = images_target.to(device)
+        labels = labels.long().to(device)
+        bd_gts = bd_gts.float().to(device)
+
+        # FDA domain adaptation
+        images_source = fda.FDA_source_to_target( images_source, images_target)   
+    
+        losses, _, acc, loss_list = model(images_source, labels, bd_gts)
+        loss = losses.mean()
+        acc  = acc.mean()
+        sem_loss = loss_list[0]
+        bce_loss = loss_list[1]
+
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        # measure elapsed time
+        batch_time.update(time.time() - tic)
+        tic = time.time()
+
+        # update average loss
+        ave_loss.update(loss.item())
+        ave_acc.update(acc.item())
+        avg_sem_loss.update(sem_loss.mean().item())
+        avg_bce_loss.update(bce_loss.mean().item())
+
+        lr = adjust_learning_rate(optimizer,
+                                  base_lr,
+                                  num_iters,
+                                  i_iter+cur_iters)
+
+        if i_iter % config.PRINT_FREQ == 0:
+            msg = 'Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, ' \
+                  'lr: {}, Loss: {:.6f}, Acc:{:.6f}, Semantic loss: {:.6f}, BCE loss: {:.6f}, SB loss: {:.6f}' .format(
+                      epoch, num_epoch, i_iter, epoch_iters,
+                      batch_time.average(), [x['lr'] for x in optimizer.param_groups], ave_loss.average(),
+                      ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average(),ave_loss.average()-avg_sem_loss.average()-avg_bce_loss.average())
+            logging.info(msg)
+
+    writer.add_scalar('train_loss', ave_loss.average(), global_steps)
+    writer_dict['train_global_steps'] = global_steps + 1
+
+    # Ritorna la loss media per l'epoca
+    return ave_loss.average()

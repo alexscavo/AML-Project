@@ -59,6 +59,8 @@ TRAIN:
   GAN:
     ENABLE: false
     MULTI_LEVEL: false
+  FDA:
+    ENABLE: false
 TEST:
   IMAGE_SIZE:
   - 2048

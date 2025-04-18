@@ -271,7 +271,7 @@ class LoveDA(BaseDataset):
 
         #edge (H,W)
         image, label, edge = self.gen_sample(image, label, edge_pad=False,
-                                             edge_size=self.bd_dilate_size, city=False, transform=self.transform, show=True) #image diventa (C,H,W)
+                                             edge_size=self.bd_dilate_size, city=False, transform=self.transform, show=False) #image diventa (C,H,W)
 
         return image.copy(), label.copy(), edge.copy(), np.array(size), name
 

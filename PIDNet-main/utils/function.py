@@ -395,6 +395,9 @@ def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
     writer.add_scalar('train_loss_D', cumulative_loss_D, global_steps)
     writer_dict['train_global_steps'] = global_steps + 1
 
+    # Ritorna la loss media per l'epoca
+    return ave_loss.average()
+
 #TODO: fix it as the single one
 def train_adv_multi(config, epoch, num_epoch, epoch_iters, base_lr,
                     num_iters, trainloader, targetloader, optimizer_G, 
@@ -514,6 +517,9 @@ def train_adv_multi(config, epoch, num_epoch, epoch_iters, base_lr,
     writer.add_scalar('train_loss_D1', cumulative_loss_D1, global_steps)
     writer.add_scalar('train_loss_D2', cumulative_loss_D2, global_steps)
     writer_dict['train_global_steps'] = global_steps + 1
+
+    # Ritorna la loss media per l'epoca
+    return ave_loss.average()
 
 
 def train_FDA(config, epoch, num_epoch, epoch_iters, base_lr,

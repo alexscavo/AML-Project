@@ -302,76 +302,83 @@ def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
     else:
         device = torch.device("cpu")
 
+    cumulative_loss_G = 0.0
+    cumulative_loss_adv = 0.0
+    cumulative_loss_D = 0.0
+    count=0
+
     for i_iter, (batch_source, batch_target) in enumerate(zip(trainloader, targetloader)):
         
         optimizer_G.zero_grad()
         optimizer_D.zero_grad()
 
-        cumulative_loss_G = 0.0
-        cumulative_loss_D = 0.0
+        #Train G
+        # don't accumulate grads in D
+        for param in discriminator.parameters():
+            param.requires_grad = False
 
-        for sub_iter in range(iter_size): #to make the batch size bigger
+        images_source, labels, bd_gts, _, _ = batch_source
+        images_target, _, _, _, _ = batch_target
 
-            #Train G
-            # don't accumulate grads in D
-            for param in discriminator.parameters():
-                param.requires_grad = False
+        images_source = images_source.to(device)
+        images_target = images_target.to(device)
+        labels = labels.long().to(device)
+        bd_gts = bd_gts.float().to(device)
 
-          
 
-            images_source, labels, bd_gts, _, _ = batch_source
-            images_target, _, _, _, _ = batch_target
+        # ------------------ TRAINING DEL GENERATORE ------------------
+        # 1. Forward seg net per dominio sorgente (supervisionato)
+        loss_seg1, output_source, _, _ = model(images_source, labels, bd_gts) #retun delle 3 loss sommate ma unsqueezed
+        loss_seg1 = torch.squeeze(loss_seg1, 0).mean()
+        loss_seg1.backward()
 
-            images_source = images_source.to(device)
-            images_target = images_target.to(device)
-            labels = labels.long().to(device)
-            bd_gts = bd_gts.float().to(device)
+        cumulative_loss_G += loss_seg1.data.cpu().numpy()
 
-            # Checks
-            #print(f"Labels dtype: {labels.dtype}, shape: {labels.shape}, unique values: {torch.unique(labels)}")
-            #assert labels.dtype == torch.long, "Labels devono essere di tipo torch.LongTensor"
-            #assert labels.min() >= 0, f"Labels contengono valori negativi: {labels.min()}"
-            #assert labels.max() < 8, f"Labels contengono valori >= n_classes: {labels.max()}"
+        # Forward pass per il dominio target (adversarial)
+        _, output_target, _, _ = model(images_target, labels, bd_gts)
+        fake_preds = discriminator(F.softmax(output_target[-1], dim=1))
 
+        bce = nn.BCEWithLogitsLoss()
+        loss_adv = bce(fake_preds, torch.ones_like(fake_preds))
+        loss_adv = loss_adv * lambda_adv
+        cumulative_loss_G += loss_adv.item()
+        loss_adv.backward()
+
+        cumulative_loss_adv += loss_adv.data.cpu().numpy()
+
+
+        # ------------------ TRAINING DEL DISCRIMINATORE------------------
+        for param in discriminator.parameters():
+            param.requires_grad = True
+
+        output_source = [t.detach() for t in output_source]
+        output_target = [t.detach() for t in output_target]
+
+       
+        # train su source
+        fake_preds1_d = discriminator(F.softmax(output_source[-1], dim=1)) 
+        bce = nn.BCEWithLogitsLoss()
+        loss_D_src = bce(fake_preds1_d, torch.zeros_like(fake_preds1_d))
+        loss_D_src.backward()
+
+        cumulative_loss_D += loss_D_src.data.cpu().numpy()
+     
         
+        # train su target
+        fake_preds1_d_t = discriminator(F.softmax(output_target[-1], dim=1)) 
+        bce = nn.BCEWithLogitsLoss()
+        loss_D_trg = bce(fake_preds1_d_t, torch.ones_like(fake_preds1_d_t))
+        loss_D_trg.backward()
 
-            # 1. Forward seg net per dominio sorgente (supervisionato)
-            loss_seg1, output_source, _, _ = model(images_source, labels, bd_gts) 
-            loss_seg1 = loss_seg1.squeeze().mean()  
-            loss_seg1 = loss_seg1 / iter_size
-            cumulative_loss_G += loss_seg1.item()
-            loss_seg1.backward()
+        cumulative_loss_D += loss_D_trg.data.cpu().numpy()
 
-            # Forward pass per il dominio target (adversarial)
-            output_target = model(images_target, labels, bd_gts)[1]
-            fake_preds = discriminator(F.softmax(output_target[-2], dim=1))
-            loss_adv = nn.BCEWithLogitsLoss()(fake_preds, torch.ones_like(fake_preds))
-            loss_adv = (loss_adv * lambda_adv) / iter_size  # Normalizza la loss
-            cumulative_loss_G += loss_adv.item()
-            loss_adv.backward()
-        
-
-            output_source = [t.detach() for t in output_source]
-            output_target = [t.detach() for t in output_target]
-
-            for param in discriminator.parameters():
-                param.requires_grad = True
-
-            # Aggiorna il discriminatore
-            real_preds = discriminator(F.softmax(output_source[-2], dim=1)) #TODO: check -2
-            fake_preds = discriminator(F.softmax(output_target[-2], dim=1))
-            loss_D_real = nn.BCEWithLogitsLoss()(real_preds, torch.ones_like(real_preds))
-            loss_D_fake = nn.BCEWithLogitsLoss()(fake_preds, torch.zeros_like(fake_preds))
-            loss_D = (loss_D_real + loss_D_fake) / 2
-            loss_D = loss_D / iter_size  # Normalizza la loss
-            cumulative_loss_D += loss_D.item()
-            loss_D.backward()
-
-        # Aggiorna i pesi dopo tutte le sub-iterazioni
+        #--
+       
         optimizer_G.step()
         optimizer_D.step()
 
         # Log
+        count+=1
         batch_time.update(time.time() - tic)
         tic = time.time()
 
@@ -384,21 +391,20 @@ def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
 
         if i_iter % config.PRINT_FREQ == 0:
             msg = ('Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, lr: {}, '
-                   'Loss_G: {:.6f}, Loss_D: {:.6f}, Acc: {:.6f}, Semantic Loss: {:.6f}, BCE Loss: {:.6f}').format(
-                      epoch, num_epoch, i_iter, epoch_iters, batch_time.average(),
-                      [x['lr'] for x in optimizer_G.param_groups], ave_loss.average(), cumulative_loss_D,
-                      ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average()
+                   'Loss_seg: {:.6f}, loss_adv: {:.6f}, loss_D_src: {:.6f}, loss_D_trg: {:.6f}').format(
+                      epoch, num_epoch, i_iter, epoch_iters, batch_time.average(),[x['lr'] for x in optimizer_G.param_groups], 
+                      loss_seg1, loss_adv, loss_D_src, loss_D_trg
                   )
             logging.info(msg)
 
-    writer.add_scalar('train_loss_G', ave_loss.average(), global_steps)
-    writer.add_scalar('train_loss_D', cumulative_loss_D, global_steps)
-    writer_dict['train_global_steps'] = global_steps + 1
+    #writer.add_scalar('train_loss_G', ave_loss.average(), global_steps)
+    #writer.add_scalar('train_loss_D', cumulative_loss_D, global_steps)
+    #writer_dict['train_global_steps'] = global_steps + 1
 
     # Ritorna la loss media per l'epoca
-    return ave_loss.average()
+    return cumulative_loss_adv + cumulative_loss_D +cumulative_loss_G / count
 
-#TODO: fix it as the single one
+
 def train_adv_multi(config, epoch, num_epoch, epoch_iters, base_lr,
                     num_iters, trainloader, targetloader, optimizer_G, 
                     optimizer_D1, optimizer_D2, model, discriminator1, discriminator2,
@@ -420,106 +426,132 @@ def train_adv_multi(config, epoch, num_epoch, epoch_iters, base_lr,
     writer = writer_dict['writer']
     global_steps = writer_dict['train_global_steps']
 
-    # Iteratore per il targetloader
-    target_iter = iter(targetloader)
+    if torch.cuda.is_available():
+        device = torch.device("cuda")
+    elif torch.backends.mps.is_available():
+        device = torch.device("mps")
+    else:
+        device = torch.device("cpu")
 
-    for i_iter, batch_source in enumerate(trainloader):
+    cumulative_loss_G = 0.0
+    cumulative_loss_adv = 0.0
+    cumulative_loss_D1 = 0.0
+    cumulative_loss_D2 = 0.0
+    count=0
+
+    for i_iter, (batch_source, batch_target) in enumerate(zip(trainloader, targetloader)):
+
         optimizer_G.zero_grad()
         optimizer_D1.zero_grad()
         optimizer_D2.zero_grad()
 
-        cumulative_loss_G = 0.0
-        cumulative_loss_D1 = 0.0
-        cumulative_loss_D2 = 0.0
+      
+        #Train G
+        # don't accumulate grads in D
+        for param in discriminator1.parameters():
+            param.requires_grad = False
+        for param in discriminator2.parameters():
+            param.requires_grad = False
 
-        for sub_iter in range(iter_size):  # Accumula i gradienti su più sotto-iterazioni
-            # Ottieni il batch target
-            try:
-                batch_target = next(target_iter)
-            except StopIteration:
-                target_iter = iter(targetloader)
-                batch_target = next(target_iter)
+        
+        images_source, labels, bd_gts, _, _ = batch_source
+        images_target, _, _, _, _ = batch_target
 
-            # Estrai i dati dal batch
-            images_source, labels, bd_gts, _, _ = batch_source
-            images_target, _, _, _, _ = batch_target
+        images_source = images_source.to(device)
+        images_target = images_target.to(device)
+        labels = labels.long().to(device)
+        bd_gts = bd_gts.float().to(device)
 
-            images_source = images_source.cuda()
-            images_target = images_target.cuda()
-            labels = labels.long().cuda()
-            bd_gts = bd_gts.float().cuda()
+        # ------------------ TRAINING DEL GENERATORE ------------------
+        # 1. Forward seg net per dominio sorgente (supervisionato)
+        loss_seg1, outputs_source, _, _ = model(images_source, labels, bd_gts) #retun delle 3 loss sommate ma unsqueezed
+        loss_seg1 = torch.squeeze(loss_seg1, 0).mean()
+        loss_seg1.backward()
 
-            # ------------------ TRAINING DEL GENERATORE ------------------
-            # Forward pass della rete di segmentazione (Supervisionato su sorgente)
-            losses, output_source_final, output_source_intermediate, acc, loss_list = model(images_source, labels, bd_gts)
-            loss_seg = losses.mean()
+        cumulative_loss_G += loss_seg1.data.cpu().numpy()
+        
 
-            # Forward pass della rete di segmentazione su target (Non supervisionato)
-            output_target_final, output_target_intermediate = model(images_target)
+        # Forward pass per il dominio target (adversarial)
+        _, outputs_target, _, _ = model(images_target, labels, bd_gts)
+        fake_preds1 = discriminator1(F.softmax(outputs_target[-2], dim=1)) #-2 here means -3 layer
+        fake_preds2 = discriminator2(F.softmax(outputs_target[-1], dim=1)) #-1 here means -2 layer
 
-            # Calcola la loss adversarial per il generatore
-            fake_preds1 = discriminator1(output_target_final)
-            fake_preds2 = discriminator2(output_target_intermediate)
+        bce = nn.BCEWithLogitsLoss()
+        loss_adv1 = bce(fake_preds1, torch.ones_like(fake_preds1))
+        loss_adv2 = bce(fake_preds2, torch.ones_like(fake_preds2))
 
-            loss_adv1 = nn.BCEWithLogitsLoss()(fake_preds1, torch.ones_like(fake_preds1))
-            loss_adv2 = nn.BCEWithLogitsLoss()(fake_preds2, torch.ones_like(fake_preds2))
+        loss_adv = lambda_adv1 * loss_adv1 + lambda_adv2 * loss_adv2
+        loss_adv.backward()
 
-            loss_G = (loss_seg + lambda_adv1 * loss_adv1 + lambda_adv2 * loss_adv2) / iter_size
-            cumulative_loss_G += loss_G.item()
-            loss_G.backward()
+        cumulative_loss_adv += loss_adv.data.cpu().numpy()
 
-            # ------------------ TRAINING DEL DISCRIMINATORE 1 ------------------
-            real_preds1 = discriminator1(output_source_final.detach())
-            fake_preds1 = discriminator1(output_target_final.detach())
+        # ------------------ TRAINING DEL DISCRIMINATORE------------------
 
-            loss_D1_real = nn.BCEWithLogitsLoss()(real_preds1, torch.ones_like(real_preds1))
-            loss_D1_fake = nn.BCEWithLogitsLoss()(fake_preds1, torch.zeros_like(fake_preds1))
-            loss_D1 = (loss_D1_real + loss_D1_fake) / 2 / iter_size
-            cumulative_loss_D1 += loss_D1.item()
-            loss_D1.backward()
+        
+        for param in discriminator1.parameters():
+                param.requires_grad = True
 
-            # ------------------ TRAINING DEL DISCRIMINATORE 2 ------------------
-            real_preds2 = discriminator2(output_source_intermediate.detach())
-            fake_preds2 = discriminator2(output_target_intermediate.detach())
+        for param in discriminator2.parameters():
+                param.requires_grad = True
 
-            loss_D2_real = nn.BCEWithLogitsLoss()(real_preds2, torch.ones_like(real_preds2))
-            loss_D2_fake = nn.BCEWithLogitsLoss()(fake_preds2, torch.zeros_like(fake_preds2))
-            loss_D2 = (loss_D2_real + loss_D2_fake) / 2 / iter_size
-            cumulative_loss_D2 += loss_D2.item()
-            loss_D2.backward()
+    
+        outputs_source = [t.detach() for t in outputs_source]
+        outputs_target = [t.detach() for t in outputs_target]
 
-        # Aggiorna i pesi dopo tutte le sotto-iterazioni
+        # train su source
+        fake_preds1_d = discriminator1(F.softmax(outputs_source[-2], dim=1)) #-2 here means -3 layer
+        fake_preds2_d = discriminator2(F.softmax(outputs_source[-1], dim=1)) #-1 here means -2 layer
+
+        bce = nn.BCEWithLogitsLoss()
+        loss_D1_src = bce(fake_preds1_d, torch.zeros_like(fake_preds1_d))
+        loss_D2_src = bce(fake_preds2_d, torch.zeros_like(fake_preds2_d))
+
+        loss_D_src = (loss_D1_src + loss_D2_src) / 2
+        loss_D_src.backward()
+
+        cumulative_loss_D2 += loss_D_src.data.cpu().numpy()
+     
+        
+        # train su target
+        fake_preds1_d_t = discriminator1(F.softmax(outputs_target[-2], dim=1)) #-2 here means -3 layer
+        fake_preds2_d_t = discriminator2(F.softmax(outputs_target[-1], dim=1)) #-1 here means -2 layer
+
+        bce = nn.BCEWithLogitsLoss()
+        loss_D1_trg = bce(fake_preds1_d_t, torch.ones_like(fake_preds1_d_t))
+        loss_D2_trg = bce(fake_preds2_d_t, torch.ones_like(fake_preds2_d_t))
+
+        loss_D_trg = (loss_D1_trg + loss_D2_trg) / 2
+        loss_D_trg.backward()
+
+        cumulative_loss_D1 += loss_D_trg.data.cpu().numpy()
+
+        #--
         optimizer_G.step()
         optimizer_D1.step()
         optimizer_D2.step()
 
         # Log
+        count+=1
         batch_time.update(time.time() - tic)
         tic = time.time()
-
-        ave_loss.update(cumulative_loss_G)
-        ave_acc.update(acc.mean().item())
-        avg_sem_loss.update(loss_list[0].mean().item())
-        avg_bce_loss.update(loss_list[1].mean().item())
 
         lr = adjust_learning_rate(optimizer_G, base_lr, num_iters, i_iter + cur_iters)
 
         if i_iter % config.PRINT_FREQ == 0:
             msg = ('Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, lr: {}, '
-                   'Loss_G: {:.6f}, Loss_D1: {:.6f}, Loss_D2: {:.6f}, Acc: {:.6f}, Semantic Loss: {:.6f}, BCE Loss: {:.6f}').format(
-                      epoch, num_epoch, i_iter, epoch_iters, batch_time.average(),
-                      [x['lr'] for x in optimizer_G.param_groups], ave_loss.average(), cumulative_loss_D1,
-                      cumulative_loss_D2, ave_acc.average(), avg_sem_loss.average(), avg_bce_loss.average()
+                   'Loss_seg: {:.6f}, loss_adv: {:.6f}, loss_D_src: {:.6f}, loss_D_trg: {:.6f}').format(
+                      epoch, num_epoch, i_iter, epoch_iters, batch_time.average(),[x['lr'] for x in optimizer_G.param_groups], 
+                      loss_seg1, loss_adv, loss_D_src, loss_D_trg
                   )
             logging.info(msg)
 
-    writer.add_scalar('train_loss_G', ave_loss.average(), global_steps)
-    writer.add_scalar('train_loss_D1', cumulative_loss_D1, global_steps)
-    writer.add_scalar('train_loss_D2', cumulative_loss_D2, global_steps)
-    writer_dict['train_global_steps'] = global_steps + 1
+    #writer.add_scalar('train_loss_G', ave_loss.average(), global_steps)
+    #writer.add_scalar('train_loss_D1', cumulative_loss_D1, global_steps)
+    #writer.add_scalar('train_loss_D2', cumulative_loss_D2, global_steps)
+    #writer_dict['train_global_steps'] = global_steps + 1
 
     # Ritorna la loss media per l'epoca
-    return ave_loss.average()
+    return cumulative_loss_adv + cumulative_loss_D1 + cumulative_loss_D2 +cumulative_loss_G / count
 
 
 def train_FDA(config, epoch, num_epoch, epoch_iters, base_lr,

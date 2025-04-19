@@ -157,7 +157,8 @@ def main():
         scale_factor=config.TRAIN.SCALE_FACTOR,
         horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
         gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
-        random_crop=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_CROP)
+        random_crop=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_CROP,
+        transform=train_trasform)
 
         targetloader = torch.utils.data.DataLoader(
             target_dataset, 

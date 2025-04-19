@@ -402,7 +402,11 @@ def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
     #writer_dict['train_global_steps'] = global_steps + 1
 
     # Ritorna la loss media per l'epoca
-    return cumulative_loss_adv + cumulative_loss_D +cumulative_loss_G / count
+    final_loss = cumulative_loss_adv + cumulative_loss_D +cumulative_loss_G / count
+    msg = ('Epoch: [{}/{}], loss_sum: {:.6f}').format(epoch, num_epoch, final_loss)
+    logging.info(msg)
+
+    return final_loss
 
 
 def train_adv_multi(config, epoch, num_epoch, epoch_iters, base_lr,
@@ -551,7 +555,11 @@ def train_adv_multi(config, epoch, num_epoch, epoch_iters, base_lr,
     #writer_dict['train_global_steps'] = global_steps + 1
 
     # Ritorna la loss media per l'epoca
-    return cumulative_loss_adv + cumulative_loss_D1 + cumulative_loss_D2 +cumulative_loss_G / count
+    final_loss = cumulative_loss_adv + cumulative_loss_D1 + cumulative_loss_D2 +cumulative_loss_G / count
+    msg = ('Epoch: [{}/{}], loss_sum: {:.6f}').format(epoch, num_epoch, final_loss)
+    logging.info(msg)
+    
+    return final_loss
 
 
 def train_FDA(config, epoch, num_epoch, epoch_iters, base_lr,

@@ -58,7 +58,7 @@ TRAIN:
     THRESHOLD: 0.968 
   GAN:
     ENABLE: true
-    MULTI_LEVEL: false
+    MULTI_LEVEL: true
   FDA:
     ENABLE: false
 TEST:

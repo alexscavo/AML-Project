@@ -173,7 +173,7 @@ class LoveDA(BaseDataset):
                  flip=False,
                  ignore_label=0,
                  base_size=1024,
-                 crop_size=(512, 512),
+                 crop_size=(1024, 1024),
                  scale_factor=16, #multi scale usato come data augmentation alredy provided
                  enable_augmentation=False,
                  augmentation_probability=0.5, 

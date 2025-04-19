@@ -98,7 +98,7 @@ def main():
     batch_size = config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus)
     # prepare data
     #crop_size = (config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
-    crop_size = (512, 512)
+    crop_size = (1024, 1024)
 
     train_trasform = None
 

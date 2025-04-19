@@ -1,5 +1,5 @@
 #------------------------------------------------------------------------
-    #Discriminator based on DCGAN
+    #Discriminator based on GAN
 
 import torch.nn as nn
 import torch.nn.functional as F

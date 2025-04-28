@@ -22,11 +22,13 @@ import models
 import datasets
 from configs import config
 from configs import update_config
+import models.pidnetMulti
+import models.pidnet
 from utils.criterion import CrossEntropy, OhemCrossEntropy, BondaryLoss
 from utils.function import train, validate, train_adv, train_adv_multi, train_FDA
 from models.discriminator import FCDiscriminator
 from torch import optim
-from utils.utils import create_logger, FullModel
+from utils.utils import create_logger, FullModel, FullModelMulti
 import matplotlib.pyplot as plt
 from IPython.display import clear_output, Image, display
 import sys
@@ -93,7 +95,11 @@ def main():
     gpus = list(config.GPUS)
     
     imgnet = 'imagenet' in config.MODEL.PRETRAINED
-    model = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet)
+
+    if config.TRAIN.GAN.MULTI_LEVEL:
+        model = models.pidnetMulti.get_seg_model(config, imgnet_pretrained=imgnet)
+    else:
+        model = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet)
  
     batch_size = config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus)
     # prepare data
@@ -199,7 +205,11 @@ def main():
 
     bd_criterion = BondaryLoss()
     
-    model = FullModel(model, sem_criterion, bd_criterion)
+    if config.TRAIN.GAN.MULTI_LEVEL:
+        model = FullModelMulti(model, sem_criterion, bd_criterion)
+    else :
+        model = FullModel(model, sem_criterion, bd_criterion)
+
     if torch.cuda.is_available():
         model = nn.DataParallel(model, device_ids=gpus).cuda() #per noi inutile
     else:

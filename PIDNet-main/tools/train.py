@@ -18,6 +18,7 @@ import torch.optim
 from tensorboardX import SummaryWriter
 
 import _init_paths
+from datasets.fda_dataset import FDADataset
 import models
 import datasets
 from configs import config
@@ -52,6 +53,27 @@ def parse_args():
     update_config(config, args) #aggiorna config con tutti i parametri trovati nel file di configurazione
 
     return args
+
+def plot_metrics(train_loss_history, eval_loss_history, mean_iou_history):
+    fig, ax = plt.subplots(2, 1, figsize=(10, 8))
+
+    ax[0].plot(train_loss_history, label='Training Loss', color='blue', marker='o')
+    ax[0].plot(eval_loss_history, label='Evaluation Loss', color='orange', marker='x')
+    ax[0].set_title('Loss')
+    ax[0].set_xlabel('Epoch')
+    ax[0].set_ylabel('Loss')
+    ax[0].legend()
+    ax[0].grid()
+
+    ax[1].plot(mean_iou_history, label='Mean IoU', color='green', marker='o')
+    ax[1].set_title('Mean IoU')
+    ax[1].set_xlabel('Epoch')
+    ax[1].set_ylabel('IoU')
+    ax[1].legend()
+    ax[1].grid()
+
+    plt.tight_layout()
+    plt.show()
 
 
 def main():
@@ -123,21 +145,41 @@ def main():
         if len(list_augmentations) != 0:
             train_trasform = A.Compose(list_augmentations)
 
-    #The eval() function evaluates the specified expression, if the expression is a legal Python statement, it will be executed.
-    train_dataset = eval('datasets.'+config.DATASET.DATASET)(
-                        root=config.DATASET.ROOT,
-                        list_path=config.DATASET.TRAIN_SET,
-                        num_classes=config.DATASET.NUM_CLASSES,
-                        multi_scale=config.TRAIN.MULTI_SCALE,
-                        flip=config.TRAIN.FLIP,
-                        enable_augmentation=True,
-                        ignore_label=config.TRAIN.IGNORE_LABEL,
-                        base_size=config.TRAIN.BASE_SIZE,
-                        crop_size=crop_size,
-                        scale_factor=config.TRAIN.SCALE_FACTOR,
-                        horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
-                        gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
-                        transform=train_trasform)
+    if not  config.TRAIN.FDA.ENABLE:
+        #The eval() function evaluates the specified expression, if the expression is a legal Python statement, it will be executed.
+        train_dataset = eval('datasets.'+config.DATASET.DATASET)(
+                            root=config.DATASET.ROOT,
+                            list_path=config.DATASET.TRAIN_SET,
+                            num_classes=config.DATASET.NUM_CLASSES,
+                            multi_scale=config.TRAIN.MULTI_SCALE,
+                            flip=config.TRAIN.FLIP,
+                            ignore_label=config.TRAIN.IGNORE_LABEL,
+                            base_size=config.TRAIN.BASE_SIZE,
+                            crop_size=crop_size,
+                            scale_factor=config.TRAIN.SCALE_FACTOR,
+                            enable_augmentation=True,
+                            horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
+                            gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
+                            transform=train_trasform)
+    
+    #per fda faccio un dataset dove il source è influenzarto dal target
+    else:
+        train_dataset = FDADataset(
+            root=config.DATASET.ROOT,
+            source_list_path=config.DATASET.TRAIN_SET,
+            target_list_path=config.DATASET.TARGET_SET,
+            num_classes=config.DATASET.NUM_CLASSES,
+            multi_scale=config.TRAIN.MULTI_SCALE,
+            flip=config.TRAIN.FLIP,
+            ignore_label=config.TRAIN.IGNORE_LABEL,
+            base_size=config.TRAIN.BASE_SIZE,
+            crop_size=crop_size,
+            scale_factor=config.TRAIN.SCALE_FACTOR,
+            enable_augmentation=True,
+            horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
+            gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
+            transform=train_trasform
+        )
 
     trainloader = torch.utils.data.DataLoader(
         train_dataset,
@@ -151,20 +193,19 @@ def main():
     targetloader = None
     if config.TRAIN.DACS.ENABLE or config.TRAIN.GAN.ENABLE or config.TRAIN.FDA.ENABLE:
         target_dataset = eval('datasets.'+config.DATASET.DATASET)(
-        root=config.DATASET.ROOT, 
-        list_path=config.DATASET.TARGET_SET,
-        num_classes=config.DATASET.NUM_CLASSES, 
-        multi_scale=config.TRAIN.MULTI_SCALE,
-        flip=config.TRAIN.FLIP, 
-        enable_augmentation=True,
-        ignore_label=config.TRAIN.IGNORE_LABEL,
-        base_size=config.TRAIN.BASE_SIZE,
-        crop_size=crop_size, 
-        scale_factor=config.TRAIN.SCALE_FACTOR,
-        horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
-        gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
-        random_crop=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_CROP,
-        transform=train_trasform)
+                            root=config.DATASET.ROOT, 
+                            list_path=config.DATASET.TARGET_SET,
+                            num_classes=config.DATASET.NUM_CLASSES, 
+                            multi_scale=config.TRAIN.MULTI_SCALE,
+                            flip=config.TRAIN.FLIP, 
+                            enable_augmentation=True,
+                            ignore_label=config.TRAIN.IGNORE_LABEL,
+                            base_size=config.TRAIN.BASE_SIZE,
+                            crop_size=crop_size, 
+                            scale_factor=config.TRAIN.SCALE_FACTOR,
+                            horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
+                            gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
+                            transform=train_trasform)
 
         targetloader = torch.utils.data.DataLoader(
             target_dataset, 
@@ -298,37 +339,9 @@ def main():
         if flag_rm == 1:
             flag_rm = 0
 
-        
-        """ 
-        clear_output(wait=True)  # Pulisce l'output precedente
-        fig, ax = plt.subplots(2, 1, figsize=(10, 8))
-
-        ax[0].clear()
-        ax[0].plot(train_loss_history, label='Training Loss', color='blue')
-        ax[0].plot(eval_loss_history, label='Evaluation Loss', color='orange')
-        ax[0].set_title('Loss')
-        ax[0].set_xlabel('Epoch')
-        ax[0].set_ylabel('Loss')
-        ax[0].legend()
-        ax[0].grid()
-
-        ax[1].clear()
-        ax[1].plot(mean_iou_history, label='Mean IoU', color='green')
-        ax[1].set_title('Mean IoU')
-        ax[1].set_xlabel('Epoch')
-        ax[1].set_ylabel('IoU')
-        ax[1].legend()
-        ax[1].grid()
-
-        plt.show() """
-
-        plot_dir = os.path.join("PIDNet-main", "plots")
-        os.makedirs(plot_dir, exist_ok=True)
-
-        # Salva e visualizza i grafici ogni 5 epoche
         if epoch % 5 == 0 or epoch == real_end - 1:
-            plot_path = os.path.join(plot_dir, f'epoch_{epoch}_plot.png')
-            plt.savefig(plot_path)
+            plot_metrics(train_loss_history, eval_loss_history, mean_iou_history)
+
 
         logger.info('=> saving checkpoint to {}'.format(
             final_output_dir + 'checkpoint.pth.tar'))

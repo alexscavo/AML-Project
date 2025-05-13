@@ -278,7 +278,7 @@ def test(config, test_dataset, testloader, model,
 
 def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
           num_iters, trainloader, targetloader, optimizer_G, optimizer_D, 
-          model, discriminator, writer_dict, lambda_adv=0.001, iter_size=4):
+          model, discriminator, writer_dict, lambda_adv=0.0005, iter_size=4):
 
     # Training mode
     model.train()
@@ -341,7 +341,7 @@ def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
         fake_preds = discriminator(F.softmax(output_target[-1], dim=1))
 
         bce = nn.BCEWithLogitsLoss()
-        loss_adv = bce(fake_preds, torch.ones_like(fake_preds))
+        loss_adv = bce(fake_preds, torch.zeros_like(fake_preds))
         loss_adv = loss_adv * lambda_adv
         cumulative_loss_G += loss_adv.item()
         loss_adv.backward()
@@ -418,7 +418,7 @@ def train_adv(config, epoch, num_epoch, epoch_iters, base_lr,
 def train_adv_multi(config, epoch, num_epoch, epoch_iters, base_lr,
                     num_iters, trainloader, targetloader, optimizer_G, 
                     optimizer_D1, optimizer_D2, model, discriminator1, discriminator2,
-                    writer_dict, lambda_adv1=0.0002, lambda_adv2=0.001, iter_size=4):
+                    writer_dict, lambda_adv1=0.0005, lambda_adv2=0.00049, iter_size=4):
 
     # Training mode
     model.train()
@@ -443,13 +443,13 @@ def train_adv_multi(config, epoch, num_epoch, epoch_iters, base_lr,
     else:
         device = torch.device("cpu")
 
-    cumulative_loss_G_pen = 0.0
+
     cumulative_loss_G_last = 0.0
     cumulative_loss_adv = 0.0
     loss_D1_D2_batch = 0.0
     count=0
 
-    lambda_seg= 0.1
+ 
 
     for i_iter, (batch_source, batch_target) in enumerate(zip(trainloader, targetloader)):
 
@@ -479,24 +479,24 @@ def train_adv_multi(config, epoch, num_epoch, epoch_iters, base_lr,
 
         # ------------------ TRAINING DEL GENERATORE ------------------
         # 1. Forward seg net per dominio sorgente (supervisionato)
-        loss_seg1, loss_seg2, outputs_source = model(images_source, labels, bd_gts) #FullModelMulti
-        loss = loss_seg2 + lambda_seg * loss_seg1
-        loss.backward()
+        loss_seg1, outputs_source = model(images_source, labels, bd_gts) #FullModelMulti
+        loss_seg1=loss_seg1.mean()
+        loss_seg1.backward()
 
-        cumulative_loss_G_pen += loss_seg1.data.cpu().numpy()
-        cumulative_loss_G_last += loss_seg2.data.cpu().numpy()
+        cumulative_loss_G_last += loss_seg1.data.cpu().numpy()
+
         
 
         # Forward pass per il dominio target (adversarial)
-        _, _, outputs_target = model(images_target, labels, bd_gts)
-        fake_preds1 = discriminator1(F.softmax(outputs_target[-3], dim=1)) #logits_ultimo
-        fake_preds2 = discriminator2(F.softmax(outputs_target[-2], dim=1)) #logits_penultimo
+        _, outputs_target = model(images_target, labels, bd_gts)
+        fake_preds1 = discriminator1(F.softmax(outputs_target[-1], dim=1)) #main
+        fake_preds2 = discriminator2(F.softmax(outputs_target[0], dim=1)) #branch P
 
         bce = nn.BCEWithLogitsLoss()
-        loss_adv1 = bce(fake_preds1, torch.ones_like(fake_preds1))
-        loss_adv2 = bce(fake_preds2, torch.ones_like(fake_preds2))
+        loss_adv1 = bce(fake_preds1, torch.zeros_like(fake_preds1)) 
+        loss_adv2 = bce(fake_preds2, torch.zeros_like(fake_preds2))
 
-        loss_adv = lambda_adv1 * loss_adv1 + lambda_adv2 * loss_adv2
+        loss_adv = lambda_adv1 * loss_adv1 + lambda_adv2 * loss_adv2 #ideally lambda_2 smaller than lambda_1
         loss_adv.backward()
 
         cumulative_loss_adv += loss_adv.data.cpu().numpy()
@@ -515,11 +515,11 @@ def train_adv_multi(config, epoch, num_epoch, epoch_iters, base_lr,
         outputs_target = [t.detach() for t in outputs_target]
 
         # train su source
-        fake_preds1_d = discriminator1(F.softmax(outputs_source[-3], dim=1)) 
-        fake_preds2_d = discriminator2(F.softmax(outputs_source[-2], dim=1)) 
+        fake_preds1_d = discriminator1(F.softmax(outputs_source[-1], dim=1)) #main
+        fake_preds2_d = discriminator2(F.softmax(outputs_source[0], dim=1)) #branch P
 
         bce = nn.BCEWithLogitsLoss()
-        loss_D1_src = bce(fake_preds1_d, torch.zeros_like(fake_preds1_d))
+        loss_D1_src = bce(fake_preds1_d, torch.zeros_like(fake_preds1_d)) #here zeros are correct (source_label)
         loss_D2_src = bce(fake_preds2_d, torch.zeros_like(fake_preds2_d))
 
         loss_D1_src.backward()
@@ -530,8 +530,8 @@ def train_adv_multi(config, epoch, num_epoch, epoch_iters, base_lr,
      
         
         # train su target
-        fake_preds1_d_t = discriminator1(F.softmax(outputs_target[-2], dim=1)) #-2 here means -3 layer
-        fake_preds2_d_t = discriminator2(F.softmax(outputs_target[-1], dim=1)) #-1 here means -2 layer
+        fake_preds1_d_t = discriminator1(F.softmax(outputs_target[-1], dim=1)) 
+        fake_preds2_d_t = discriminator2(F.softmax(outputs_target[0], dim=1)) 
 
         bce = nn.BCEWithLogitsLoss()
         loss_D1_trg = bce(fake_preds1_d_t, torch.ones_like(fake_preds1_d_t))
@@ -563,9 +563,9 @@ def train_adv_multi(config, epoch, num_epoch, epoch_iters, base_lr,
 
         if i_iter % config.PRINT_FREQ == 0:
             msg = ('Epoch: [{}/{}] Iter:[{}/{}], Time: {:.2f}, lr: {}, '
-                   'Loss_seg1: {:.6f}, Loss_seg2: {:.6f}, loss_adv1: {:.6f}, loss_adv2: {:.6f},loss_D1_src_trg: {:.6f}, loss_D2_src_trg: {:.6f}').format(
+                   'Loss_seg1: {:.6f}, loss_adv1: {:.6f}, loss_adv2: {:.6f},loss_D1_src_trg: {:.6f}, loss_D2_src_trg: {:.6f}').format(
                       epoch, num_epoch, i_iter, epoch_iters, batch_time.average(),[x['lr'] for x in optimizer_G.param_groups], 
-                      loss_seg1, loss_seg2 ,loss_adv1,loss_adv2, cumulative_loss_D1, cumulative_loss_D2
+                      loss_seg1 ,loss_adv1,loss_adv2, cumulative_loss_D1, cumulative_loss_D2
                   )
             logging.info(msg)
 
@@ -575,7 +575,7 @@ def train_adv_multi(config, epoch, num_epoch, epoch_iters, base_lr,
     #writer_dict['train_global_steps'] = global_steps + 1
 
     # Ritorna la loss media per l'epoca
-    final_loss = cumulative_loss_adv + loss_D1_D2_batch + cumulative_loss_G_pen + cumulative_loss_G_last/ count
+    final_loss = cumulative_loss_adv + loss_D1_D2_batch + cumulative_loss_G_last/ count
     msg = ('Epoch: [{}/{}], loss_sum: {:.6f}').format(epoch, num_epoch, final_loss)
     logging.info(msg)
     
@@ -606,16 +606,13 @@ def train_FDA(config, epoch, num_epoch, epoch_iters, base_lr,
 
     for i_iter, (batch_source, batch_target) in enumerate(zip(trainloader, targetloader)):
 
-        images_source, labels, bd_gts, _, _ = batch_source
+        images_source, labels, bd_gts = batch_source
         images_target, _, _, _, _ = batch_target
 
         images_source = images_source.to(device)
         images_target = images_target.to(device)
         labels = labels.long().to(device)
-        bd_gts = bd_gts.float().to(device)
-
-        # FDA domain adaptation
-        images_source = fda.FDA_source_to_target( images_source, images_target)   
+        bd_gts = bd_gts.float().to(device)  
     
         losses, _, acc, loss_list = model(images_source, labels, bd_gts)
         loss = losses.mean()

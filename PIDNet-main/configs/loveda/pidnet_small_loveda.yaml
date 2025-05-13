@@ -57,10 +57,10 @@ TRAIN:
     ENABLE: false
     THRESHOLD: 0.968 
   GAN:
-    ENABLE: true
-    MULTI_LEVEL: true
-  FDA:
     ENABLE: false
+    MULTI_LEVEL: false
+  FDA:
+    ENABLE: true
 TEST:
   IMAGE_SIZE:
   - 1024

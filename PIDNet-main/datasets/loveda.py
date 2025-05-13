@@ -181,7 +181,7 @@ class LoveDA(BaseDataset):
                  gaussian_blur=False,
                  multiply=False,
                  random_brightness=False,
-                 random_crop=True,
+                 random_crop=False,
                  mean=[0.485, 0.456, 0.406],
                  std=[0.229, 0.224, 0.225],
                  bd_dilate_size=4,
@@ -212,6 +212,7 @@ class LoveDA(BaseDataset):
 
         self.img_list = [line.strip().split() for line in open(root + list_path)]
         self.files = self.read_files()
+        
         self.color_list = [[0, 0, 0], [1, 1, 1], [2, 2, 2],
                             [3, 3, 3], [4, 4, 4], [5, 5, 5], [6, 6, 6], [7, 7, 7]]
         self.class_weights = torch.tensor([0.000000, 0.116411, 0.266041, 0.607794, 1.511413, 0.745507, 0.712438, 3.040396])

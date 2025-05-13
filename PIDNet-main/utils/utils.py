@@ -90,7 +90,9 @@ class FullModelMulti(nn.Module):
             outputs[i] = F.interpolate(outputs[i], size=(h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
 
     acc  = self.pixel_acc(outputs[-2], labels)
-    loss_s_pen = self.sem_loss([outputs[0], outputs[1]], labels) #x_extra_p e logits_penultimo 
+    #print(outputs[1].shape)
+    #print(outputs[2].shape) 
+   
     loss_s_last = self.sem_loss([outputs[0], outputs[2]], labels) #x_extra_p e logits_ultimo
     loss_b = self.bd_loss(outputs[-1], bd_gt)
 
@@ -102,11 +104,9 @@ class FullModelMulti(nn.Module):
         print("Error in loss computation")
         loss_sb = self.sem_loss([outputs[-2]], labels)
 
-
-    loss_pen = loss_s_pen + loss_b + loss_sb
     loss_last = loss_s_last + loss_b + loss_sb
 
-    return loss_pen, loss_last, outputs
+    return loss_last, outputs
 
 
 class AverageMeter(object):

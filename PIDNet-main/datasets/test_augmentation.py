@@ -15,7 +15,7 @@ from configs import config
 from configs import update_config
 import datasets
 
-crop_size = (512, 512)
+crop_size = (1024, 1024)
 
 def parse_args():
     parser = argparse.ArgumentParser(description='Train segmentation network')

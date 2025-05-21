@@ -152,9 +152,6 @@ def per_class_iou(hist):
     return (np.diag(hist)) / (hist.sum(1) + hist.sum(0) - np.diag(hist) + epsilon)
 
 
-
-
-
 if __name__ == '__main__':
     # Define transformations for images and masks
     img_transforms = transforms.Compose([
@@ -206,7 +203,7 @@ if __name__ == '__main__':
     num_epochs = 20  # Number of epochs
     init_lr = 0.0001
     max_iter = num_epochs * len(train_loader)  # Total iterations, serve per fast_hist
-
+    best_mIoU = 0
     for epoch in range(num_epochs):
         model.train()
         running_loss = 0.0
@@ -260,17 +257,17 @@ if __name__ == '__main__':
 
         # Calculate per-class IoU and mean IoU    
         per_class_iou_values = per_class_iou(total_confusion_matrix)
-        mean_iou = np.mean(per_class_iou_values) #non più -> avg_miou = total_miou / len(train_loader)
+        mIoU_training = np.mean(per_class_iou_values) #non più -> avg_miou = total_miou / len(train_loader)
         
         #avg_accuracy = total_accuracy / len(train_loader)
         avg_accuracy = (total_correct_predictions / total_elements) * 100
          
-        print(f"Epoch [{epoch+1}/{num_epochs}] Training Loss: {running_loss/len(train_loader):.4f}, mIoU: {mean_iou:.4f}, Average accuracy: {avg_accuracy:.4f}")
+        print(f"Epoch [{epoch+1}/{num_epochs}] Training Loss: {running_loss/len(train_loader):.4f}, mIoU: {mIoU_training:.4f}, Average accuracy: {avg_accuracy:.4f}")
 
         logging.info(
             f"Epoch [{epoch+1}/{num_epochs}] Training - "
             f"Loss: {running_loss/len(train_loader):.4f}, "
-            f"mIoU: {mean_iou:.4f}, "
+            f"mIoU: {mIoU_training:.4f}, "
             f"Accuracy: {avg_accuracy:.2f}%"
         )
 
@@ -335,23 +332,29 @@ if __name__ == '__main__':
         #avg_miou = total_miou / len(val_loader)
         # Calculate per-class IoU and mean IoU
         per_class_iou_values = per_class_iou(total_confusion_matrix)
-        mean_iou = np.mean(per_class_iou_values)
+        mIoU = np.mean(per_class_iou_values)
         
         #avg_accuracy = total_accuracy / len(val_loader)
         avg_accuracy = (total_correct_predictions / total_elements) * 100
 
-        print(f"Epoch [{epoch+1}/{num_epochs}] Validation Loss: {val_loss/len(val_loader):.4f}, mIoU: {mean_iou:.4f}, Average accuracy: {avg_accuracy:.4f} %, Total FLOPs: {total_flops / 1e9:.2f} GFLOPs, Average Latency: {avg_latency:.2f} ms")
+        print(f"Epoch [{epoch+1}/{num_epochs}] Validation Loss: {val_loss/len(val_loader):.4f}, mIoU: {mIoU:.4f}, Average accuracy: {avg_accuracy:.4f} %, Total FLOPs: {total_flops / 1e9:.2f} GFLOPs, Average Latency: {avg_latency:.2f} ms")
         print()
+
+        if best_mIoU < mIoU:
+            best_miou = mIoU
+            torch.save(model.state_dict(), "training/deeplabv2_loveda_best.pth")
+            logging.info(f"Best model saved at epoch {epoch+1} with mIoU: {mIoU:.4f}")
 
         logging.info(
             f"Epoch [{epoch+1}/{num_epochs}] Validation - "
             f"Loss: {val_loss/len(val_loader):.4f}, "
-            f"mIoU: {mean_iou:.4f}, "
+            f"mIoU: {mIoU:.4f}, "
             f"Accuracy: {avg_accuracy:.2f} %, "
             f"{total_flops / 1e9:.2f} GFLOPs, "
             f"Latency: {avg_latency:.2f} ms"
         )
         logging.info("-" * 50)  # Linea divisoria nel file di log
+
 
     logging.info("Training completed.")
 

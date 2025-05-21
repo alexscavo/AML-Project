@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 from utils.criterion import CrossEntropy, OhemCrossEntropy, BondaryLoss
 import numpy as np
 import cv2
+import albumentations as A
 
 
 def show_mixed_visualization(x_s, y_s, x_t, y_t, x_mixed, y_mixed, bd_mixed):
@@ -132,6 +133,25 @@ if __name__ == '__main__':
     crop_size = (config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
     imgnet = 'imagenet' in config.MODEL.PRETRAINED
 
+
+    train_trasform = None
+
+    if config.TRAIN.AUGMENTATION.ENABLE:
+        list_augmentations = []
+        if config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_CROP:
+            list_augmentations.append(A.RandomResizedCrop(1024, 1024, p=0.5))
+        if config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP:
+            list_augmentations.append(A.HorizontalFlip(p=0.5))
+        if config.TRAIN.AUGMENTATION.TECHNIQUES.COLOR_JITTER:
+            list_augmentations.append(A.ColorJitter(p=0.5))
+        if config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR:
+            list_augmentations.append(A.GaussianBlur(p=0.5))
+        if config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_NOISE:
+            list_augmentations.append(A.GaussNoise(std_range=(0.2, 0.3), p=0.5))
+        if len(list_augmentations) != 0:
+            train_trasform = A.Compose(list_augmentations)
+
+
     train_dataset = eval('datasets.'+config.DATASET.DATASET)(
         root=config.DATASET.ROOT, 
         list_path=config.DATASET.TRAIN_SET,
@@ -144,9 +164,8 @@ if __name__ == '__main__':
         crop_size=crop_size, 
         scale_factor=config.TRAIN.SCALE_FACTOR,
         horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
-        gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
-        multiply=config.TRAIN.AUGMENTATION.TECHNIQUES.MULTIPLY,
-        random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS)
+        gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR, 
+        transform=train_trasform)
 
     target_dataset = eval('datasets.'+config.DATASET.DATASET)(
         root=config.DATASET.ROOT, list_path=config.DATASET.TARGET_SET,
@@ -154,9 +173,8 @@ if __name__ == '__main__':
         flip=config.TRAIN.FLIP, enable_augmentation=True, ignore_label=config.TRAIN.IGNORE_LABEL,
         base_size=config.TRAIN.BASE_SIZE, crop_size=crop_size, scale_factor=config.TRAIN.SCALE_FACTOR,
         horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
-        gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
-        multiply=config.TRAIN.AUGMENTATION.TECHNIQUES.MULTIPLY,
-        random_brightness=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_BRIGHTNESS)
+        gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR, 
+        transform=train_trasform)
 
     if config.LOSS.USE_OHEM:
         sem_criterion = OhemCrossEntropy(ignore_label=config.TRAIN.IGNORE_LABEL,

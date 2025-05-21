@@ -87,3 +87,103 @@ def main():
 
 if __name__ == '__main__':
     main()
+"""
+
+import os
+import numpy as np
+from PIL import Image
+from tqdm import tqdm
+import matplotlib.pyplot as plt
+import torch
+
+# ——— CONFIG ———
+LOVEDA_ROOT    = 'data/loveda/'          # path to LoveDA root
+SUBSETS        = ['train/Urban/']        # list of subfolders to include
+CLASS_NAMES    = [
+    'ignored', 'background', 'building',
+    'road', 'water', 'barren',
+    'forest', 'agriculture'
+]
+NUM_CLASSES    = len(CLASS_NAMES)
+WEIGHT_METHOD  = 'inv'   # 'inv' for inverse-frequency, 'median' for median-frequency
+# ——————————
+
+def compute_class_distribution():
+    counts = np.zeros(NUM_CLASSES, dtype=np.uint64)
+    for subset in SUBSETS:
+        mask_dir = os.path.join(LOVEDA_ROOT, subset, 'masks_png')
+        if not os.path.isdir(mask_dir):
+            raise FileNotFoundError(f"Missing directory: {mask_dir}")
+        for fn in tqdm(os.listdir(mask_dir), desc=f"Scanning {subset}"):
+            if not fn.endswith('.png'):
+                continue
+            arr = np.array(Image.open(os.path.join(mask_dir, fn)))
+            # tally every class id (0–7)
+            for cid in range(NUM_CLASSES):
+                counts[cid] += np.sum(arr == cid)
+    return counts
+
+def compute_weights(counts):
+    # drop class 0 (ignored) from all computations
+    valid_counts = counts[1:]
+    total_valid = valid_counts.sum()
+    C = len(valid_counts)  # number of real classes
+
+    # inverse-frequency: w_j = N / (C * n_j)
+    inv_w = total_valid / (C * valid_counts)
+
+    # median-frequency: w_j = median(f) / f_j,  f_j = n_j / N
+    freqs    = valid_counts / total_valid
+    median_f = np.median(freqs)
+    med_w    = median_f / freqs
+
+    # build full-length arrays (with zero at idx=0)
+    w_inv_full   = np.concatenate(([0.], inv_w))
+    w_med_full   = np.concatenate(([0.], med_w))
+
+    return {
+        'inv':    w_inv_full.astype(np.float32),
+        'median': w_med_full.astype(np.float32),
+    }
+
+
+def main():
+    counts = compute_class_distribution()
+    total  = counts.sum()
+
+    # report pixel distribution
+    print("\n📊 Class Distribution:")
+    for i, c in enumerate(counts):
+        pct = c / total * 100
+        print(f"  {i:>2} {CLASS_NAMES[i]:<12} : {c:,} px ({pct:.2f}%)")
+    print(f"  — total pixels = {total:,}\n")
+
+    # compute both sets of weights
+    weights_dict = compute_weights(counts)
+    weights = weights_dict[WEIGHT_METHOD]
+
+    # print chosen weights
+    print(f"⚖️  Using **{WEIGHT_METHOD}**-frequency weighting:")
+    for i, w in enumerate(weights):
+        print(f"  {i:>2} {CLASS_NAMES[i]:<12} : weight = {w:.6f}")
+    print()
+
+    # build PyTorch loss
+    w_tensor = torch.tensor(weights, dtype=torch.float32)
+    criterion = torch.nn.CrossEntropyLoss(weight=w_tensor, ignore_index=0)
+    print("Use in PyTorch:")
+    print("  criterion = torch.nn.CrossEntropyLoss(weight=weights, ignore_index=0)")
+
+    # optional: plot class distribution
+    plt.figure(figsize=(8,4))
+    plt.bar(CLASS_NAMES, counts)
+    plt.title(f"LoveDA Class Counts ({', '.join(SUBSETS)})")
+    plt.ylabel('Pixels')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+
+
+if __name__ == '__main__':
+    main()
+"""

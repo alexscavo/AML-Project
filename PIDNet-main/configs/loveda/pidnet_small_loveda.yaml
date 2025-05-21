@@ -38,7 +38,7 @@ TRAIN:
   OPTIMIZER: sgd
   LR: 0.01
   WD: 0.0005
-  MOMENTUM: 0.7 # 0.9
+  MOMENTUM: 0.7
   NESTEROV: false
   FLIP: false
   MULTI_SCALE: false
@@ -54,11 +54,13 @@ TRAIN:
       GAUSSIAN_NOISE: false
       COLOR_JITTER : true
   DACS:
-    ENABLE: true
-    THRESHOLD: 0.968 
+    ENABLE: false
+    THRESHOLD: 0.9
   GAN:
     ENABLE: false
     MULTI_LEVEL: false
+  FDA:
+    ENABLE: false
 TEST:
   IMAGE_SIZE:
   - 1024

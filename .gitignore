@@ -1,4 +1,7 @@
 PIDNet-main/data/loveda/train
 PIDNet-main/data/loveda/val
 DeepLab/project_datasets/LoveDA
+DeepLab/training/training/deeplabv2_loveda_best.pth
+log
+**/checkpoint.pth.tar
 **/__pycache__/

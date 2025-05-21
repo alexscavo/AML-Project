@@ -18,17 +18,21 @@ import torch.optim
 from tensorboardX import SummaryWriter
 
 import _init_paths
+from datasets.fda_dataset import FDADataset
 import models
 import datasets
 from configs import config
 from configs import update_config
+import models.pidnetMulti
+import models.pidnet
 from utils.criterion import CrossEntropy, OhemCrossEntropy, BondaryLoss
-from utils.function import train, validate, train_adv, train_adv_multi
+from utils.function import train, validate, train_adv, train_adv_multi, train_FDA
 from models.discriminator import FCDiscriminator
 from torch import optim
-from utils.utils import create_logger, FullModel
+from utils.utils import create_logger, FullModel, FullModelMulti
 import matplotlib.pyplot as plt
-from IPython.display import clear_output, Image, display
+from IPython.display import Image, display, clear_output
+
 import sys
 os.environ["NO_ALBUMENTATIONS_UPDATE"] = "1"
 
@@ -50,6 +54,27 @@ def parse_args():
     update_config(config, args) #aggiorna config con tutti i parametri trovati nel file di configurazione
 
     return args
+
+def plot_metrics(train_loss_history, eval_loss_history, mean_iou_history):
+    fig, ax = plt.subplots(2, 1, figsize=(10, 8))
+
+    ax[0].plot(train_loss_history, label='Training Loss', color='blue', marker='o')
+    ax[0].plot(eval_loss_history, label='Evaluation Loss', color='orange', marker='x')
+    ax[0].set_title('Loss')
+    ax[0].set_xlabel('Epoch')
+    ax[0].set_ylabel('Loss')
+    ax[0].legend()
+    ax[0].grid()
+
+    ax[1].plot(mean_iou_history, label='Mean IoU', color='green', marker='o')
+    ax[1].set_title('Mean IoU')
+    ax[1].set_xlabel('Epoch')
+    ax[1].set_ylabel('IoU')
+    ax[1].legend()
+    ax[1].grid()
+
+    plt.tight_layout()
+    plt.show()
 
 
 def main():
@@ -93,12 +118,16 @@ def main():
     gpus = list(config.GPUS)
     
     imgnet = 'imagenet' in config.MODEL.PRETRAINED
-    model = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet)
+
+    if config.TRAIN.GAN.MULTI_LEVEL:
+        model = models.pidnetMulti.get_seg_model(config, imgnet_pretrained=imgnet)
+    else:
+        model = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet)
  
     batch_size = config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus)
     # prepare data
     #crop_size = (config.TRAIN.IMAGE_SIZE[1], config.TRAIN.IMAGE_SIZE[0])
-    crop_size = (512, 512)
+    crop_size = (1024, 1024)
 
     train_trasform = None
 
@@ -113,25 +142,45 @@ def main():
         if config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR:
             list_augmentations.append(A.GaussianBlur(p=0.5))
         if config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_NOISE:
-            list_augmentations.append(A.GaussNoise(var_limit=(100, 1000), p=1.0))
+            list_augmentations.append(A.GaussNoise(std_range=(0.2, 0.3), p=0.5))
         if len(list_augmentations) != 0:
             train_trasform = A.Compose(list_augmentations)
 
-    #The eval() function evaluates the specified expression, if the expression is a legal Python statement, it will be executed.
-    train_dataset = eval('datasets.'+config.DATASET.DATASET)(
-                        root=config.DATASET.ROOT,
-                        list_path=config.DATASET.TRAIN_SET,
-                        num_classes=config.DATASET.NUM_CLASSES,
-                        multi_scale=config.TRAIN.MULTI_SCALE,
-                        flip=config.TRAIN.FLIP,
-                        enable_augmentation=True,
-                        ignore_label=config.TRAIN.IGNORE_LABEL,
-                        base_size=config.TRAIN.BASE_SIZE,
-                        crop_size=crop_size,
-                        scale_factor=config.TRAIN.SCALE_FACTOR,
-                        horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
-                        gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
-                        transform=train_trasform)
+    if not  config.TRAIN.FDA.ENABLE:
+        #The eval() function evaluates the specified expression, if the expression is a legal Python statement, it will be executed.
+        train_dataset = eval('datasets.'+config.DATASET.DATASET)(
+                            root=config.DATASET.ROOT,
+                            list_path=config.DATASET.TRAIN_SET,
+                            num_classes=config.DATASET.NUM_CLASSES,
+                            multi_scale=config.TRAIN.MULTI_SCALE,
+                            flip=config.TRAIN.FLIP,
+                            ignore_label=config.TRAIN.IGNORE_LABEL,
+                            base_size=config.TRAIN.BASE_SIZE,
+                            crop_size=crop_size,
+                            scale_factor=config.TRAIN.SCALE_FACTOR,
+                            enable_augmentation=True,
+                            horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
+                            gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
+                            transform=train_trasform)
+    
+    #per fda faccio un dataset dove il source è influenzarto dal target
+    else:
+        train_dataset = FDADataset(
+            root=config.DATASET.ROOT,
+            source_list_path=config.DATASET.TRAIN_SET,
+            target_list_path=config.DATASET.TARGET_SET,
+            num_classes=config.DATASET.NUM_CLASSES,
+            multi_scale=config.TRAIN.MULTI_SCALE,
+            flip=config.TRAIN.FLIP,
+            ignore_label=config.TRAIN.IGNORE_LABEL,
+            base_size=config.TRAIN.BASE_SIZE,
+            crop_size=crop_size,
+            scale_factor=config.TRAIN.SCALE_FACTOR,
+            enable_augmentation=True,
+            horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
+            gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
+            transform=train_trasform
+        )
 
     trainloader = torch.utils.data.DataLoader(
         train_dataset,
@@ -143,21 +192,21 @@ def main():
     
 
     targetloader = None
-    if config.TRAIN.DACS.ENABLE or config.TRAIN.GAN.ENABLE:
+    if config.TRAIN.DACS.ENABLE or config.TRAIN.GAN.ENABLE or config.TRAIN.FDA.ENABLE:
         target_dataset = eval('datasets.'+config.DATASET.DATASET)(
-        root=config.DATASET.ROOT, 
-        list_path=config.DATASET.TARGET_SET,
-        num_classes=config.DATASET.NUM_CLASSES, 
-        multi_scale=config.TRAIN.MULTI_SCALE,
-        flip=config.TRAIN.FLIP, 
-        enable_augmentation=True,
-        ignore_label=config.TRAIN.IGNORE_LABEL,
-        base_size=config.TRAIN.BASE_SIZE,
-        crop_size=crop_size, 
-        scale_factor=config.TRAIN.SCALE_FACTOR,
-        horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
-        gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
-        random_crop=config.TRAIN.AUGMENTATION.TECHNIQUES.RANDOM_CROP)
+                            root=config.DATASET.ROOT, 
+                            list_path=config.DATASET.TARGET_SET,
+                            num_classes=config.DATASET.NUM_CLASSES, 
+                            multi_scale=config.TRAIN.MULTI_SCALE,
+                            flip=config.TRAIN.FLIP, 
+                            enable_augmentation=True,
+                            ignore_label=config.TRAIN.IGNORE_LABEL,
+                            base_size=config.TRAIN.BASE_SIZE,
+                            crop_size=crop_size, 
+                            scale_factor=config.TRAIN.SCALE_FACTOR,
+                            horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
+                            gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
+                            transform=train_trasform)
 
         targetloader = torch.utils.data.DataLoader(
             target_dataset, 
@@ -165,7 +214,8 @@ def main():
             shuffle=config.TRAIN.SHUFFLE,
             num_workers=config.WORKERS, 
             pin_memory=False, 
-            drop_last=True)
+            drop_last=True,
+            trasform=train_trasform)
 
 
     test_size = (config.TEST.IMAGE_SIZE[1], config.TEST.IMAGE_SIZE[0])
@@ -198,7 +248,11 @@ def main():
 
     bd_criterion = BondaryLoss()
     
-    model = FullModel(model, sem_criterion, bd_criterion)
+    if config.TRAIN.GAN.MULTI_LEVEL:
+        model = FullModelMulti(model, sem_criterion, bd_criterion)
+    else :
+        model = FullModel(model, sem_criterion, bd_criterion)
+
     if torch.cuda.is_available():
         model = nn.DataParallel(model, device_ids=gpus).cuda() #per noi inutile
     else:
@@ -241,9 +295,9 @@ def main():
     num_iters = config.TRAIN.END_EPOCH * epoch_iters
     real_end = 120+1 if 'camvid' in config.DATASET.TRAIN_SET else end_epoch
     
-    # grafici
-    #plt.ion()  # Modalità interattiva
-    #fig, ax = plt.subplots(2, 1, figsize=(10, 8))  # Due grafici: uno per le loss, uno per la mean IoU
+    """ # grafici
+    plt.ion()  # Modalità interattiva
+    fig, ax = plt.subplots(2, 1, figsize=(10, 8))  # Due grafici: uno per le loss, uno per la mean IoU """
     train_loss_history = []
     eval_loss_history = []
     mean_iou_history = []
@@ -256,16 +310,22 @@ def main():
 
         if config.TRAIN.GAN.ENABLE:
             
-            discriminator = FCDiscriminator(num_classes=8).to(device)
+            discriminator1 = FCDiscriminator(num_classes=8).to(device)
+            discriminator2 = FCDiscriminator(num_classes=8).to(device)
+
             #optimizer_G = optim.SGD(model.parameters(), lr=2.5e-4, momentum=0.9, weight_decay=1e-4) paper infos, but our net is different
             optimizer_G = optimizer
-            optimizer_D = optim.Adam(discriminator.parameters(), lr=1e-4, betas=(0.9, 0.99)) #given by the paper
+            optimizer_D1 = optim.Adam(discriminator1.parameters(), lr=1e-4, betas=(0.9, 0.99)) #given by the paper
+            optimizer_D2 = optim.Adam(discriminator1.parameters(), lr=1e-4, betas=(0.9, 0.99))
 
             if config.TRAIN.GAN.MULTI_LEVEL:
-                train_adv_multi(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D, model, discriminator,discriminator, writer_dict)
+                train_loss=train_adv_multi(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D1, optimizer_D2, model, discriminator1,discriminator2, writer_dict)
             else:
-                train_adv(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D, model, discriminator, writer_dict)
-           
+                train_loss=train_adv(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D1, model, discriminator1, writer_dict)
+        
+        elif config.TRAIN.FDA.ENABLE:
+            train_loss=train_FDA(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters,trainloader,targetloader, optimizer, model, writer_dict)
+        
         else:
             train_loss=train(config, epoch, config.TRAIN.END_EPOCH, 
                   epoch_iters, config.TRAIN.LR, num_iters,
@@ -280,10 +340,8 @@ def main():
 
         if flag_rm == 1:
             flag_rm = 0
-
-        
-        """ 
-        clear_output(wait=True)  # Pulisce l'output precedente
+  
+        """clear_output(wait=True)  # Pulisce l'output precedente
         fig, ax = plt.subplots(2, 1, figsize=(10, 8))
 
         ax[0].clear()
@@ -302,16 +360,20 @@ def main():
         ax[1].set_ylabel('IoU')
         ax[1].legend()
         ax[1].grid()
-
-        plt.show() """
-
+        
+        
+        # fig.canvas.draw()
+        # fig.canvas.flush_events()
+        plt.pause(0.001)
         plot_dir = os.path.join("PIDNet-main", "plots")
         os.makedirs(plot_dir, exist_ok=True)
+        
 
         # Salva e visualizza i grafici ogni 5 epoche
+
         if epoch % 5 == 0 or epoch == real_end - 1:
-            plot_path = os.path.join(plot_dir, f'epoch_{epoch}_plot.png')
-            plt.savefig(plot_path)
+            plot_metrics(train_loss_history, eval_loss_history, mean_iou_history)"""
+
 
         logger.info('=> saving checkpoint to {}'.format(
             final_output_dir + 'checkpoint.pth.tar'))
@@ -340,7 +402,7 @@ def main():
     logger.info('Hours: %d' % int((end-start)/3600))
     logger.info('Done')
 
-    plt.ioff()
-    plt.show()
+    # plt.ioff()
+    # plt.show()
 if __name__ == '__main__':
     main()

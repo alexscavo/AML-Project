@@ -50,8 +50,8 @@ def show_images(x_original, x_augmented, unnormalize = False):
 class BaseDataset(data.Dataset):
     def __init__(self,
                  ignore_label=255,
-                 base_size=2048,
-                 crop_size=(512, 512),
+                 base_size=1024,
+                 crop_size=(1024, 1024),
                  scale_factor=16,
                  mean=[0.485, 0.456, 0.406],
                  std=[0.229, 0.224, 0.225]):

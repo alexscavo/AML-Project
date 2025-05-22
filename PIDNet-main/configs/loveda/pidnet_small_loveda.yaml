@@ -34,7 +34,7 @@ TRAIN:
   SHUFFLE: true
   BEGIN_EPOCH: 0
   END_EPOCH: 20
-  RESUME: false
+  RESUME: true
   OPTIMIZER: sgd
   LR: 0.01
   WD: 0.0005
@@ -48,11 +48,11 @@ TRAIN:
     ENABLE: true
     PROBABILITY: 0.5
     TECHNIQUES:
-      HORIZONTAL_FLIP: false
-      GAUSSIAN_BLUR: false
-      RANDOM_CROP: false
+      HORIZONTAL_FLIP: true
+      GAUSSIAN_BLUR: true
+      RANDOM_CROP: true
       GAUSSIAN_NOISE: false
-      COLOR_JITTER : true
+      COLOR_JITTER : false
   DACS:
     ENABLE: false
     THRESHOLD: 0.9

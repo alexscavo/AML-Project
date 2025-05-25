@@ -186,7 +186,8 @@ class LoveDA(BaseDataset):
                  std=[0.229, 0.224, 0.225],
                  bd_dilate_size=4,
                  pseudo_label=False,
-                 transform=None):
+                 transform=None, 
+                 show_img=False):
 
         # estende il base_dataset
         super(LoveDA, self).__init__(ignore_label, base_size,
@@ -218,6 +219,7 @@ class LoveDA(BaseDataset):
         self.class_weights = torch.tensor([0.000000, 0.116411, 0.266041, 0.607794, 1.511413, 0.745507, 0.712438, 3.040396])
         self.pseudo_label = pseudo_label
         self.transform=transform
+        self.show_img = show_img
 
     def read_files(self):
         files = []
@@ -272,7 +274,7 @@ class LoveDA(BaseDataset):
 
         #edge (H,W)
         image, label, edge = self.gen_sample(image, label, edge_pad=False,
-                                             edge_size=self.bd_dilate_size, city=False, transform=self.transform, show=False) #image diventa (C,H,W)
+                                             edge_size=self.bd_dilate_size, city=False, transform=self.transform, show=self.show_img) #image diventa (C,H,W)
 
         return image.copy(), label.copy(), edge.copy(), np.array(size), name
 

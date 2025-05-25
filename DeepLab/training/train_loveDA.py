@@ -18,9 +18,9 @@ from project_datasets.LoveDA import LoveDADataset
 from torchvision import transforms
 import models.deeplabv2 as dlb 
 import time
-from fvcore.nn import FlopCountAnalysis
+from torch.profiler import profile, ProfilerActivity
 # Configurazione del logger
-log_dir = "training/logs"
+log_dir = "results/logs"
 os.makedirs(log_dir, exist_ok=True)  # Crea la cartella dei log se non esiste
 log_file = os.path.join(log_dir, "training_DeepLab.log")
 
@@ -29,7 +29,6 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
-logging.info("Starting training...")
 
 #------------------------------------#
 def count_parameters(model):
@@ -280,6 +279,7 @@ if __name__ == '__main__':
         total_correct_predictions = 0
         total_elements = 0
         total_confusion_matrix = np.zeros((num_classes, num_classes))
+        profiler_logged = False  # only once per epoch
 
         val_pbar = tqdm(val_loader, desc=f"Epoch {epoch+1}/{num_epochs} [Validation]")
         # Instantiate Jaccard Index for semantic segmentation
@@ -296,9 +296,23 @@ if __name__ == '__main__':
                 outputs = model(images)
                 end_time = time.time()
                 
-                
-                total_flops += FlopCountAnalysis(model, images).total()
-                num_runs+=1
+                # Run torch.profiler only on first batch
+                if not profiler_logged:
+                    with profile(
+                        activities=[ProfilerActivity.CPU, ProfilerActivity.CUDA],
+                        with_flops=True,
+                        record_shapes=True,
+                        with_stack=True
+                    ) as prof:
+                        _ = model(images)
+
+                    # Calculate total FLOPs
+                    total_flops = sum([evt.flops for evt in prof.key_averages() if evt.flops is not None])
+                    total_flops_giga = total_flops / 1e9
+
+                    profiler_logged = True
+
+                num_runs += 1
                 preds = torch.argmax(outputs, dim=1)         
                 mask = masks != -1
                 # Apply the mask to predictions and targets
@@ -320,21 +334,11 @@ if __name__ == '__main__':
 
                 val_pbar.set_postfix(loss=val_loss / (val_pbar.n + 1))
                 
-                # Compute Mean IoU
-                #batch_miou = iou(masked_preds, masked_targets)
-                # Compute IoU
-                #batch_miou = mean_iou(preds, masks, num_classes)
-                #total_miou += batch_miou.item()
-                #total_accuracy += accuracy
-                # Calcolo latenza media
             total_time = end_time - start_time
             avg_latency = (total_time / num_runs) * 1000  # Converti in millisecondi
-        #avg_miou = total_miou / len(val_loader)
-        # Calculate per-class IoU and mean IoU
         per_class_iou_values = per_class_iou(total_confusion_matrix)
         mIoU = np.mean(per_class_iou_values)
         
-        #avg_accuracy = total_accuracy / len(val_loader)
         avg_accuracy = (total_correct_predictions / total_elements) * 100
 
         print(f"Epoch [{epoch+1}/{num_epochs}] Validation Loss: {val_loss/len(val_loader):.4f}, mIoU: {mIoU:.4f}, Average accuracy: {avg_accuracy:.4f} %, Total FLOPs: {total_flops / 1e9:.2f} GFLOPs, Average Latency: {avg_latency:.2f} ms")
@@ -342,7 +346,7 @@ if __name__ == '__main__':
 
         if best_mIoU < mIoU:
             best_miou = mIoU
-            torch.save(model.state_dict(), "training/deeplabv2_loveda_best.pth")
+            torch.save(model.state_dict(), "results/deeplabv2_loveda_best.pth")
             logging.info(f"Best model saved at epoch {epoch+1} with mIoU: {mIoU:.4f}")
 
         logging.info(
@@ -350,34 +354,10 @@ if __name__ == '__main__':
             f"Loss: {val_loss/len(val_loader):.4f}, "
             f"mIoU: {mIoU:.4f}, "
             f"Accuracy: {avg_accuracy:.2f} %, "
-            f"{total_flops / 1e9:.2f} GFLOPs, "
+            f"Total FLOPs (1 batch): {total_flops / 1e9:.2f} GFLOPs, "
             f"Latency: {avg_latency:.2f} ms"
         )
-        logging.info("-" * 50)  # Linea divisoria nel file di log
+        logging.info("-" * 50) 
 
 
     logging.info("Training completed.")
-
-    
-
-"""     #------------------------------------#
-
-    # Calcolo dei parametri
-    num_params = count_parameters(model)
-    print(f"Number of Parameters: {num_params}")
-
-    # Calcolo della latenza su dati reali
-    latency = measure_latency_on_validation(model, val_loader, device)
-    print(f"Latency (real input): {latency:.2f} ms")
-
-    # Calcolo dei FLOPs su dati reali
-    #flops = calculate_flops_on_validation(model, val_loader)
-    print(f"FLOPs (real input): {flops / 1e9:.2f} GFLOPs")
-
-
-    logging.info(
-            f"mIoU: {mean_iou:.2f}\n"
-            f"Number of Parameters: {num_params}\n"
-            f"Latency: {latency:.2f} ms\n"
-            f"FLOPs: {flops / 1e9:.2f} GFLOPs\n"
-        ) """

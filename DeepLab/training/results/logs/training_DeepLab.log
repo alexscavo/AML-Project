@@ -1,0 +1,81 @@
+2025-05-22 21:17:12,254 - INFO - Epoch [1/20] Training - Loss: 4.0722, mIoU: 0.0837, Accuracy: 17.08%
+2025-05-22 21:17:39,465 - INFO - Best model saved at epoch 1 with mIoU: 0.0991
+2025-05-22 21:17:39,466 - INFO - Epoch [1/20] Validation - Loss: 1.7780, mIoU: 0.0991, Accuracy: 22.13 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 1.40 ms
+2025-05-22 21:17:39,466 - INFO - --------------------------------------------------
+2025-05-22 21:18:31,289 - INFO - Epoch [2/20] Training - Loss: 2.7427, mIoU: 0.1125, Accuracy: 22.45%
+2025-05-22 21:18:57,831 - INFO - Best model saved at epoch 2 with mIoU: 0.1494
+2025-05-22 21:18:57,832 - INFO - Epoch [2/20] Validation - Loss: 3.0031, mIoU: 0.1494, Accuracy: 24.04 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.19 ms
+2025-05-22 21:18:57,833 - INFO - --------------------------------------------------
+2025-05-22 21:19:50,450 - INFO - Epoch [3/20] Training - Loss: 2.1011, mIoU: 0.1527, Accuracy: 26.66%
+2025-05-22 21:20:17,173 - INFO - Best model saved at epoch 3 with mIoU: 0.1609
+2025-05-22 21:20:17,173 - INFO - Epoch [3/20] Validation - Loss: 7.6228, mIoU: 0.1609, Accuracy: 27.56 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.19 ms
+2025-05-22 21:20:17,173 - INFO - --------------------------------------------------
+2025-05-22 21:21:07,858 - INFO - Epoch [4/20] Training - Loss: 1.6349, mIoU: 0.1955, Accuracy: 31.36%
+2025-05-22 21:21:34,533 - INFO - Best model saved at epoch 4 with mIoU: 0.1842
+2025-05-22 21:21:34,533 - INFO - Epoch [4/20] Validation - Loss: 8.5187, mIoU: 0.1842, Accuracy: 28.24 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.21 ms
+2025-05-22 21:21:34,533 - INFO - --------------------------------------------------
+2025-05-22 21:22:24,984 - INFO - Epoch [5/20] Training - Loss: 1.5210, mIoU: 0.2031, Accuracy: 32.06%
+2025-05-22 21:22:51,581 - INFO - Best model saved at epoch 5 with mIoU: 0.2146
+2025-05-22 21:22:51,582 - INFO - Epoch [5/20] Validation - Loss: 2.1826, mIoU: 0.2146, Accuracy: 32.58 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.21 ms
+2025-05-22 21:22:51,582 - INFO - --------------------------------------------------
+2025-05-22 21:23:42,512 - INFO - Epoch [6/20] Training - Loss: 1.3959, mIoU: 0.2309, Accuracy: 34.48%
+2025-05-22 21:24:10,001 - INFO - Best model saved at epoch 6 with mIoU: 0.2083
+2025-05-22 21:24:10,001 - INFO - Epoch [6/20] Validation - Loss: 12.5744, mIoU: 0.2083, Accuracy: 32.94 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.19 ms
+2025-05-22 21:24:10,001 - INFO - --------------------------------------------------
+2025-05-22 21:25:01,646 - INFO - Epoch [7/20] Training - Loss: 1.3550, mIoU: 0.2409, Accuracy: 35.80%
+2025-05-22 21:25:28,883 - INFO - Best model saved at epoch 7 with mIoU: 0.2368
+2025-05-22 21:25:28,883 - INFO - Epoch [7/20] Validation - Loss: 2.3791, mIoU: 0.2368, Accuracy: 34.84 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.20 ms
+2025-05-22 21:25:28,883 - INFO - --------------------------------------------------
+2025-05-22 21:26:19,765 - INFO - Epoch [8/20] Training - Loss: 1.2830, mIoU: 0.2549, Accuracy: 37.30%
+2025-05-22 21:26:46,752 - INFO - Best model saved at epoch 8 with mIoU: 0.2446
+2025-05-22 21:26:46,752 - INFO - Epoch [8/20] Validation - Loss: 1.8794, mIoU: 0.2446, Accuracy: 36.35 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.27 ms
+2025-05-22 21:26:46,752 - INFO - --------------------------------------------------
+2025-05-22 21:27:37,596 - INFO - Epoch [9/20] Training - Loss: 1.1834, mIoU: 0.2681, Accuracy: 38.17%
+2025-05-22 21:28:04,453 - INFO - Best model saved at epoch 9 with mIoU: 0.2552
+2025-05-22 21:28:04,453 - INFO - Epoch [9/20] Validation - Loss: 5.0520, mIoU: 0.2552, Accuracy: 38.06 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.17 ms
+2025-05-22 21:28:04,453 - INFO - --------------------------------------------------
+2025-05-22 21:28:55,488 - INFO - Epoch [10/20] Training - Loss: 1.1567, mIoU: 0.2798, Accuracy: 40.23%
+2025-05-22 21:29:22,462 - INFO - Best model saved at epoch 10 with mIoU: 0.2470
+2025-05-22 21:29:22,462 - INFO - Epoch [10/20] Validation - Loss: 6.9351, mIoU: 0.2470, Accuracy: 38.02 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.16 ms
+2025-05-22 21:29:22,462 - INFO - --------------------------------------------------
+2025-05-22 21:30:13,741 - INFO - Epoch [11/20] Training - Loss: 1.1134, mIoU: 0.2939, Accuracy: 41.74%
+2025-05-22 21:30:40,569 - INFO - Best model saved at epoch 11 with mIoU: 0.2865
+2025-05-22 21:30:40,569 - INFO - Epoch [11/20] Validation - Loss: 4.5868, mIoU: 0.2865, Accuracy: 43.33 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.19 ms
+2025-05-22 21:30:40,569 - INFO - --------------------------------------------------
+2025-05-22 21:31:31,918 - INFO - Epoch [12/20] Training - Loss: 1.2089, mIoU: 0.2643, Accuracy: 40.16%
+2025-05-22 21:31:58,811 - INFO - Best model saved at epoch 12 with mIoU: 0.2568
+2025-05-22 21:31:58,811 - INFO - Epoch [12/20] Validation - Loss: 1.6452, mIoU: 0.2568, Accuracy: 40.92 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.18 ms
+2025-05-22 21:31:58,811 - INFO - --------------------------------------------------
+2025-05-22 21:32:49,946 - INFO - Epoch [13/20] Training - Loss: 1.2302, mIoU: 0.2622, Accuracy: 40.23%
+2025-05-22 21:33:16,859 - INFO - Best model saved at epoch 13 with mIoU: 0.2446
+2025-05-22 21:33:16,859 - INFO - Epoch [13/20] Validation - Loss: 3.4785, mIoU: 0.2446, Accuracy: 36.59 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.20 ms
+2025-05-22 21:33:16,859 - INFO - --------------------------------------------------
+2025-05-22 21:34:09,209 - INFO - Epoch [14/20] Training - Loss: 1.0810, mIoU: 0.2994, Accuracy: 42.93%
+2025-05-22 21:34:35,624 - INFO - Best model saved at epoch 14 with mIoU: 0.2762
+2025-05-22 21:34:35,624 - INFO - Epoch [14/20] Validation - Loss: 1.7336, mIoU: 0.2762, Accuracy: 42.89 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.21 ms
+2025-05-22 21:34:35,624 - INFO - --------------------------------------------------
+2025-05-22 21:35:25,892 - INFO - Epoch [15/20] Training - Loss: 1.1305, mIoU: 0.2859, Accuracy: 42.62%
+2025-05-22 21:35:52,335 - INFO - Best model saved at epoch 15 with mIoU: 0.2718
+2025-05-22 21:35:52,335 - INFO - Epoch [15/20] Validation - Loss: 2.9073, mIoU: 0.2718, Accuracy: 41.15 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.19 ms
+2025-05-22 21:35:52,335 - INFO - --------------------------------------------------
+2025-05-22 21:36:42,581 - INFO - Epoch [16/20] Training - Loss: 1.0964, mIoU: 0.3013, Accuracy: 43.53%
+2025-05-22 21:37:08,864 - INFO - Best model saved at epoch 16 with mIoU: 0.2516
+2025-05-22 21:37:08,864 - INFO - Epoch [16/20] Validation - Loss: 5.1221, mIoU: 0.2516, Accuracy: 37.28 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.21 ms
+2025-05-22 21:37:08,865 - INFO - --------------------------------------------------
+2025-05-22 21:37:59,334 - INFO - Epoch [17/20] Training - Loss: 1.0069, mIoU: 0.3193, Accuracy: 45.16%
+2025-05-22 21:38:25,826 - INFO - Best model saved at epoch 17 with mIoU: 0.2867
+2025-05-22 21:38:25,826 - INFO - Epoch [17/20] Validation - Loss: 2.0940, mIoU: 0.2867, Accuracy: 40.79 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.21 ms
+2025-05-22 21:38:25,826 - INFO - --------------------------------------------------
+2025-05-22 21:39:16,406 - INFO - Epoch [18/20] Training - Loss: 0.9677, mIoU: 0.3296, Accuracy: 46.18%
+2025-05-22 21:39:42,831 - INFO - Best model saved at epoch 18 with mIoU: 0.2744
+2025-05-22 21:39:42,831 - INFO - Epoch [18/20] Validation - Loss: 5.2278, mIoU: 0.2744, Accuracy: 38.98 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.21 ms
+2025-05-22 21:39:42,831 - INFO - --------------------------------------------------
+2025-05-22 21:40:32,918 - INFO - Epoch [19/20] Training - Loss: 0.9224, mIoU: 0.3439, Accuracy: 47.34%
+2025-05-22 21:40:59,407 - INFO - Best model saved at epoch 19 with mIoU: 0.2597
+2025-05-22 21:40:59,407 - INFO - Epoch [19/20] Validation - Loss: 3.6584, mIoU: 0.2597, Accuracy: 37.89 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.26 ms
+2025-05-22 21:40:59,407 - INFO - --------------------------------------------------
+2025-05-22 21:41:49,390 - INFO - Epoch [20/20] Training - Loss: 0.9485, mIoU: 0.3421, Accuracy: 47.00%
+2025-05-22 21:42:15,731 - INFO - Best model saved at epoch 20 with mIoU: 0.2554
+2025-05-22 21:42:15,731 - INFO - Epoch [20/20] Validation - Loss: 3.9264, mIoU: 0.2554, Accuracy: 37.07 %, Total FLOPs (1 batch): 1174.75 GFLOPs, Latency: 0.26 ms
+2025-05-22 21:42:15,731 - INFO - --------------------------------------------------
+2025-05-22 21:42:15,731 - INFO - Training completed.

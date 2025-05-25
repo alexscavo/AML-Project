@@ -33,11 +33,9 @@ def show_images(x_original, x_augmented, unnormalize = False):
     # Plot
     fig, axs = plt.subplots(1, 2, figsize=(12, 6))
     axs[0].imshow(x_original)
-    axs[0].set_title("Original Image")
     axs[0].axis("off")
 
     axs[1].imshow(x_augmented)
-    axs[1].set_title("Augmented Image")
     axs[1].axis("off")
 
     plt.tight_layout()

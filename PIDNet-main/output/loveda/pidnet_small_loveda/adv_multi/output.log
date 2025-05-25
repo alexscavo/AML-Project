@@ -1,0 +1,220 @@
+Epoch 1/20: 100%|██████████| 192/192 [03:20<00:00,  1.04s/it, seg_loss=1.06, bd_loss=1.67, acc=0.335, adv1=0.716, loss_d1=0.7, adv2=0.641, loss_d2=0.697]   
+Epoch 1 Train Avg — seg_loss: 1.0913, bd_loss: 1.7304, acc: 0.3306, adv1: 0.7312, loss_d1: 0.7041, adv2: 0.6365, loss_d2: 0.7021, 
+Validation: 100%|██████████| 166/166 [02:05<00:00,  1.32it/s]
+Epoch 1 Validation mIoU: 0.1854
+  background  : IoU=0.2559
+  building    : IoU=0.2032
+  road        : IoU=0.1191
+  water       : IoU=0.1926
+  barren      : IoU=0.0552
+  forest      : IoU=0.1084
+  agriculture : IoU=0.3630
+Epoch 2/20: 100%|██████████| 192/192 [03:11<00:00,  1.00it/s, seg_loss=1.1, bd_loss=1, acc=0.339, adv1=0.7, loss_d1=0.698, adv2=0.65, loss_d2=0.695]         
+Epoch 2 Train Avg — seg_loss: 0.7003, bd_loss: 1.4840, acc: 0.4136, adv1: 0.7069, loss_d1: 0.6966, adv2: 0.6449, loss_d2: 0.6956, 
+Validation: 100%|██████████| 166/166 [02:13<00:00,  1.24it/s]
+Epoch 2 Validation mIoU: 0.2234
+  background  : IoU=0.3527
+  building    : IoU=0.2543
+  road        : IoU=0.2012
+  water       : IoU=0.1899
+  barren      : IoU=0.0604
+  forest      : IoU=0.1018
+  agriculture : IoU=0.4036
+Epoch 3/20: 100%|██████████| 192/192 [03:12<00:00,  1.00s/it, seg_loss=0.627, bd_loss=1.49, acc=0.465, adv1=0.704, loss_d1=0.694, adv2=0.658, loss_d2=0.694] 
+Epoch 3 Train Avg — seg_loss: 0.6354, bd_loss: 1.4594, acc: 0.4391, adv1: 0.7016, loss_d1: 0.6937, adv2: 0.6525, loss_d2: 0.6945, 
+Validation: 100%|██████████| 166/166 [02:03<00:00,  1.35it/s]
+Epoch 3 Validation mIoU: 0.2173
+  background  : IoU=0.1592
+  building    : IoU=0.2344
+  road        : IoU=0.2366
+  water       : IoU=0.3017
+  barren      : IoU=0.0397
+  forest      : IoU=0.1728
+  agriculture : IoU=0.3770
+Epoch 4/20: 100%|██████████| 192/192 [03:13<00:00,  1.01s/it, seg_loss=0.41, bd_loss=1.24, acc=0.571, adv1=0.692, loss_d1=0.692, adv2=0.671, loss_d2=0.692]  
+Epoch 4 Train Avg — seg_loss: 0.5748, bd_loss: 1.4382, acc: 0.4717, adv1: 0.6986, loss_d1: 0.6915, adv2: 0.6619, loss_d2: 0.6936, 
+Validation: 100%|██████████| 166/166 [02:02<00:00,  1.36it/s]
+Epoch 4 Validation mIoU: 0.2468
+  background  : IoU=0.3507
+  building    : IoU=0.3078
+  road        : IoU=0.2310
+  water       : IoU=0.2591
+  barren      : IoU=0.0487
+  forest      : IoU=0.1133
+  agriculture : IoU=0.4168
+Epoch 5/20: 100%|██████████| 192/192 [03:08<00:00,  1.02it/s, seg_loss=0.471, bd_loss=0.877, acc=0.403, adv1=0.705, loss_d1=0.69, adv2=0.676, loss_d2=0.693] 
+Epoch 5 Train Avg — seg_loss: 0.5446, bd_loss: 1.4263, acc: 0.4879, adv1: 0.7017, loss_d1: 0.6889, adv2: 0.6728, loss_d2: 0.6928, 
+Validation: 100%|██████████| 166/166 [02:03<00:00,  1.35it/s]
+Epoch 5 Validation mIoU: 0.2660
+  background  : IoU=0.4101
+  building    : IoU=0.2671
+  road        : IoU=0.1918
+  water       : IoU=0.3613
+  barren      : IoU=0.0553
+  forest      : IoU=0.1492
+  agriculture : IoU=0.4274
+Epoch 6/20: 100%|██████████| 192/192 [03:13<00:00,  1.01s/it, seg_loss=0.42, bd_loss=1.53, acc=0.441, adv1=0.704, loss_d1=0.69, adv2=0.681, loss_d2=0.693]   
+Epoch 6 Train Avg — seg_loss: 0.5241, bd_loss: 1.4167, acc: 0.5005, adv1: 0.7028, loss_d1: 0.6875, adv2: 0.6783, loss_d2: 0.6922, 
+Validation: 100%|██████████| 166/166 [02:02<00:00,  1.35it/s]
+Epoch 6 Validation mIoU: 0.2535
+  background  : IoU=0.3647
+  building    : IoU=0.2656
+  road        : IoU=0.2275
+  water       : IoU=0.3614
+  barren      : IoU=0.0776
+  forest      : IoU=0.1374
+  agriculture : IoU=0.3403
+Epoch 7/20: 100%|██████████| 192/192 [03:06<00:00,  1.03it/s, seg_loss=0.346, bd_loss=1.46, acc=0.468, adv1=0.708, loss_d1=0.681, adv2=0.687, loss_d2=0.689] 
+Epoch 7 Train Avg — seg_loss: 0.5016, bd_loss: 1.4050, acc: 0.5141, adv1: 0.7048, loss_d1: 0.6856, adv2: 0.6827, loss_d2: 0.6916, 
+Validation: 100%|██████████| 166/166 [02:02<00:00,  1.36it/s]
+Epoch 7 Validation mIoU: 0.2536
+  background  : IoU=0.3725
+  building    : IoU=0.2989
+  road        : IoU=0.1991
+  water       : IoU=0.3632
+  barren      : IoU=0.0717
+  forest      : IoU=0.1492
+  agriculture : IoU=0.3210
+Epoch 8/20: 100%|██████████| 192/192 [03:06<00:00,  1.03it/s, seg_loss=0.643, bd_loss=1.48, acc=0.592, adv1=0.708, loss_d1=0.686, adv2=0.694, loss_d2=0.69]  
+Epoch 8 Train Avg — seg_loss: 0.4917, bd_loss: 1.4003, acc: 0.5227, adv1: 0.7052, loss_d1: 0.6844, adv2: 0.6866, loss_d2: 0.6912, 
+Validation: 100%|██████████| 166/166 [02:02<00:00,  1.36it/s]
+Epoch 8 Validation mIoU: 0.2779
+  background  : IoU=0.3593
+  building    : IoU=0.2533
+  road        : IoU=0.2961
+  water       : IoU=0.4234
+  barren      : IoU=0.0570
+  forest      : IoU=0.1515
+  agriculture : IoU=0.4046
+Epoch 9/20: 100%|██████████| 192/192 [03:06<00:00,  1.03it/s, seg_loss=0.62, bd_loss=1.01, acc=0.648, adv1=0.716, loss_d1=0.68, adv2=0.692, loss_d2=0.693]   
+Epoch 9 Train Avg — seg_loss: 0.4686, bd_loss: 1.3924, acc: 0.5321, adv1: 0.7067, loss_d1: 0.6821, adv2: 0.6895, loss_d2: 0.6906, 
+Validation: 100%|██████████| 166/166 [02:01<00:00,  1.36it/s]
+Epoch 9 Validation mIoU: 0.2678
+  background  : IoU=0.4583
+  building    : IoU=0.2534
+  road        : IoU=0.1877
+  water       : IoU=0.4483
+  barren      : IoU=0.0764
+  forest      : IoU=0.1490
+  agriculture : IoU=0.3011
+Epoch 10/20: 100%|██████████| 192/192 [03:10<00:00,  1.01it/s, seg_loss=0.47, bd_loss=0.924, acc=0.631, adv1=0.726, loss_d1=0.677, adv2=0.696, loss_d2=0.69]  
+Epoch 10 Train Avg — seg_loss: 0.4611, bd_loss: 1.3890, acc: 0.5384, adv1: 0.7078, loss_d1: 0.6805, adv2: 0.6928, loss_d2: 0.6899, 
+Validation: 100%|██████████| 166/166 [02:03<00:00,  1.35it/s]
+Epoch 10 Validation mIoU: 0.2871
+  background  : IoU=0.4554
+  building    : IoU=0.2954
+  road        : IoU=0.2436
+  water       : IoU=0.4227
+  barren      : IoU=0.0812
+  forest      : IoU=0.1373
+  agriculture : IoU=0.3745
+Epoch 11/20: 100%|██████████| 192/192 [03:16<00:00,  1.03s/it, seg_loss=0.398, bd_loss=1.35, acc=0.577, adv1=0.697, loss_d1=0.672, adv2=0.695, loss_d2=0.685] 
+Epoch 11 Train Avg — seg_loss: 0.4546, bd_loss: 1.3838, acc: 0.5446, adv1: 0.7091, loss_d1: 0.6794, adv2: 0.6949, loss_d2: 0.6896, 
+Validation: 100%|██████████| 166/166 [02:02<00:00,  1.36it/s]
+Epoch 11 Validation mIoU: 0.2742
+  background  : IoU=0.3725
+  building    : IoU=0.2839
+  road        : IoU=0.2457
+  water       : IoU=0.4574
+  barren      : IoU=0.0764
+  forest      : IoU=0.1407
+  agriculture : IoU=0.3428
+Epoch 12/20: 100%|██████████| 192/192 [03:08<00:00,  1.02it/s, seg_loss=0.445, bd_loss=0.866, acc=0.651, adv1=0.718, loss_d1=0.68, adv2=0.696, loss_d2=0.69]  
+Epoch 12 Train Avg — seg_loss: 0.4371, bd_loss: 1.3786, acc: 0.5541, adv1: 0.7084, loss_d1: 0.6772, adv2: 0.6951, loss_d2: 0.6894, 
+Validation: 100%|██████████| 166/166 [02:01<00:00,  1.37it/s]
+Epoch 12 Validation mIoU: 0.2741
+  background  : IoU=0.4733
+  building    : IoU=0.2412
+  road        : IoU=0.2282
+  water       : IoU=0.4168
+  barren      : IoU=0.0820
+  forest      : IoU=0.1629
+  agriculture : IoU=0.3140
+Epoch 13/20: 100%|██████████| 192/192 [03:08<00:00,  1.02it/s, seg_loss=0.676, bd_loss=1.19, acc=0.663, adv1=0.719, loss_d1=0.68, adv2=0.698, loss_d2=0.694]  
+Epoch 13 Train Avg — seg_loss: 0.4293, bd_loss: 1.3754, acc: 0.5621, adv1: 0.7099, loss_d1: 0.6757, adv2: 0.6970, loss_d2: 0.6886, 
+Validation: 100%|██████████| 166/166 [02:02<00:00,  1.36it/s]
+Epoch 13 Validation mIoU: 0.2712
+  background  : IoU=0.4548
+  building    : IoU=0.2366
+  road        : IoU=0.2338
+  water       : IoU=0.4096
+  barren      : IoU=0.0992
+  forest      : IoU=0.1658
+  agriculture : IoU=0.2984
+Epoch 14/20: 100%|██████████| 192/192 [03:07<00:00,  1.02it/s, seg_loss=0.351, bd_loss=1.1, acc=0.562, adv1=0.71, loss_d1=0.673, adv2=0.699, loss_d2=0.689]   
+Epoch 14 Train Avg — seg_loss: 0.4291, bd_loss: 1.3706, acc: 0.5614, adv1: 0.7107, loss_d1: 0.6748, adv2: 0.6978, loss_d2: 0.6884, 
+Validation: 100%|██████████| 166/166 [02:02<00:00,  1.36it/s]
+Epoch 14 Validation mIoU: 0.2901
+  background  : IoU=0.4695
+  building    : IoU=0.2378
+  road        : IoU=0.2524
+  water       : IoU=0.4448
+  barren      : IoU=0.1041
+  forest      : IoU=0.1582
+  agriculture : IoU=0.3638
+Epoch 15/20: 100%|██████████| 192/192 [03:10<00:00,  1.01it/s, seg_loss=0.378, bd_loss=1.97, acc=0.584, adv1=0.721, loss_d1=0.659, adv2=0.702, loss_d2=0.685] 
+Epoch 15 Train Avg — seg_loss: 0.4215, bd_loss: 1.3708, acc: 0.5678, adv1: 0.7129, loss_d1: 0.6738, adv2: 0.6977, loss_d2: 0.6879, 
+Validation: 100%|██████████| 166/166 [02:02<00:00,  1.36it/s]
+Epoch 15 Validation mIoU: 0.3057
+  background  : IoU=0.4523
+  building    : IoU=0.3253
+  road        : IoU=0.2815
+  water       : IoU=0.4271
+  barren      : IoU=0.0794
+  forest      : IoU=0.1672
+  agriculture : IoU=0.4067
+Epoch 16/20: 100%|██████████| 192/192 [03:06<00:00,  1.03it/s, seg_loss=0.345, bd_loss=1.41, acc=0.499, adv1=0.717, loss_d1=0.666, adv2=0.7, loss_d2=0.685]   
+Epoch 16 Train Avg — seg_loss: 0.4146, bd_loss: 1.3635, acc: 0.5730, adv1: 0.7113, loss_d1: 0.6732, adv2: 0.6995, loss_d2: 0.6879, 
+Validation: 100%|██████████| 166/166 [02:01<00:00,  1.37it/s]
+Epoch 16 Validation mIoU: 0.2908
+  background  : IoU=0.4274
+  building    : IoU=0.2831
+  road        : IoU=0.2650
+  water       : IoU=0.4574
+  barren      : IoU=0.0810
+  forest      : IoU=0.1742
+  agriculture : IoU=0.3473
+Epoch 17/20: 100%|██████████| 192/192 [03:09<00:00,  1.02it/s, seg_loss=0.492, bd_loss=1.71, acc=0.582, adv1=0.708, loss_d1=0.678, adv2=0.69, loss_d2=0.692]  
+Epoch 17 Train Avg — seg_loss: 0.4192, bd_loss: 1.3634, acc: 0.5741, adv1: 0.7103, loss_d1: 0.6735, adv2: 0.6988, loss_d2: 0.6874, 
+Validation: 100%|██████████| 166/166 [02:03<00:00,  1.34it/s]
+Epoch 17 Validation mIoU: 0.2990
+  background  : IoU=0.4592
+  building    : IoU=0.2966
+  road        : IoU=0.2749
+  water       : IoU=0.4264
+  barren      : IoU=0.0916
+  forest      : IoU=0.1801
+  agriculture : IoU=0.3642
+Epoch 18/20: 100%|██████████| 192/192 [03:07<00:00,  1.03it/s, seg_loss=0.334, bd_loss=1.33, acc=0.572, adv1=0.724, loss_d1=0.662, adv2=0.693, loss_d2=0.687] 
+Epoch 18 Train Avg — seg_loss: 0.4101, bd_loss: 1.3641, acc: 0.5766, adv1: 0.7109, loss_d1: 0.6715, adv2: 0.6990, loss_d2: 0.6871, 
+Validation: 100%|██████████| 166/166 [02:02<00:00,  1.35it/s]
+Epoch 18 Validation mIoU: 0.3019
+  background  : IoU=0.4683
+  building    : IoU=0.2974
+  road        : IoU=0.2668
+  water       : IoU=0.4389
+  barren      : IoU=0.0872
+  forest      : IoU=0.1864
+  agriculture : IoU=0.3682
+Epoch 19/20: 100%|██████████| 192/192 [03:10<00:00,  1.01it/s, seg_loss=0.439, bd_loss=1.35, acc=0.581, adv1=0.704, loss_d1=0.664, adv2=0.7, loss_d2=0.69]    
+Epoch 19 Train Avg — seg_loss: 0.4054, bd_loss: 1.3601, acc: 0.5824, adv1: 0.7090, loss_d1: 0.6723, adv2: 0.6995, loss_d2: 0.6869, 
+Validation: 100%|██████████| 166/166 [02:03<00:00,  1.34it/s]
+Epoch 19 Validation mIoU: 0.2946
+  background  : IoU=0.4939
+  building    : IoU=0.2527
+  road        : IoU=0.2648
+  water       : IoU=0.4391
+  barren      : IoU=0.0987
+  forest      : IoU=0.1733
+  agriculture : IoU=0.3396
+Epoch 20/20: 100%|██████████| 192/192 [03:10<00:00,  1.01it/s, seg_loss=0.395, bd_loss=1.95, acc=0.576, adv1=0.691, loss_d1=0.677, adv2=0.7, loss_d2=0.686]   
+Epoch 20 Train Avg — seg_loss: 0.4057, bd_loss: 1.3630, acc: 0.5831, adv1: 0.7147, loss_d1: 0.6710, adv2: 0.6998, loss_d2: 0.6867, 
+Validation: 100%|██████████| 166/166 [02:03<00:00,  1.35it/s]
+Epoch 20 Validation mIoU: 0.3012
+  background  : IoU=0.4384
+  building    : IoU=0.2806
+  road        : IoU=0.2908
+  water       : IoU=0.4560
+  barren      : IoU=0.0879
+  forest      : IoU=0.1699
+  agriculture : IoU=0.3846

@@ -11,7 +11,7 @@ PRINT_FREQ: 10
 DATASET:
   DATASET: loveda
   ROOT: data/
-  TEST_SET: 'list/loveda/urban_rural/val.lst'
+  TEST_SET: 'list/loveda/urban_urban/val.lst'
   TRAIN_SET: 'list/loveda/urban_rural/train.lst'
   TARGET_SET: 'list/loveda/rural/train.lst'
   NUM_CLASSES: 8
@@ -45,14 +45,14 @@ TRAIN:
   IGNORE_LABEL: 0
   SCALE_FACTOR: 16
   AUGMENTATION:
-    ENABLE: true
+    ENABLE: false
     PROBABILITY: 0.5
     TECHNIQUES:
       HORIZONTAL_FLIP: false
       GAUSSIAN_BLUR: false
       RANDOM_CROP: false
       GAUSSIAN_NOISE: false
-      COLOR_JITTER : true
+      COLOR_JITTER : false
   DACS:
     ENABLE: false
     THRESHOLD: 0.9

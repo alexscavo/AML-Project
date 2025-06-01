@@ -6,7 +6,6 @@ STDC-Seg/pretrained_models/STDCNet813M_73.91.tar
 STDC-Seg/pretrained_models/STDCNet1446_76.47.tar
 BiSeNet/pretrained_models/bisenetv1.pth
 BiSeNet/pretrained_models/bisenetv2.pth
-Plots
 log
 **/data
 **/checkpoint.pth.tar

@@ -1,0 +1,580 @@
+Epoch 1/20: 100%|██████████| 192/192 [03:23<00:00,  1.06s/it, seg_loss=0.617, bd_loss=1.31, acc=0.295, adv1=0.756, loss_d1=0.664, adv2=0.86, loss_d2=0.654] 
+Epoch 1 Train Avg — seg_loss: 1.1733, bd_loss: 1.7715, acc: 0.3003, adv1: 0.8384, loss_d1: 0.6455, adv2: 0.7641, loss_d2: 0.6738, 
+
+Epoch 1 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2109
+    Class  1: IoU = 0.2658
+    Class  2: IoU = 0.2348
+    Class  3: IoU = 0.1590
+    Class  4: IoU = 0.2814
+    Class  5: IoU = 0.0207
+    Class  6: IoU = 0.1379
+    Class  7: IoU = 0.3767
+Epoch 2/20: 100%|██████████| 192/192 [03:14<00:00,  1.01s/it, seg_loss=0.831, bd_loss=0.974, acc=0.524, adv1=1.38, loss_d1=0.675, adv2=1.03, loss_d2=0.562] 
+Epoch 2 Train Avg — seg_loss: 0.6900, bd_loss: 1.4783, acc: 0.4034, adv1: 1.2862, loss_d1: 0.5492, adv2: 0.9830, loss_d2: 0.6099, 
+
+Epoch 2 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2121
+    Class  1: IoU = 0.1943
+    Class  2: IoU = 0.2337
+    Class  3: IoU = 0.1878
+    Class  4: IoU = 0.3322
+    Class  5: IoU = 0.0528
+    Class  6: IoU = 0.1086
+    Class  7: IoU = 0.3754
+Epoch 3/20: 100%|██████████| 192/192 [03:05<00:00,  1.03it/s, seg_loss=0.463, bd_loss=1.54, acc=0.416, adv1=0.8, loss_d1=0.85, adv2=0.697, loss_d2=0.722]   
+Epoch 3 Train Avg — seg_loss: 0.6124, bd_loss: 1.4491, acc: 0.4406, adv1: 1.5202, loss_d1: 0.4951, adv2: 1.2966, loss_d2: 0.5450, 
+
+Epoch 3 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2289
+    Class  1: IoU = 0.2237
+    Class  2: IoU = 0.2385
+    Class  3: IoU = 0.2267
+    Class  4: IoU = 0.2911
+    Class  5: IoU = 0.0517
+    Class  6: IoU = 0.1705
+    Class  7: IoU = 0.3999
+Epoch 4/20: 100%|██████████| 192/192 [03:13<00:00,  1.01s/it, seg_loss=0.498, bd_loss=1.65, acc=0.458, adv1=2.02, loss_d1=0.5, adv2=1.14, loss_d2=0.492]   
+Epoch 4 Train Avg — seg_loss: 0.5810, bd_loss: 1.4379, acc: 0.4648, adv1: 1.9377, loss_d1: 0.4117, adv2: 1.5419, loss_d2: 0.5015, 
+
+Epoch 4 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2367
+    Class  1: IoU = 0.1761
+    Class  2: IoU = 0.3315
+    Class  3: IoU = 0.2217
+    Class  4: IoU = 0.3720
+    Class  5: IoU = 0.0471
+    Class  6: IoU = 0.1482
+    Class  7: IoU = 0.3603
+Epoch 5/20: 100%|██████████| 192/192 [03:23<00:00,  1.06s/it, seg_loss=0.358, bd_loss=1.28, acc=0.439, adv1=1.72, loss_d1=0.222, adv2=1.04, loss_d2=0.41]  
+Epoch 5 Train Avg — seg_loss: 0.5510, bd_loss: 1.4240, acc: 0.4771, adv1: 2.4616, loss_d1: 0.3512, adv2: 1.8124, loss_d2: 0.4529, 
+
+Epoch 5 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2343
+    Class  1: IoU = 0.1672
+    Class  2: IoU = 0.3216
+    Class  3: IoU = 0.2100
+    Class  4: IoU = 0.3764
+    Class  5: IoU = 0.0422
+    Class  6: IoU = 0.1625
+    Class  7: IoU = 0.3602
+Epoch 6/20: 100%|██████████| 192/192 [03:17<00:00,  1.03s/it, seg_loss=0.56, bd_loss=0.76, acc=0.411, adv1=1.8, loss_d1=1.02, adv2=1.72, loss_d2=0.988]    
+Epoch 6 Train Avg — seg_loss: 0.5186, bd_loss: 1.4181, acc: 0.4942, adv1: 2.5548, loss_d1: 0.3232, adv2: 2.0137, loss_d2: 0.4214, 
+
+Epoch 6 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2538
+    Class  1: IoU = 0.2491
+    Class  2: IoU = 0.3253
+    Class  3: IoU = 0.2277
+    Class  4: IoU = 0.3848
+    Class  5: IoU = 0.0844
+    Class  6: IoU = 0.0986
+    Class  7: IoU = 0.4064
+Epoch 7/20: 100%|██████████| 192/192 [03:14<00:00,  1.02s/it, seg_loss=0.497, bd_loss=1.08, acc=0.582, adv1=3.52, loss_d1=0.228, adv2=2.78, loss_d2=0.571] 
+Epoch 7 Train Avg — seg_loss: 0.5014, bd_loss: 1.4096, acc: 0.5064, adv1: 2.7900, loss_d1: 0.2969, adv2: 2.2454, loss_d2: 0.3794, 
+
+Epoch 7 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2450
+    Class  1: IoU = 0.3177
+    Class  2: IoU = 0.2250
+    Class  3: IoU = 0.2206
+    Class  4: IoU = 0.3818
+    Class  5: IoU = 0.0693
+    Class  6: IoU = 0.1220
+    Class  7: IoU = 0.3783
+Epoch 8/20: 100%|██████████| 192/192 [03:17<00:00,  1.03s/it, seg_loss=0.564, bd_loss=1.79, acc=0.518, adv1=4.19, loss_d1=0.37, adv2=1.79, loss_d2=0.501]  
+Epoch 8 Train Avg — seg_loss: 0.4876, bd_loss: 1.4009, acc: 0.5152, adv1: 2.8978, loss_d1: 0.2911, adv2: 2.1794, loss_d2: 0.3781, 
+
+Epoch 8 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2541
+    Class  1: IoU = 0.3021
+    Class  2: IoU = 0.2678
+    Class  3: IoU = 0.2423
+    Class  4: IoU = 0.4178
+    Class  5: IoU = 0.0586
+    Class  6: IoU = 0.1336
+    Class  7: IoU = 0.3568
+Epoch 9/20: 100%|██████████| 192/192 [03:10<00:00,  1.01it/s, seg_loss=0.423, bd_loss=1.29, acc=0.448, adv1=2.7, loss_d1=0.158, adv2=3.47, loss_d2=0.202]   
+Epoch 9 Train Avg — seg_loss: 0.4810, bd_loss: 1.3986, acc: 0.5161, adv1: 3.0413, loss_d1: 0.2685, adv2: 2.2998, loss_d2: 0.3616, 
+
+Epoch 9 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2685
+    Class  1: IoU = 0.3156
+    Class  2: IoU = 0.2915
+    Class  3: IoU = 0.2486
+    Class  4: IoU = 0.4553
+    Class  5: IoU = 0.0723
+    Class  6: IoU = 0.1348
+    Class  7: IoU = 0.3617
+Epoch 10/20: 100%|██████████| 192/192 [03:14<00:00,  1.01s/it, seg_loss=0.353, bd_loss=1.41, acc=0.592, adv1=2.52, loss_d1=0.359, adv2=2.35, loss_d2=0.282] 
+Epoch 10 Train Avg — seg_loss: 0.4641, bd_loss: 1.3914, acc: 0.5368, adv1: 3.3034, loss_d1: 0.2436, adv2: 2.3823, loss_d2: 0.3445, 
+
+Epoch 10 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2846
+    Class  1: IoU = 0.2501
+    Class  2: IoU = 0.3308
+    Class  3: IoU = 0.2805
+    Class  4: IoU = 0.4743
+    Class  5: IoU = 0.0666
+    Class  6: IoU = 0.1512
+    Class  7: IoU = 0.4388
+Epoch 11/20: 100%|██████████| 192/192 [03:14<00:00,  1.01s/it, seg_loss=0.336, bd_loss=0.979, acc=0.554, adv1=4.39, loss_d1=0.348, adv2=1.88, loss_d2=0.485] 
+Epoch 11 Train Avg — seg_loss: 0.4489, bd_loss: 1.3868, acc: 0.5414, adv1: 3.3107, loss_d1: 0.2456, adv2: 2.2427, loss_d2: 0.3507, 
+
+Epoch 11 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2774
+    Class  1: IoU = 0.3857
+    Class  2: IoU = 0.2260
+    Class  3: IoU = 0.2647
+    Class  4: IoU = 0.4363
+    Class  5: IoU = 0.0932
+    Class  6: IoU = 0.1472
+    Class  7: IoU = 0.3889
+Epoch 12/20: 100%|██████████| 192/192 [03:14<00:00,  1.01s/it, seg_loss=0.39, bd_loss=1.74, acc=0.547, adv1=2.7, loss_d1=0.31, adv2=1.8, loss_d2=0.379]     
+Epoch 12 Train Avg — seg_loss: 0.4489, bd_loss: 1.3842, acc: 0.5418, adv1: 3.4644, loss_d1: 0.2242, adv2: 2.2590, loss_d2: 0.3478, 
+
+Epoch 12 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2533
+    Class  1: IoU = 0.3162
+    Class  2: IoU = 0.2677
+    Class  3: IoU = 0.2464
+    Class  4: IoU = 0.3676
+    Class  5: IoU = 0.0521
+    Class  6: IoU = 0.1274
+    Class  7: IoU = 0.3960
+Epoch 13/20: 100%|██████████| 192/192 [03:14<00:00,  1.01s/it, seg_loss=0.431, bd_loss=1.11, acc=0.533, adv1=3, loss_d1=0.146, adv2=2.3, loss_d2=0.481]     
+Epoch 13 Train Avg — seg_loss: 0.4341, bd_loss: 1.3826, acc: 0.5534, adv1: 3.4318, loss_d1: 0.2353, adv2: 2.4742, loss_d2: 0.3180, 
+
+Epoch 13 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2624
+    Class  1: IoU = 0.3305
+    Class  2: IoU = 0.2325
+    Class  3: IoU = 0.2829
+    Class  4: IoU = 0.4072
+    Class  5: IoU = 0.0795
+    Class  6: IoU = 0.1203
+    Class  7: IoU = 0.3836
+Epoch 14/20: 100%|██████████| 192/192 [03:19<00:00,  1.04s/it, seg_loss=0.476, bd_loss=1.22, acc=0.504, adv1=3.87, loss_d1=0.138, adv2=2.15, loss_d2=0.303] 
+Epoch 14 Train Avg — seg_loss: 0.4338, bd_loss: 1.3756, acc: 0.5560, adv1: 3.4220, loss_d1: 0.2223, adv2: 2.4836, loss_d2: 0.3242, 
+
+Epoch 14 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2982
+    Class  1: IoU = 0.3923
+    Class  2: IoU = 0.2668
+    Class  3: IoU = 0.2733
+    Class  4: IoU = 0.5149
+    Class  5: IoU = 0.0880
+    Class  6: IoU = 0.1615
+    Class  7: IoU = 0.3902
+Epoch 15/20: 100%|██████████| 192/192 [03:09<00:00,  1.02it/s, seg_loss=0.791, bd_loss=1.19, acc=0.639, adv1=4.58, loss_d1=0.331, adv2=2.27, loss_d2=0.619] 
+Epoch 15 Train Avg — seg_loss: 0.4237, bd_loss: 1.3754, acc: 0.5631, adv1: 3.8821, loss_d1: 0.2017, adv2: 2.5392, loss_d2: 0.3112, 
+
+Epoch 15 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2666
+    Class  1: IoU = 0.3707
+    Class  2: IoU = 0.2562
+    Class  3: IoU = 0.2433
+    Class  4: IoU = 0.4634
+    Class  5: IoU = 0.0727
+    Class  6: IoU = 0.1346
+    Class  7: IoU = 0.3252
+Epoch 16/20: 100%|██████████| 192/192 [03:17<00:00,  1.03s/it, seg_loss=0.36, bd_loss=1.44, acc=0.623, adv1=4.23, loss_d1=0.0936, adv2=2.94, loss_d2=0.23]  
+Epoch 16 Train Avg — seg_loss: 0.4173, bd_loss: 1.3759, acc: 0.5681, adv1: 3.8243, loss_d1: 0.2047, adv2: 2.4484, loss_d2: 0.3207, 
+
+Epoch 16 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2744
+    Class  1: IoU = 0.3614
+    Class  2: IoU = 0.2827
+    Class  3: IoU = 0.2771
+    Class  4: IoU = 0.4219
+    Class  5: IoU = 0.0698
+    Class  6: IoU = 0.1418
+    Class  7: IoU = 0.3659
+Epoch 17/20: 100%|██████████| 192/192 [03:16<00:00,  1.03s/it, seg_loss=0.536, bd_loss=1.28, acc=0.587, adv1=3.16, loss_d1=0.0915, adv2=2.64, loss_d2=0.234] 
+Epoch 17 Train Avg — seg_loss: 0.4211, bd_loss: 1.3734, acc: 0.5681, adv1: 3.8831, loss_d1: 0.1945, adv2: 2.4135, loss_d2: 0.3193, 
+
+Epoch 17 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2831
+    Class  1: IoU = 0.4311
+    Class  2: IoU = 0.2139
+    Class  3: IoU = 0.2800
+    Class  4: IoU = 0.4259
+    Class  5: IoU = 0.0918
+    Class  6: IoU = 0.1393
+    Class  7: IoU = 0.3996
+Epoch 18/20: 100%|██████████| 192/192 [03:07<00:00,  1.02it/s, seg_loss=0.325, bd_loss=1.31, acc=0.532, adv1=3.98, loss_d1=0.0964, adv2=1.8, loss_d2=0.323]  
+Epoch 18 Train Avg — seg_loss: 0.4112, bd_loss: 1.3691, acc: 0.5675, adv1: 3.8964, loss_d1: 0.1865, adv2: 2.3943, loss_d2: 0.3155, 
+
+Epoch 18 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2861
+    Class  1: IoU = 0.3695
+    Class  2: IoU = 0.3406
+    Class  3: IoU = 0.2575
+    Class  4: IoU = 0.4418
+    Class  5: IoU = 0.0834
+    Class  6: IoU = 0.1327
+    Class  7: IoU = 0.3768
+Epoch 19/20: 100%|██████████| 192/192 [03:11<00:00,  1.00it/s, seg_loss=0.552, bd_loss=1.26, acc=0.612, adv1=4.64, loss_d1=0.229, adv2=2.83, loss_d2=0.224]  
+Epoch 19 Train Avg — seg_loss: 0.4163, bd_loss: 1.3669, acc: 0.5722, adv1: 3.8546, loss_d1: 0.1953, adv2: 2.4167, loss_d2: 0.3103, 
+
+Epoch 19 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2598
+    Class  1: IoU = 0.3591
+    Class  2: IoU = 0.2375
+    Class  3: IoU = 0.2893
+    Class  4: IoU = 0.3877
+    Class  5: IoU = 0.0722
+    Class  6: IoU = 0.1229
+    Class  7: IoU = 0.3497
+Epoch 20/20: 100%|██████████| 192/192 [03:07<00:00,  1.02it/s, seg_loss=0.393, bd_loss=1.59, acc=0.479, adv1=4.55, loss_d1=0.0672, adv2=2.46, loss_d2=0.213] 
+Epoch 20 Train Avg — seg_loss: 0.4072, bd_loss: 1.3655, acc: 0.5742, adv1: 3.8663, loss_d1: 0.1726, adv2: 2.4736, loss_d2: 0.2981, 
+
+Epoch 20 Validation (full_model):
+0
+10
+20
+30
+40
+50
+60
+70
+80
+90
+100
+110
+120
+130
+140
+150
+160
+  ==> full_model mIoU: 0.2810
+    Class  1: IoU = 0.3858
+    Class  2: IoU = 0.2963
+    Class  3: IoU = 0.2802
+    Class  4: IoU = 0.4027
+    Class  5: IoU = 0.0796
+    Class  6: IoU = 0.1341
+    Class  7: IoU = 0.3882

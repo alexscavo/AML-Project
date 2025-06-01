@@ -1,0 +1,16 @@
+
+import torch
+import os, sys
+# Add the project root directory to sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from models.deeplabv2 import get_deeplab_v2  # Or your correct model class
+
+model = get_deeplab_v2(num_classes=7)  # Match the saved model setup
+state_dict = torch.load("training/results/deeplabv2_loveda_best.pth", map_location='cpu')
+model.load_state_dict(state_dict)
+
+def count_all_parameters(model):
+    return sum(p.numel() for p in model.parameters())
+
+
+print(f"Total parameters: {count_all_parameters(model):,}")

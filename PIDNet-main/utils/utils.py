@@ -46,13 +46,13 @@ class FullModel(nn.Module):
                 h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
 
     acc  = self.pixel_acc(outputs[-2], labels)
-    loss_s = self.sem_loss(outputs[:-1], labels)
-    loss_b = self.bd_loss(outputs[-1], bd_gt)
+    loss_s = self.sem_loss(outputs[:-1], labels) # (lambda0*l0 + lambda2*l2)
+    loss_b = self.bd_loss(outputs[-1], bd_gt) # boundary loss (l1)
 
     filler = torch.ones_like(labels) * config.TRAIN.IGNORE_LABEL
     try:
         bd_label = torch.where(torch.sigmoid(outputs[-1][:, 0, :, :]) > 0.8, labels, filler) # 0.7
-        loss_sb = self.sem_loss([outputs[-2]], bd_label)
+        loss_sb = self.sem_loss([outputs[-2]], bd_label) # BAS-loss (l3)
     except:
         print("Error in loss computation")
         loss_sb = self.sem_loss([outputs[-2]], labels)

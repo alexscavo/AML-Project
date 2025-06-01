@@ -345,7 +345,7 @@ if __name__ == '__main__':
         print()
 
         if best_mIoU < mIoU:
-            best_miou = mIoU
+            best_mIoU = mIoU
             torch.save(model.state_dict(), "results/deeplabv2_loveda_best.pth")
             logging.info(f"Best model saved at epoch {epoch+1} with mIoU: {mIoU:.4f}")
 

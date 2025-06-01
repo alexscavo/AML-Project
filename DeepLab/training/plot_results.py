@@ -32,9 +32,9 @@ val_accuracies = [val_epoch_map.get(epoch, (None, None, None))[2] for epoch in e
 # Plotting settings
 plot_train_loss = False
 plot_val_loss = False
-plot_val_miou = True
-plot_train_acc = False
-plot_val_acc = False
+plot_val_miou = False
+plot_train_acc = True
+plot_val_acc = True
 
 # Plotting
 plt.figure(figsize=(14, 8))

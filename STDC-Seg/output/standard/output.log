@@ -1,0 +1,260 @@
+Epoch 1/20 Training: 100%|██████████| 193/193 [00:46<00:00,  4.15batch/s, loss=21.8889]
+Epoch 1 Training complete. Avg Loss: 27.6975
+Epoch 1/20 Validation: 100%|██████████| 166/166 [01:29<00:00,  1.87batch/s, valloss=8.0694] 
+Epoch 1 Validation complete. Avg Loss: 9.7881
+Per-class IoU:
+  Class 0: 0.1040
+  Class 1: 0.3158
+  Class 2: 0.1210
+  Class 3: 0.2569
+  Class 4: 0.1200
+  Class 5: 0.0768
+  Class 6: 0.0257
+Mean IoU: 0.1457
+Epoch 2/20 Training: 100%|██████████| 193/193 [00:40<00:00,  4.72batch/s, loss=27.5616]
+Epoch 2 Training complete. Avg Loss: 21.6751
+Epoch 2/20 Validation: 100%|██████████| 166/166 [01:04<00:00,  2.59batch/s, valloss=7.9411] 
+Epoch 2 Validation complete. Avg Loss: 9.9730
+Per-class IoU:
+  Class 0: 0.1322
+  Class 1: 0.3897
+  Class 2: 0.2821
+  Class 3: 0.2955
+  Class 4: 0.1077
+  Class 5: 0.0811
+  Class 6: 0.3741
+Mean IoU: 0.2375
+Epoch 3/20 Training: 100%|██████████| 193/193 [00:39<00:00,  4.83batch/s, loss=22.6214]
+Epoch 3 Training complete. Avg Loss: 17.6992
+Epoch 3/20 Validation: 100%|██████████| 166/166 [01:02<00:00,  2.64batch/s, valloss=9.8664] 
+Epoch 3 Validation complete. Avg Loss: 11.5656
+Per-class IoU:
+  Class 0: 0.1583
+  Class 1: 0.3766
+  Class 2: 0.2699
+  Class 3: 0.3365
+  Class 4: 0.1327
+  Class 5: 0.0784
+  Class 6: 0.4073
+Mean IoU: 0.2514
+Epoch 4/20 Training: 100%|██████████| 193/193 [00:39<00:00,  4.89batch/s, loss=14.4742]
+Epoch 4 Training complete. Avg Loss: 15.5537
+Epoch 4/20 Validation: 100%|██████████| 166/166 [01:03<00:00,  2.63batch/s, valloss=13.4657]
+Epoch 4 Validation complete. Avg Loss: 12.0635
+Per-class IoU:
+  Class 0: 0.2130
+  Class 1: 0.3127
+  Class 2: 0.3139
+  Class 3: 0.3709
+  Class 4: 0.1479
+  Class 5: 0.0865
+  Class 6: 0.4457
+Mean IoU: 0.2701
+Epoch 5/20 Training: 100%|██████████| 193/193 [00:39<00:00,  4.91batch/s, loss=19.5182]
+Epoch 5 Training complete. Avg Loss: 15.5480
+Epoch 5/20 Validation: 100%|██████████| 166/166 [01:03<00:00,  2.63batch/s, valloss=7.9275] 
+Epoch 5 Validation complete. Avg Loss: 11.4511
+Per-class IoU:
+  Class 0: 0.3448
+  Class 1: 0.3507
+  Class 2: 0.2110
+  Class 3: 0.3563
+  Class 4: 0.1181
+  Class 5: 0.0903
+  Class 6: 0.3633
+Mean IoU: 0.2621
+Epoch 6/20 Training: 100%|██████████| 193/193 [00:39<00:00,  4.88batch/s, loss=25.2022]
+Epoch 6 Training complete. Avg Loss: 15.5879
+Epoch 6/20 Validation: 100%|██████████| 166/166 [01:02<00:00,  2.64batch/s, valloss=13.3801]
+Epoch 6 Validation complete. Avg Loss: 14.0007
+Per-class IoU:
+  Class 0: 0.1126
+  Class 1: 0.3362
+  Class 2: 0.2480
+  Class 3: 0.5015
+  Class 4: 0.1922
+  Class 5: 0.0843
+  Class 6: 0.3984
+Mean IoU: 0.2676
+Epoch 7/20 Training: 100%|██████████| 193/193 [00:39<00:00,  4.92batch/s, loss=13.3293]
+Epoch 7 Training complete. Avg Loss: 13.9890
+Epoch 7/20 Validation: 100%|██████████| 166/166 [01:02<00:00,  2.66batch/s, valloss=4.4157] 
+Epoch 7 Validation complete. Avg Loss: 9.0180
+Per-class IoU:
+  Class 0: 0.2142
+  Class 1: 0.2613
+  Class 2: 0.3168
+  Class 3: 0.3220
+  Class 4: 0.1420
+  Class 5: 0.1026
+  Class 6: 0.4422
+Mean IoU: 0.2573
+Epoch 8/20 Training: 100%|██████████| 193/193 [00:39<00:00,  4.85batch/s, loss=10.4569]
+Epoch 8 Training complete. Avg Loss: 12.7447
+Epoch 8/20 Validation: 100%|██████████| 166/166 [01:02<00:00,  2.65batch/s, valloss=6.5751] 
+Epoch 8 Validation complete. Avg Loss: 10.5087
+Per-class IoU:
+  Class 0: 0.5195
+  Class 1: 0.2242
+  Class 2: 0.3627
+  Class 3: 0.4932
+  Class 4: 0.1531
+  Class 5: 0.1629
+  Class 6: 0.3933
+Mean IoU: 0.3299
+Epoch 9/20 Training: 100%|██████████| 193/193 [00:39<00:00,  4.86batch/s, loss=11.5342]
+Epoch 9 Training complete. Avg Loss: 11.7095
+Epoch 9/20 Validation: 100%|██████████| 166/166 [01:02<00:00,  2.64batch/s, valloss=2.9561] 
+Epoch 9 Validation complete. Avg Loss: 12.7916
+Per-class IoU:
+  Class 0: 0.5343
+  Class 1: 0.4062
+  Class 2: 0.3950
+  Class 3: 0.3080
+  Class 4: 0.1664
+  Class 5: 0.1203
+  Class 6: 0.4652
+Mean IoU: 0.3422
+Epoch 10/20 Training: 100%|██████████| 193/193 [00:40<00:00,  4.81batch/s, loss=11.7035]
+Epoch 10 Training complete. Avg Loss: 11.0777
+Epoch 10/20 Validation: 100%|██████████| 166/166 [01:03<00:00,  2.61batch/s, valloss=3.6728] 
+Epoch 10 Validation complete. Avg Loss: 13.2460
+Per-class IoU:
+  Class 0: 0.5260
+  Class 1: 0.3695
+  Class 2: 0.3706
+  Class 3: 0.3556
+  Class 4: 0.2139
+  Class 5: 0.1465
+  Class 6: 0.4560
+Mean IoU: 0.3483
+Epoch 11/20 Training: 100%|██████████| 193/193 [00:39<00:00,  4.90batch/s, loss=9.3982] 
+Epoch 11 Training complete. Avg Loss: 10.5084
+Epoch 11/20 Validation: 100%|██████████| 166/166 [01:02<00:00,  2.64batch/s, valloss=4.6132] 
+Epoch 11 Validation complete. Avg Loss: 15.9478
+Per-class IoU:
+  Class 0: 0.5378
+  Class 1: 0.4205
+  Class 2: 0.3007
+  Class 3: 0.3236
+  Class 4: 0.1898
+  Class 5: 0.1639
+  Class 6: 0.4576
+Mean IoU: 0.3420
+Epoch 12/20 Training: 100%|██████████| 193/193 [00:39<00:00,  4.90batch/s, loss=9.3677] 
+Epoch 12 Training complete. Avg Loss: 9.8825
+Epoch 12/20 Validation: 100%|██████████| 166/166 [01:02<00:00,  2.64batch/s, valloss=4.1675] 
+Epoch 12 Validation complete. Avg Loss: 18.8689
+Per-class IoU:
+  Class 0: 0.4837
+  Class 1: 0.4497
+  Class 2: 0.3620
+  Class 3: 0.2808
+  Class 4: 0.1775
+  Class 5: 0.1417
+  Class 6: 0.4414
+Mean IoU: 0.3338
+Epoch 13/20 Training: 100%|██████████| 193/193 [00:39<00:00,  4.92batch/s, loss=9.0567] 
+Epoch 13 Training complete. Avg Loss: 9.5637
+Epoch 13/20 Validation: 100%|██████████| 166/166 [01:02<00:00,  2.66batch/s, valloss=5.3387] 
+Epoch 13 Validation complete. Avg Loss: 17.7695
+Per-class IoU:
+  Class 0: 0.4945
+  Class 1: 0.3834
+  Class 2: 0.3791
+  Class 3: 0.3005
+  Class 4: 0.1618
+  Class 5: 0.1903
+  Class 6: 0.4547
+Mean IoU: 0.3377
+Epoch 14/20 Training: 100%|██████████| 193/193 [00:39<00:00,  4.88batch/s, loss=11.5207]
+Epoch 14 Training complete. Avg Loss: 9.3384
+Epoch 14/20 Validation: 100%|██████████| 166/166 [01:02<00:00,  2.65batch/s, valloss=5.2183] 
+Epoch 14 Validation complete. Avg Loss: 21.5191
+Per-class IoU:
+  Class 0: 0.5352
+  Class 1: 0.4655
+  Class 2: 0.3430
+  Class 3: 0.2811
+  Class 4: 0.2211
+  Class 5: 0.0937
+  Class 6: 0.4475
+Mean IoU: 0.3410
+Epoch 15/20 Training: 100%|██████████| 193/193 [00:39<00:00,  4.92batch/s, loss=9.1401] 
+Epoch 15 Training complete. Avg Loss: 8.9203
+Epoch 15/20 Validation: 100%|██████████| 166/166 [01:03<00:00,  2.63batch/s, valloss=6.6484] 
+Epoch 15 Validation complete. Avg Loss: 21.4881
+Per-class IoU:
+  Class 0: 0.5324
+  Class 1: 0.4693
+  Class 2: 0.3309
+  Class 3: 0.3390
+  Class 4: 0.1617
+  Class 5: 0.1871
+  Class 6: 0.4310
+Mean IoU: 0.3502
+Epoch 16/20 Training: 100%|██████████| 193/193 [00:40<00:00,  4.82batch/s, loss=9.4671] 
+Epoch 16 Training complete. Avg Loss: 8.8081
+Epoch 16/20 Validation: 100%|██████████| 166/166 [01:03<00:00,  2.62batch/s, valloss=7.1461] 
+Epoch 16 Validation complete. Avg Loss: 28.3798
+Per-class IoU:
+  Class 0: 0.5357
+  Class 1: 0.3443
+  Class 2: 0.3455
+  Class 3: 0.2871
+  Class 4: 0.1316
+  Class 5: 0.1247
+  Class 6: 0.4485
+Mean IoU: 0.3168
+Epoch 17/20 Training: 100%|██████████| 193/193 [00:39<00:00,  4.84batch/s, loss=8.2077] 
+Epoch 17 Training complete. Avg Loss: 8.6263
+Epoch 17/20 Validation: 100%|██████████| 166/166 [01:02<00:00,  2.65batch/s, valloss=6.0330] 
+Epoch 17 Validation complete. Avg Loss: 24.0907
+Per-class IoU:
+  Class 0: 0.5440
+  Class 1: 0.4230
+  Class 2: 0.3346
+  Class 3: 0.3089
+  Class 4: 0.1685
+  Class 5: 0.1492
+  Class 6: 0.4508
+Mean IoU: 0.3399
+Epoch 18/20 Training: 100%|██████████| 193/193 [00:39<00:00,  4.90batch/s, loss=8.6792] 
+Epoch 18 Training complete. Avg Loss: 8.4582
+Epoch 18/20 Validation: 100%|██████████| 166/166 [01:02<00:00,  2.64batch/s, valloss=10.4303]
+Epoch 18 Validation complete. Avg Loss: 23.7006
+Per-class IoU:
+  Class 0: 0.5379
+  Class 1: 0.4203
+  Class 2: 0.3134
+  Class 3: 0.3579
+  Class 4: 0.1440
+  Class 5: 0.1431
+  Class 6: 0.4270
+Mean IoU: 0.3348
+Epoch 19/20 Training: 100%|██████████| 193/193 [00:39<00:00,  4.90batch/s, loss=9.1082] 
+Epoch 19 Training complete. Avg Loss: 8.2817
+Epoch 19/20 Validation: 100%|██████████| 166/166 [01:03<00:00,  2.61batch/s, valloss=10.9586]
+Epoch 19 Validation complete. Avg Loss: 28.1996
+Per-class IoU:
+  Class 0: 0.5354
+  Class 1: 0.3817
+  Class 2: 0.2937
+  Class 3: 0.3050
+  Class 4: 0.1432
+  Class 5: 0.1367
+  Class 6: 0.4347
+Mean IoU: 0.3186
+Epoch 20/20 Training: 100%|██████████| 193/193 [00:39<00:00,  4.92batch/s, loss=10.1442]
+Epoch 20 Training complete. Avg Loss: 8.1664
+Epoch 20/20 Validation: 100%|██████████| 166/166 [01:03<00:00,  2.63batch/s, valloss=10.6387]
+Epoch 20 Validation complete. Avg Loss: 27.4577
+Per-class IoU:
+  Class 0: 0.5401
+  Class 1: 0.4190
+  Class 2: 0.3360
+  Class 3: 0.3257
+  Class 4: 0.1456
+  Class 5: 0.1115
+  Class 6: 0.4359
+Mean IoU: 0.3305

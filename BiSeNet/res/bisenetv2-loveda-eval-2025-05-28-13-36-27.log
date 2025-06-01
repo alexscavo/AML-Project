@@ -1,0 +1,26 @@
+INFO evaluate.py(362): setup and restore model
+INFO evaluate.py(378): 
+eval results of f1 score metric:
+INFO evaluate.py(379): 
+| method   | ratio   |   macro_f1 |   micro_f1 |
+|----------+---------+------------+------------|
+| ss       | -       |    0.42299 |   0.566263 |
+INFO evaluate.py(380): 
+eval results of miou metric:
+INFO evaluate.py(381): 
+| method   | ratio   |     miou |   fw_miou |
+|----------+---------+----------+-----------|
+| ss       | -       | 0.288939 |  0.380007 |
+INFO evaluate.py(382): 
+Per-class iou metric
+INFO evaluate.py(399): 
+Per-class IoU:
+| class       |      IoU |
+|-------------+----------|
+| background  | 0.50319  |
+| building    | 0.434234 |
+| road        | 0.300647 |
+| water       | 0.354211 |
+| barren      | 0.075578 |
+| forest      | 0.046322 |
+| agriculture | 0.308388 |

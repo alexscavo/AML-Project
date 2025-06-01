@@ -21,7 +21,7 @@ import utils.fda as fda
 
 
 def train(config, epoch, num_epoch, epoch_iters, base_lr,
-          num_iters, trainloader, optimizer, model, writer_dict, targetloader=None):
+          num_iters, trainloader, optimizer, model, writer_dict):
     # Training
     model.train()
 
@@ -35,80 +35,20 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
     writer = writer_dict['writer']
     global_steps = writer_dict['train_global_steps']
 
-    if targetloader is not None:
-        target_iter = iter(targetloader)
 
     for i_iter, batch in enumerate(trainloader, 0):
-        if config.TRAIN.DACS.ENABLE:
-            # DACS
+        
+        images, labels, bd_gts, _, _ = batch
+        images = images.cuda()
+        labels = labels.long().cuda()
+        bd_gts = bd_gts.float().cuda()
+        
 
-            # === SOURCE BATCH ==
-            x_s, y_s, bd_s, _, _ = batch
-            x_s, y_s, bd_s = x_s.cuda(), y_s.long().cuda(), bd_s.float().cuda()
-
-            # === TARGET BATCH ===
-            try:
-                x_t, real_gt, _, _, _ = next(target_iter)
-            except StopIteration:
-                target_iter = iter(targetloader)
-                x_t, _, _, _, _ = next(target_iter)
-            x_t = x_t.cuda()
-
-            with torch.no_grad():
-                logits_t = model.module.model(x_t)[-2]
-                logits_t = torch.nn.functional.interpolate(
-                    logits_t, size=x_t.shape[2:], mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS
-                )
-                pseudo_t = torch.argmax(logits_t, dim=1)
-                conf_t = torch.softmax(logits_t, dim=1).max(dim=1)[0]
-            
-            
-            # === CONFIDENCE USAGE ==
-
-            # Confidence_mask tells the position of the pixel whose pseudo-labels have 
-            # a confidence higher than  the threshold
-            confidence_mask = conf_t > config.TRAIN.DACS.THRESHOLD
-            
-            # Where confidence mask is True put the pixel from pseudo_t, otherwise insert the ignore label (0) 
-            pseudo_t_filtered = torch.where(
-                confidence_mask,
-                pseudo_t,
-                torch.tensor(config.TRAIN.IGNORE_LABEL, device=pseudo_t.device)
-            )
-
-            # Apply classmix
-            x_mixed, y_mixed, source_mask = classmix(x_s, y_s, x_t, pseudo_t_filtered)
-            
-            # Generate edges from the mixed image
-            bd_mixed = generate_safe_edge_map(y_mixed, source_mask, edge_size=3,
-                                              edge_pad=True, ignore_label=config.TRAIN.IGNORE_LABEL)
-            x_mixed = x_mixed.cuda()
-            y_mixed = y_mixed.long().cuda()
-            bd_mixed = bd_mixed.float().cuda()
-
-            # === FORWARD PASSES ===
-            loss_src, _, acc_src, loss_list_src = model(x_s, y_s, bd_s)
-            loss_mix, _, acc_mix, loss_list_mix = model(x_mixed, y_mixed, bd_mixed)
-
-            # === COMBINE LOSSES ===
-            lambda_weight = confidence_mask.float().mean().item()
-            loss = (loss_src + lambda_weight * loss_mix).mean()
-            acc = (acc_src + acc_mix) / 2
-            
-            sem_loss = loss_list_src[0] + lambda_weight * loss_list_mix[0]
-            bce_loss = loss_list_src[1] + lambda_weight * loss_list_mix[1]
-        else:
-            images, labels, bd_gts, _, _ = batch
-            images = images.cuda()
-            labels = labels.long().cuda()
-            bd_gts = bd_gts.float().cuda()
-            
-
-            losses, _, acc, loss_list = model(images, labels, bd_gts)
-            loss = losses.mean()
-            acc  = acc.mean()
-            sem_loss = loss_list[0]
-            bce_loss = loss_list[1]
+        losses, _, acc, loss_list = model(images, labels, bd_gts)
+        loss = losses.mean()
+        acc  = acc.mean()
+        sem_loss = loss_list[0]
+        bce_loss = loss_list[1]
 
         model.zero_grad()
         loss.backward()

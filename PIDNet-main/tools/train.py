@@ -191,32 +191,6 @@ def main():
         drop_last=True)
     
 
-    targetloader = None
-    if config.TRAIN.DACS.ENABLE or config.TRAIN.GAN.ENABLE or config.TRAIN.FDA.ENABLE:
-        target_dataset = eval('datasets.'+config.DATASET.DATASET)(
-                            root=config.DATASET.ROOT, 
-                            list_path=config.DATASET.TARGET_SET,
-                            num_classes=config.DATASET.NUM_CLASSES, 
-                            multi_scale=config.TRAIN.MULTI_SCALE,
-                            flip=config.TRAIN.FLIP, 
-                            enable_augmentation=True,
-                            ignore_label=config.TRAIN.IGNORE_LABEL,
-                            base_size=config.TRAIN.BASE_SIZE,
-                            crop_size=crop_size, 
-                            scale_factor=config.TRAIN.SCALE_FACTOR,
-                            horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
-                            gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
-                            transform=train_trasform)
-
-        targetloader = torch.utils.data.DataLoader(
-            target_dataset, 
-            batch_size=batch_size,
-            shuffle=config.TRAIN.SHUFFLE,
-            num_workers=config.WORKERS, 
-            pin_memory=False, 
-            drop_last=True,
-            trasform=train_trasform)
-
 
     test_size = (config.TEST.IMAGE_SIZE[1], config.TEST.IMAGE_SIZE[0])
     test_dataset = eval('datasets.'+config.DATASET.DATASET)(
@@ -319,17 +293,17 @@ def main():
             optimizer_D2 = optim.Adam(discriminator1.parameters(), lr=1e-4, betas=(0.9, 0.99))
 
             if config.TRAIN.GAN.MULTI_LEVEL:
-                train_loss=train_adv_multi(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D1, optimizer_D2, model, discriminator1,discriminator2, writer_dict)
+                train_loss=train_adv_multi(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, optimizer_G, optimizer_D1, optimizer_D2, model, discriminator1,discriminator2, writer_dict)
             else:
-                train_loss=train_adv(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, targetloader, optimizer_G, optimizer_D1, model, discriminator1, writer_dict)
+                train_loss=train_adv(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, optimizer_G, optimizer_D1, model, discriminator1, writer_dict)
         
         elif config.TRAIN.FDA.ENABLE:
-            train_loss=train_FDA(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters,trainloader,targetloader, optimizer, model, writer_dict)
+            train_loss=train_FDA(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters,trainloader, optimizer, model, writer_dict)
         
         else:
             train_loss=train(config, epoch, config.TRAIN.END_EPOCH, 
                   epoch_iters, config.TRAIN.LR, num_iters,
-                  trainloader, optimizer, model, writer_dict, targetloader=targetloader)
+                  trainloader, optimizer, model, writer_dict)
 
         train_loss_history.append(train_loss)
 
@@ -340,39 +314,6 @@ def main():
 
         if flag_rm == 1:
             flag_rm = 0
-  
-        """clear_output(wait=True)  # Pulisce l'output precedente
-        fig, ax = plt.subplots(2, 1, figsize=(10, 8))
-
-        ax[0].clear()
-        ax[0].plot(train_loss_history, label='Training Loss', color='blue')
-        ax[0].plot(eval_loss_history, label='Evaluation Loss', color='orange')
-        ax[0].set_title('Loss')
-        ax[0].set_xlabel('Epoch')
-        ax[0].set_ylabel('Loss')
-        ax[0].legend()
-        ax[0].grid()
-
-        ax[1].clear()
-        ax[1].plot(mean_iou_history, label='Mean IoU', color='green')
-        ax[1].set_title('Mean IoU')
-        ax[1].set_xlabel('Epoch')
-        ax[1].set_ylabel('IoU')
-        ax[1].legend()
-        ax[1].grid()
-        
-        
-        # fig.canvas.draw()
-        # fig.canvas.flush_events()
-        plt.pause(0.001)
-        plot_dir = os.path.join("PIDNet-main", "plots")
-        os.makedirs(plot_dir, exist_ok=True)
-        
-
-        # Salva e visualizza i grafici ogni 5 epoche
-
-        if epoch % 5 == 0 or epoch == real_end - 1:
-            plot_metrics(train_loss_history, eval_loss_history, mean_iou_history)"""
 
 
         logger.info('=> saving checkpoint to {}'.format(

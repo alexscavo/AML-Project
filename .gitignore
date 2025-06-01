@@ -9,7 +9,4 @@ BiSeNet/pretrained_models/bisenetv2.pth
 log
 **/data
 **/checkpoint.pth.tar
-
-**/.pt
-**/.pth
 **/__pycache__/

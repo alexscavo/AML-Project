@@ -1,6 +1,6 @@
 # Real-time Domain Adaptation in Semantic Segmentation
 
-This work explores unsupervised domain adaptation (UDA) for real-time seman tic segmentation using PIDNet as a lightweight backbone and the LoveDA benchmark for evaluation. We quantify the performance degradation when transferring from urban to rural scenes, test augmentation strategies as zero-cost remedies, and implement two efficient UDA methods: adversarial feature alignment and DACS-style image mixing. Furthermore we compare our results with others real-time segmentation models.
+This work explores unsupervised domain adaptation (UDA) for real-time semantic segmentation using PIDNet as a lightweight backbone and the LoveDA benchmark for evaluation. We quantify the performance degradation when transferring from urban to rural scenes, test augmentation strategies as zero-cost remedies, and implement two efficient UDA methods: adversarial feature alignment and DACS-style image mixing. Furthermore we compare our results with others real-time segmentation models.
 
 Our main contributions are:
 1. We provide a quantitative analysis of domain shift for

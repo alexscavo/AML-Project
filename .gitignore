@@ -3,5 +3,8 @@ PIDNet-main/data/loveda/val
 DeepLab/project_datasets/LoveDA
 DeepLab/training/results/deeplabv2_loveda_best.pth
 log
+**/data
 **/checkpoint.pth.tar
+**/.pt
+**/.pth
 **/__pycache__/

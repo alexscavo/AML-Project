@@ -1,15 +1,12 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
 
-
 import random
 import math
 
 import numpy as np
 import cv2
 import torch
-
-
 
 class RandomResizedCrop(object):
     '''
@@ -49,8 +46,6 @@ class RandomResizedCrop(object):
             im=im[sh:sh+crop_h, sw:sw+crop_w, :].copy(),
             lb=lb[sh:sh+crop_h, sw:sw+crop_w].copy()
         )
-
-
 
 class RandomHorizontalFlip(object):
 
@@ -179,4 +174,3 @@ class TransformationVal(object):
 
 if __name__ == '__main__':
     pass
-

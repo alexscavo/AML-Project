@@ -101,8 +101,3 @@ if __name__ == '__main__':
             if not os.path.exists(sv_path):
                 os.mkdir(sv_path)
             sv_img.save(sv_path+img_name)
-            
-            
-            
-        
-        

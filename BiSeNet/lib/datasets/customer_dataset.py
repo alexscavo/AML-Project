@@ -1,10 +1,8 @@
 #!/usr/bin/python
 # -*- encoding: utf-8 -*-
 
-
 import lib.data.transform_cv2 as T
 from lib.data.base_dataset import BaseDataset
-
 
 class CustomerDataset(BaseDataset):
 
@@ -17,5 +15,3 @@ class CustomerDataset(BaseDataset):
             mean=(0.4, 0.4, 0.4), # rgb
             std=(0.2, 0.2, 0.2),
         )
-
-

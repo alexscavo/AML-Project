@@ -48,11 +48,11 @@ TRAIN:
     ENABLE: false
     PROBABILITY: 0.5
     TECHNIQUES:
-      HORIZONTAL_FLIP: true
+      HORIZONTAL_FLIP: false
       GAUSSIAN_BLUR: false
       RANDOM_CROP: false
-      GAUSSIAN_NOISE: true
-      COLOR_JITTER : false
+      GAUSSIAN_NOISE: false
+      COLOR_JITTER : true
   DACS:
     ENABLE: false
     THRESHOLD: 0.9

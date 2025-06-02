@@ -18,18 +18,16 @@ import torch.optim
 from tensorboardX import SummaryWriter
 
 import _init_paths
-from datasets.fda_dataset import FDADataset
 import models
 import datasets
 from configs import config
 from configs import update_config
-import models.pidnetMulti
 import models.pidnet
 from utils.criterion import CrossEntropy, OhemCrossEntropy, BondaryLoss
 from utils.function import train, validate, train_adv, train_adv_multi, train_FDA
 from models.discriminator import FCDiscriminator
 from torch import optim
-from utils.utils import create_logger, FullModel, FullModelMulti
+from utils.utils import create_logger, FullModel
 import matplotlib.pyplot as plt
 from IPython.display import Image, display, clear_output
 
@@ -119,10 +117,7 @@ def main():
     
     imgnet = 'imagenet' in config.MODEL.PRETRAINED
 
-    if config.TRAIN.GAN.MULTI_LEVEL:
-        model = models.pidnetMulti.get_seg_model(config, imgnet_pretrained=imgnet)
-    else:
-        model = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet)
+    model = models.pidnet.get_seg_model(config, imgnet_pretrained=imgnet)
  
     batch_size = config.TRAIN.BATCH_SIZE_PER_GPU * len(gpus)
     # prepare data
@@ -146,41 +141,20 @@ def main():
         if len(list_augmentations) != 0:
             train_trasform = A.Compose(list_augmentations)
 
-    if not  config.TRAIN.FDA.ENABLE:
-        #The eval() function evaluates the specified expression, if the expression is a legal Python statement, it will be executed.
-        train_dataset = eval('datasets.'+config.DATASET.DATASET)(
-                            root=config.DATASET.ROOT,
-                            list_path=config.DATASET.TRAIN_SET,
-                            num_classes=config.DATASET.NUM_CLASSES,
-                            multi_scale=config.TRAIN.MULTI_SCALE,
-                            flip=config.TRAIN.FLIP,
-                            ignore_label=config.TRAIN.IGNORE_LABEL,
-                            base_size=config.TRAIN.BASE_SIZE,
-                            crop_size=crop_size,
-                            scale_factor=config.TRAIN.SCALE_FACTOR,
-                            enable_augmentation=True,
-                            horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
-                            gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
-                            transform=train_trasform)
-    
-    #per fda faccio un dataset dove il source è influenzarto dal target
-    else:
-        train_dataset = FDADataset(
-            root=config.DATASET.ROOT,
-            source_list_path=config.DATASET.TRAIN_SET,
-            target_list_path=config.DATASET.TARGET_SET,
-            num_classes=config.DATASET.NUM_CLASSES,
-            multi_scale=config.TRAIN.MULTI_SCALE,
-            flip=config.TRAIN.FLIP,
-            ignore_label=config.TRAIN.IGNORE_LABEL,
-            base_size=config.TRAIN.BASE_SIZE,
-            crop_size=crop_size,
-            scale_factor=config.TRAIN.SCALE_FACTOR,
-            enable_augmentation=True,
-            horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
-            gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
-            transform=train_trasform
-        )
+    train_dataset = eval('datasets.'+config.DATASET.DATASET)(
+                        root=config.DATASET.ROOT,
+                        list_path=config.DATASET.TRAIN_SET,
+                        num_classes=config.DATASET.NUM_CLASSES,
+                        multi_scale=config.TRAIN.MULTI_SCALE,
+                        flip=config.TRAIN.FLIP,
+                        ignore_label=config.TRAIN.IGNORE_LABEL,
+                        base_size=config.TRAIN.BASE_SIZE,
+                        crop_size=crop_size,
+                        scale_factor=config.TRAIN.SCALE_FACTOR,
+                        enable_augmentation=True,
+                        horizontal_flip=config.TRAIN.AUGMENTATION.TECHNIQUES.HORIZONTAL_FLIP,
+                        gaussian_blur=config.TRAIN.AUGMENTATION.TECHNIQUES.GAUSSIAN_BLUR,
+                        transform=train_trasform)
 
     trainloader = torch.utils.data.DataLoader(
         train_dataset,
@@ -190,8 +164,6 @@ def main():
         pin_memory=False,
         drop_last=True)
     
-
-
     test_size = (config.TEST.IMAGE_SIZE[1], config.TEST.IMAGE_SIZE[0])
     test_dataset = eval('datasets.'+config.DATASET.DATASET)(
                         root=config.DATASET.ROOT,
@@ -222,13 +194,10 @@ def main():
 
     bd_criterion = BondaryLoss()
     
-    if config.TRAIN.GAN.MULTI_LEVEL:
-        model = FullModelMulti(model, sem_criterion, bd_criterion)
-    else :
-        model = FullModel(model, sem_criterion, bd_criterion)
+    model = FullModel(model, sem_criterion, bd_criterion)
 
     if torch.cuda.is_available():
-        model = nn.DataParallel(model, device_ids=gpus).cuda() #per noi inutile
+        model = nn.DataParallel(model, device_ids=gpus).cuda() 
     else:
         model = model.to(device)
 
@@ -282,28 +251,9 @@ def main():
         if current_trainloader.sampler is not None and hasattr(current_trainloader.sampler, 'set_epoch'):
             current_trainloader.sampler.set_epoch(epoch)
 
-        if config.TRAIN.GAN.ENABLE:
-            
-            discriminator1 = FCDiscriminator(num_classes=8).to(device)
-            discriminator2 = FCDiscriminator(num_classes=8).to(device)
-
-            #optimizer_G = optim.SGD(model.parameters(), lr=2.5e-4, momentum=0.9, weight_decay=1e-4) paper infos, but our net is different
-            optimizer_G = optimizer
-            optimizer_D1 = optim.Adam(discriminator1.parameters(), lr=1e-4, betas=(0.9, 0.99)) #given by the paper
-            optimizer_D2 = optim.Adam(discriminator1.parameters(), lr=1e-4, betas=(0.9, 0.99))
-
-            if config.TRAIN.GAN.MULTI_LEVEL:
-                train_loss=train_adv_multi(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, optimizer_G, optimizer_D1, optimizer_D2, model, discriminator1,discriminator2, writer_dict)
-            else:
-                train_loss=train_adv(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters, trainloader, optimizer_G, optimizer_D1, model, discriminator1, writer_dict)
-        
-        elif config.TRAIN.FDA.ENABLE:
-            train_loss=train_FDA(config, epoch, config.TRAIN.END_EPOCH, epoch_iters, config.TRAIN.LR, num_iters,trainloader, optimizer, model, writer_dict)
-        
-        else:
-            train_loss=train(config, epoch, config.TRAIN.END_EPOCH, 
-                  epoch_iters, config.TRAIN.LR, num_iters,
-                  trainloader, optimizer, model, writer_dict)
+        train_loss=train(config, epoch, config.TRAIN.END_EPOCH, 
+                epoch_iters, config.TRAIN.LR, num_iters,
+                trainloader, optimizer, model, writer_dict)
 
         train_loss_history.append(train_loss)
 

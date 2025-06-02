@@ -11,8 +11,6 @@ import torch.distributed as dist
 import cv2
 import numpy as np
 
-
-
 class BaseDataset(Dataset):
     '''
     '''
@@ -55,5 +53,3 @@ class BaseDataset(Dataset):
 
     def __len__(self):
         return self.len
-
-

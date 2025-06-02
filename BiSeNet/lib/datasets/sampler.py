@@ -73,4 +73,3 @@ class RepeatedDistSampler(Sampler):
 
     def __len__(self):
         return self.num_imgs_rank
-

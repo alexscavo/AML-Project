@@ -118,7 +118,6 @@ def weighted_bce(bd_pre, target):
 
     return loss
 
-
 class BondaryLoss(nn.Module):
     def __init__(self, coeff_bce = 20.0):
         super(BondaryLoss, self).__init__()
@@ -138,9 +137,3 @@ if __name__ == '__main__':
     
     Loss_fc = BondaryLoss()
     loss = Loss_fc(pre, a.to(torch.uint8))
-
-        
-        
-        
-
-

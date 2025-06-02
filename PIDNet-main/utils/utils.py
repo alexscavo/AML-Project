@@ -58,56 +58,7 @@ class FullModel(nn.Module):
         loss_sb = self.sem_loss([outputs[-2]], labels)
     loss = loss_s + loss_b + loss_sb
 
-    return torch.unsqueeze(loss,0), outputs[:-1], acc, [loss_s, loss_b] # outputs[:-1] è una lista di tensori
-
-
-#this class is used for the GAN
-class FullModelMulti(nn.Module):
-
-  def __init__(self, model, sem_loss, bd_loss):
-    super(FullModelMulti, self).__init__()
-    self.model = model
-    self.sem_loss = sem_loss
-    self.bd_loss = bd_loss
-
-  def pixel_acc(self, pred, label):
-    _, preds = torch.max(pred, dim=1)
-    valid = (label >= 0).long()
-    acc_sum = torch.sum(valid * (preds == label).long())
-    pixel_sum = torch.sum(valid)
-    acc = acc_sum.float() / (pixel_sum.float() + 1e-10)
-    return acc
-
-  def forward(self, inputs, labels, bd_gt, *args, **kwargs):
-    
-    # here the model should be the pidnetMulti model
-    outputs = self.model(inputs, *args, **kwargs) #[x_extra_p, logits_penultimo,logits_ultimo, x_extra_d]
-    
-    h, w = labels.size(1), labels.size(2)
-    ph, pw = outputs[0].size(2), outputs[0].size(3)
-    if ph != h or pw != w:
-        for i in range(len(outputs)):
-            outputs[i] = F.interpolate(outputs[i], size=(h, w), mode='bilinear', align_corners=config.MODEL.ALIGN_CORNERS)
-
-    acc  = self.pixel_acc(outputs[-2], labels)
-    #print(outputs[1].shape)
-    #print(outputs[2].shape) 
-   
-    loss_s_last = self.sem_loss([outputs[0], outputs[2]], labels) #x_extra_p e logits_ultimo
-    loss_b = self.bd_loss(outputs[-1], bd_gt)
-
-    filler = torch.ones_like(labels) * config.TRAIN.IGNORE_LABEL
-    try:
-        bd_label = torch.where(torch.sigmoid(outputs[-1][:, 0, :, :]) > 0.8, labels, filler) # 0.7
-        loss_sb = self.sem_loss([outputs[-2]], bd_label)
-    except:
-        print("Error in loss computation")
-        loss_sb = self.sem_loss([outputs[-2]], labels)
-
-    loss_last = loss_s_last + loss_b + loss_sb
-
-    return loss_last, outputs
-
+    return torch.unsqueeze(loss,0), outputs[:-1], acc, [loss_s, loss_b] # outputs[:-1] is a list
 
 class AverageMeter(object):
     """Computes and stores the average and current value"""

@@ -71,98 +71,7 @@ def show_images(x_original, x_augmented, unnormalize = False):
 
     plt.tight_layout()
     plt.show()
-
-
-#classe per fare la data augmentation
-class DataAugmentation:
-    def __init__(self, config, dataset_instance):
-        self.enable = config["ENABLE"]
-        self.probability = config["PROBABILITY"]
-        self.techniques = config["TECHNIQUES"]
-        self.dataset = dataset_instance  # Riferimento all'istanza del dataset
-
-    def apply(self, image, label, edge):
-        
-        if not self.enable or random.random() > self.probability: #50% di probabilità di applicare la data augmentation
-            return image,label,edge #non faccio augmentation
-
-        if self.techniques.get("HORIZONTAL_FLIP", False):
-            image,label,edge = self.horizontal_flip(image, label, edge)
-
-        if self.techniques.get("GAUSSIAN_BLUR", False):
-            image, label, edge = self.gaussian_blur(image, label, edge)
-
-        if self.techniques.get("MULTIPLY", False):
-            image, label, edge = self.multiply(image, label, edge)
-
-        if self.techniques.get("RANDOM_BRIGHTNESS", False):
-            image, label, edge = self.random_brightness(image, label, edge)
-
-        if self.techniques.get("RANDOM_CROP", False):
-            image, label, edge = self.random_crop(image, label, edge) 
-
-
-        return image, label, edge
-
-
-
-    def random_crop(self, image, label, edge):
-        return self.dataset.rand_crop(image, label, edge)  # Usa l'istanza del dataset
-
-
-
-    def horizontal_flip(self, image, label, edge):
-        # Inverti orizzontalmente immagine, label ed edge
-        flipped_image = image[:, :, ::-1]
-        flipped_label = label[:, ::-1]
-        flipped_edge = edge[:, ::-1]
-        return flipped_image, flipped_label, flipped_edge
     
-    
-
-    def gaussian_blur(self, image, label, edge, kernel_size=5, show = False):
-        # Applica il Gaussian Blur solo all'immagine
-        transposed_image = image.transpose(1, 2, 0)  # From (C, H, W) to (H, W, C)
-    
-        # Apply Gaussian blur
-        blurred_image = cv2.GaussianBlur(transposed_image, (kernel_size, kernel_size), 0)
-        
-        # If you want to return it to the PyTorch format (C, H, W)
-        blurred_image = blurred_image.transpose(2, 0, 1)  # From (H, W, C) to (C, H, W)
-
-        if show:
-            show_images(image, blurred_image)
-
-        return blurred_image, label, edge
-    
-
-
-    def multiply(self, image, label, edge, factor_range=(0.8, 1.2), show = False):
-        # Convert image to float32 to avoid overflow issues
-        factor = random.uniform(*factor_range)
-        image = image.astype(np.float32)  # Ensure safe multiplication
-
-        # Check if image is normalized (0-1), rescale before multiplication
-        if image.max() <= 1.0:
-            image *= 255.0  # Scale to 0-255 range before multiplication
-
-        multiplied_image = image * factor
-
-        if show:
-            show_images(image, multiplied_image)
-        
-        return multiplied_image, label, edge
-
-    def random_brightness(self, image, label, edge, brightness_range=(-0.5, 0.5), show = False):
-        # Modify image brightness
-        brightness = np.float32(np.random.uniform(*brightness_range)) 
-        brightened_image = image + brightness  # Keep within [0,1]
-        
-        if show:
-            show_images(image, brightened_image)
-        return brightened_image, label, edge
-    
-
 
 class LoveDA(BaseDataset):
     def __init__(self,
@@ -288,6 +197,3 @@ class LoveDA(BaseDataset):
             pred = self.label2color(preds[i])
             save_img = Image.fromarray(pred)
             save_img.save(os.path.join(sv_path, name[i] + '.png'))
-
-
-

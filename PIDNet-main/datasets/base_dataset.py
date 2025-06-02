@@ -84,52 +84,51 @@ class BaseDataset(data.Dataset):
         pad_h = max(size[0] - h, 0)
         pad_w = max(size[1] - w, 0)
 
-        # Se non è necessario il padding, restituisci l'immagine originale
+        # if no padding is needed, return the original image
         if pad_h == 0 and pad_w == 0:
             return image
 
-        # Verifica il formato dell'immagine (deve essere H, W, C)
-        if len(image.shape) == 3 and image.shape[0] <= 3:  # Se è in formato (C, H, W)
-            image = np.transpose(image, (1, 2, 0))  # Converti in (H, W, C)
+        # should be (H, W, C)
+        if len(image.shape) == 3 and image.shape[0] <= 3:  
+            image = np.transpose(image, (1, 2, 0))  
 
-        # Aggiungi il padding
+        # add padding
         pad_image = cv2.copyMakeBorder(image, 0, pad_h, 0, pad_w, cv2.BORDER_CONSTANT, value=padvalue)
 
-        # Ripristina il formato originale (C, H, W) se necessario
-        if len(image.shape) == 3 and image.shape[2] <= 3:  # Se era in formato (C, H, W)
-            pad_image = np.transpose(pad_image, (2, 0, 1))  # Converti di nuovo in (C, H, W)
+        
+        if len(image.shape) == 3 and image.shape[2] <= 3:  
+            pad_image = np.transpose(pad_image, (2, 0, 1))  
 
         return pad_image
 
     def rand_crop(self, image, label, edge):
-        # Verifica il formato dell'immagine
-        if len(image.shape) == 3 and image.shape[0] <= 3:  # Se è in formato (C, H, W)
-            image = np.transpose(image, (1, 2, 0))  # Converti in (H, W, C)
+       
+        if len(image.shape) == 3 and image.shape[0] <= 3: 
+            image = np.transpose(image, (1, 2, 0)) 
 
         h, w = image.shape[:2]
 
-        # Aggiungi padding se necessario
+      
         if h < self.crop_size[0] or w < self.crop_size[1]:
             image = self.pad_image(image, h, w, self.crop_size, (0.0, 0.0, 0.0))
             label = self.pad_image(label, h, w, self.crop_size, (self.ignore_label,))
             edge = self.pad_image(edge, h, w, self.crop_size, (0.0,))
 
-        # Aggiorna le dimensioni dopo il padding
+       
         new_h, new_w = label.shape
         if new_h < self.crop_size[0] or new_w < self.crop_size[1]:
             raise ValueError(f"Dimensioni insufficienti per il ritaglio: label={label.shape}, crop_size={self.crop_size}")
 
-        # Calcola le coordinate per il ritaglio casuale
+  
         x = random.randint(0, new_w - self.crop_size[1])
         y = random.randint(0, new_h - self.crop_size[0])
 
-        # Esegui il ritaglio
+      
         image = image[y:y+self.crop_size[0], x:x+self.crop_size[1]]
         label = label[y:y+self.crop_size[0], x:x+self.crop_size[1]]
         edge = edge[y:y+self.crop_size[0], x:x+self.crop_size[1]]
 
-        #in questo modo l'iimagine è 512x512x3
-        #se volessi croppare quella regione 
+      
         '''
         # Estrai la regione da sfocare
         cropped_region = image[y:y+crop_size[0], x:x+crop_size[1]]
@@ -188,7 +187,7 @@ class BaseDataset(data.Dataset):
 
 
 
-        #It' important keeping the edge generation after the data augmentation
+        #It's important keeping the edge generation after the data augmentation
         edge = cv2.Canny(label, 0.1, 0.2)
         kernel = np.ones((edge_size, edge_size), np.uint8)
         if edge_pad:
@@ -197,7 +196,7 @@ class BaseDataset(data.Dataset):
         edge = (cv2.dilate(edge, kernel, iterations=1)>50)*1.0    
 
 
-        #trasformazioni di input
+        # input trasformation
         image = self.input_transform(image, city=city) #Se city=True, converte l'immagine da RGB in BGR per opencv
         label = self.label_transform(label) #converte la label in un array di interi
         image = image.transpose((2, 0, 1)) #H,W,C -> C,H,W

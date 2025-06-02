@@ -1,0 +1,1749 @@
+5.9s 1 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+5.9s 2 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+5.9s 3 0.00s - to python to disable frozen modules.
+5.9s 4 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+6.7s 5 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+6.7s 6 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+6.7s 7 0.00s - to python to disable frozen modules.
+6.7s 8 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+9.0s 9 Done ✅
+11.4s 10 [?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/224.0 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m224.0/224.0 kB[0m [31m10.4 MB/s[0m eta [36m0:00:00[0m
+15.2s 11 [?25hCollecting yacs
+15.2s 12 Downloading yacs-0.1.8-py3-none-any.whl.metadata (639 bytes)
+15.2s 13 Requirement already satisfied: PyYAML in /usr/local/lib/python3.11/dist-packages (from yacs) (6.0.2)
+15.2s 14 Downloading yacs-0.1.8-py3-none-any.whl (14 kB)
+16.7s 15 Installing collected packages: yacs
+16.8s 16 Successfully installed yacs-0.1.8
+18.2s 17 Collecting tensorboardX
+18.2s 18 Downloading tensorboardX-2.6.2.2-py2.py3-none-any.whl.metadata (5.8 kB)
+18.2s 19 Requirement already satisfied: numpy in /usr/local/lib/python3.11/dist-packages (from tensorboardX) (1.26.4)
+18.2s 20 Requirement already satisfied: packaging in /usr/local/lib/python3.11/dist-packages (from tensorboardX) (24.2)
+18.2s 21 Requirement already satisfied: protobuf>=3.20 in /usr/local/lib/python3.11/dist-packages (from tensorboardX) (3.20.3)
+18.2s 22 Requirement already satisfied: mkl_fft in /usr/local/lib/python3.11/dist-packages (from numpy->tensorboardX) (1.3.8)
+18.2s 23 Requirement already satisfied: mkl_random in /usr/local/lib/python3.11/dist-packages (from numpy->tensorboardX) (1.2.4)
+18.2s 24 Requirement already satisfied: mkl_umath in /usr/local/lib/python3.11/dist-packages (from numpy->tensorboardX) (0.1.1)
+18.2s 25 Requirement already satisfied: mkl in /usr/local/lib/python3.11/dist-packages (from numpy->tensorboardX) (2025.1.0)
+18.2s 26 Requirement already satisfied: tbb4py in /usr/local/lib/python3.11/dist-packages (from numpy->tensorboardX) (2022.1.0)
+18.2s 27 Requirement already satisfied: mkl-service in /usr/local/lib/python3.11/dist-packages (from numpy->tensorboardX) (2.4.1)
+18.2s 28 Requirement already satisfied: intel-openmp<2026,>=2024 in /usr/local/lib/python3.11/dist-packages (from mkl->numpy->tensorboardX) (2024.2.0)
+18.2s 29 Requirement already satisfied: tbb==2022.* in /usr/local/lib/python3.11/dist-packages (from mkl->numpy->tensorboardX) (2022.1.0)
+18.2s 30 Requirement already satisfied: tcmlib==1.* in /usr/local/lib/python3.11/dist-packages (from tbb==2022.*->mkl->numpy->tensorboardX) (1.2.0)
+18.2s 31 Requirement already satisfied: intel-cmplr-lib-rt in /usr/local/lib/python3.11/dist-packages (from mkl_umath->numpy->tensorboardX) (2024.2.0)
+18.2s 32 Requirement already satisfied: intel-cmplr-lib-ur==2024.2.0 in /usr/local/lib/python3.11/dist-packages (from intel-openmp<2026,>=2024->mkl->numpy->tensorboardX) (2024.2.0)
+18.2s 33 Downloading tensorboardX-2.6.2.2-py2.py3-none-any.whl (101 kB)
+18.3s 34 [?25l   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m0.0/101.7 kB[0m [31m?[0m eta [36m-:--:--[0m[2K   [90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[0m [32m101.7/101.7 kB[0m [31m5.4 MB/s[0m eta [36m0:00:00[0m
+19.8s 35 [?25hInstalling collected packages: tensorboardX
+19.9s 36 Successfully installed tensorboardX-2.6.2.2
+20.0s 37 Created: /kaggle/working/data/loveda/train/
+20.0s 38 Created: /kaggle/working/data/loveda/val/
+20.0s 39 Created: /kaggle/working/data/list/loveda/rural
+20.0s 40 Created: /kaggle/working/data/list/loveda/urban_rural
+20.0s 41 Created: /kaggle/working/data/list/loveda/urban_urban
+20.0s 42 Created: /kaggle/working/pretrained_models/imagenet
+61.6s 43 Copied: /kaggle/input/loveda-splits/train/train/Rural → /kaggle/working/data/loveda/train/Rural
+95.5s 44 Copied: /kaggle/input/loveda-splits/train/train/Urban → /kaggle/working/data/loveda/train/Urban
+123.6s 45 Copied: /kaggle/input/loveda-splits/val/val/Rural → /kaggle/working/data/loveda/val/Rural
+144.0s 46 Copied: /kaggle/input/loveda-splits/val/val/Urban → /kaggle/working/data/loveda/val/Urban
+144.5s 47 /kaggle/working
+154.3s 48 Loading ResNet-101 pretrained weights...
+154.3s 49 /usr/local/lib/python3.11/dist-packages/torchvision/models/_utils.py:208: UserWarning: The parameter 'pretrained' is deprecated since 0.13 and may be removed in the future, please use 'weights' instead.
+154.3s 50 warnings.warn(
+154.3s 51 /usr/local/lib/python3.11/dist-packages/torchvision/models/_utils.py:223: UserWarning: Arguments other than a weight enum or `None` for 'weights' are deprecated since 0.13 and may be removed in the future. The current behavior is equivalent to passing `weights=ResNet101_Weights.IMAGENET1K_V1`. You can also use `weights=ResNet101_Weights.DEFAULT` to get the most up-to-date weights.
+154.3s 52 warnings.warn(msg)
+154.8s 53 Downloading: "https://download.pytorch.org/models/resnet101-63fe2227.pth" to /root/.cache/torch/hub/checkpoints/resnet101-63fe2227.pth
+155.6s 54 0%|          | 0.00/171M [00:00<?, ?B/s] 12%|█▏        | 21.1M/171M [00:00<00:00, 221MB/s] 25%|██▍       | 42.2M/171M [00:00<00:00, 206MB/s] 38%|███▊      | 65.0M/171M [00:00<00:00, 220MB/s] 52%|█████▏    | 87.9M/171M [00:00<00:00, 227MB/s] 65%|██████▍   | 111M/171M [00:00<00:00, 231MB/s]  78%|███████▊  | 134M/171M [00:00<00:00, 234MB/s] 91%|█████████▏| 156M/171M [00:00<00:00, 234MB/s]100%|██████████| 171M/171M [00:00<00:00, 229MB/s]
+155.8s 55 Pretrained weights loaded successfully.
+158.8s 56 /usr/local/lib/python3.11/dist-packages/albumentations/__init__.py:13: UserWarning: A new version of Albumentations is available: 2.0.8 (you have 1.4.18). Upgrade using: pip install -U albumentations. To disable automatic update checks, set the environment variable NO_ALBUMENTATIONS_UPDATE to 1.
+158.8s 57 check_for_updates()
+174.5s 58 Namespace(cfg='configs/loveda/pidnet_small_loveda.yaml', seed=304, opts=[])
+174.5s 59 AUTO_RESUME: False
+174.5s 60 CUDNN:
+174.5s 61 BENCHMARK: True
+174.5s 62 DETERMINISTIC: False
+174.5s 63 ENABLED: True
+174.5s 64 DATASET:
+174.5s 65 DATASET: loveda
+174.5s 66 EXTRA_TRAIN_SET:
+174.5s 67 NUM_CLASSES: 8
+174.5s 68 ROOT: data/
+174.5s 69 TARGET_SET: list/loveda/rural/train.lst
+174.5s 70 TEST_SET: list/loveda/urban_rural/val.lst
+174.5s 71 TRAIN_SET: list/loveda/urban_rural/train.lst
+174.5s 72 GPUS: (0,)
+174.5s 73 LOG_DIR: log
+174.5s 74 LOSS:
+174.5s 75 BALANCE_WEIGHTS: [0.4, 1.0]
+174.5s 76 CLASS_BALANCE: False
+174.5s 77 OHEMKEEP: 131072
+174.5s 78 OHEMTHRES: 0.9
+174.5s 79 SB_WEIGHTS: 1.0
+174.5s 80 USE_OHEM: True
+174.5s 81 MODEL:
+174.5s 82 ALIGN_CORNERS: True
+174.5s 83 NAME: pidnet_small
+174.5s 84 NUM_OUTPUTS: 2
+174.5s 85 PRETRAINED: pretrained_models/imagenet/PIDNet_S_ImageNet.pth.tar
+174.5s 86 OUTPUT_DIR: output
+174.5s 87 PIN_MEMORY: True
+174.5s 88 PRINT_FREQ: 10
+174.5s 89 TEST:
+174.5s 90 BASE_SIZE: 2048
+174.5s 91 BATCH_SIZE_PER_GPU: 6
+174.5s 92 FLIP_TEST: False
+174.5s 93 IMAGE_SIZE: [2048, 1024]
+174.5s 94 MODEL_FILE: output/loveda/pidnet_small_loveda/final_state.pt
+174.5s 95 MULTI_SCALE: False
+174.5s 96 OUTPUT_INDEX: 1
+174.5s 97 TRAIN:
+174.5s 98 AUGMENTATION:
+174.5s 99 ENABLE: True
+174.5s 100 PROBABILITY: 0.5
+174.5s 101 TECHNIQUES:
+174.5s 102 COLOR_JITTER: True
+174.5s 103 GAUSSIAN_BLUR: False
+174.5s 104 GAUSSIAN_NOISE: False
+174.5s 105 HORIZONTAL_FLIP: False
+174.5s 106 RANDOM_CROP: False
+174.5s 107 BASE_SIZE: 2048
+174.5s 108 BATCH_SIZE_PER_GPU: 6
+174.5s 109 BEGIN_EPOCH: 0
+174.5s 110 DACS:
+174.5s 111 ENABLE: True
+174.5s 112 THRESHOLD: 0.9
+174.5s 113 END_EPOCH: 20
+174.5s 114 EXTRA_EPOCH: 0
+174.5s 115 EXTRA_LR: 0.001
+174.5s 116 FLIP: False
+174.5s 117 GAN:
+174.5s 118 ENABLE: False
+174.5s 119 MULTI_LEVEL: False
+174.5s 120 IGNORE_LABEL: 0
+174.5s 121 IMAGE_SIZE: [1024, 1024]
+174.5s 122 LR: 0.01
+174.5s 123 MOMENTUM: 0.7
+174.5s 124 MULTI_SCALE: False
+174.5s 125 NESTEROV: False
+174.5s 126 OPTIMIZER: sgd
+174.5s 127 RESUME: False
+174.5s 128 SCALE_FACTOR: 16
+174.5s 129 SHUFFLE: True
+174.5s 130 WD: 0.0005
+174.5s 131 WORKERS: 4
+174.7s 132 Seeding with 304
+174.7s 133 => creating output
+174.7s 134 => creating output/loveda/pidnet_small_loveda/dacs_cj
+174.7s 135 => creating log/loveda/pidnet_small/pidnet_small_loveda_2025-05-31-07-30
+174.7s 136 Using CUDA
+174.7s 137 /tmp/ipykernel_19/4253090261.py:188: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+174.7s 138 pretrained_state = torch.load(cfg.MODEL.PRETRAINED, map_location='cpu')['state_dict']
+174.7s 139 Attention!!!
+174.7s 140 Loaded 302 parameters!
+174.7s 141 Over!!!
+175.1s 142 Attention!!!
+175.1s 143 Loaded 302 parameters!
+175.1s 144 Over!!!
+191.0s 145 Epoch: [0/20] Iter:[0/192], Time: 15.86, lr: [0.01], Loss: 9.898035, Lambda: 0.01, Acc:0.142514, Semantic loss: 2.395053, BCE loss: 5.116402, SB loss: 2.386580
+208.4s 146 Epoch: [0/20] Iter:[10/192], Time: 3.02, lr: [0.009976559445324192], Loss: 6.485098, Lambda: 0.01, Acc:0.179388, Semantic loss: 2.125726, BCE loss: 3.019034, SB loss: 1.340338
+211.6s 147 /tmp/ipykernel_19/3551705098.py:63: MatplotlibDeprecationWarning: The get_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps[name]`` or ``matplotlib.colormaps.get_cmap(obj)`` instead.
+211.6s 148 cmap = plt.cm.get_cmap("tab20", num_classes)
+230.8s 149 Epoch: [0/20] Iter:[20/192], Time: 2.65, lr: [0.009953112769592761], Loss: 5.613706, Lambda: 0.01, Acc:0.183504, Semantic loss: 1.841238, BCE loss: 2.652382, SB loss: 1.120086
+248.0s 150 Epoch: [0/20] Iter:[30/192], Time: 2.35, lr: [0.009929659955177281], Loss: 5.057823, Lambda: 0.01, Acc:0.202001, Semantic loss: 1.713556, BCE loss: 2.320163, SB loss: 1.024104
+265.1s 151 Epoch: [0/20] Iter:[40/192], Time: 2.19, lr: [0.009906200984352154], Loss: 4.674639, Lambda: 0.01, Acc:0.211106, Semantic loss: 1.579671, BCE loss: 2.166447, SB loss: 0.928521
+280.5s 152 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+285.6s 153 Epoch: [0/20] Iter:[50/192], Time: 2.17, lr: [0.009882735839293803], Loss: 4.485424, Lambda: 0.01, Acc:0.203400, Semantic loss: 1.553400, BCE loss: 2.037590, SB loss: 0.894435
+301.6s 154 Epoch: [0/20] Iter:[60/192], Time: 2.07, lr: [0.00985926450207989], Loss: 4.302009, Lambda: 0.01, Acc:0.201002, Semantic loss: 1.479712, BCE loss: 1.986803, SB loss: 0.835494
+318.9s 155 Epoch: [0/20] Iter:[70/192], Time: 2.02, lr: [0.009835786954688485], Loss: 4.138646, Lambda: 0.01, Acc:0.203943, Semantic loss: 1.424429, BCE loss: 1.926295, SB loss: 0.787922
+337.4s 156 Epoch: [0/20] Iter:[80/192], Time: 2.00, lr: [0.00981230317899726], Loss: 4.019600, Lambda: 0.01, Acc:0.207419, Semantic loss: 1.379482, BCE loss: 1.892809, SB loss: 0.747309
+355.0s 157 Epoch: [0/20] Iter:[90/192], Time: 1.98, lr: [0.009788813156782662], Loss: 3.906075, Lambda: 0.01, Acc:0.210087, Semantic loss: 1.326265, BCE loss: 1.867287, SB loss: 0.712522
+359.6s 158 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+373.6s 159 Epoch: [0/20] Iter:[100/192], Time: 1.96, lr: [0.009765316869719067], Loss: 3.819284, Lambda: 0.01, Acc:0.212357, Semantic loss: 1.295508, BCE loss: 1.833129, SB loss: 0.690647
+391.4s 160 Epoch: [0/20] Iter:[110/192], Time: 1.95, lr: [0.009741814299377942], Loss: 3.766359, Lambda: 0.01, Acc:0.213507, Semantic loss: 1.262573, BCE loss: 1.818859, SB loss: 0.684927
+398.9s 161 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+407.3s 162 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+410.6s 163 Epoch: [0/20] Iter:[120/192], Time: 1.95, lr: [0.009718305427226986], Loss: 3.664190, Lambda: 0.01, Acc:0.216100, Semantic loss: 1.228269, BCE loss: 1.778533, SB loss: 0.657388
+430.2s 164 Epoch: [0/20] Iter:[130/192], Time: 1.95, lr: [0.009694790234629266], Loss: 3.608924, Lambda: 0.01, Acc:0.218948, Semantic loss: 1.198290, BCE loss: 1.767998, SB loss: 0.642635
+437.3s 165 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+450.4s 166 Epoch: [0/20] Iter:[140/192], Time: 1.95, lr: [0.009671268702842338], Loss: 3.562377, Lambda: 0.01, Acc:0.221557, Semantic loss: 1.184840, BCE loss: 1.753038, SB loss: 0.624500
+456.8s 167 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+469.4s 168 Epoch: [0/20] Iter:[150/192], Time: 1.95, lr: [0.009647740813017376], Loss: 3.504252, Lambda: 0.01, Acc:0.221489, Semantic loss: 1.158060, BCE loss: 1.743224, SB loss: 0.602967
+488.2s 169 Epoch: [0/20] Iter:[160/192], Time: 1.94, lr: [0.009624206546198262], Loss: 3.458035, Lambda: 0.01, Acc:0.223828, Semantic loss: 1.138647, BCE loss: 1.734965, SB loss: 0.584423
+489.6s 170 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+507.9s 171 Epoch: [0/20] Iter:[170/192], Time: 1.94, lr: [0.009600665883320689], Loss: 3.436218, Lambda: 0.01, Acc:0.227197, Semantic loss: 1.129390, BCE loss: 1.718744, SB loss: 0.588084
+513.7s 172 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+525.4s 173 Epoch: [0/20] Iter:[180/192], Time: 1.93, lr: [0.009577118805211254], Loss: 3.420830, Lambda: 0.01, Acc:0.226663, Semantic loss: 1.119242, BCE loss: 1.714221, SB loss: 0.587368
+542.0s 174 Epoch: [0/20] Iter:[190/192], Time: 1.92, lr: [0.009553565292586523], Loss: 3.379157, Lambda: 0.01, Acc:0.228050, Semantic loss: 1.098972, BCE loss: 1.703511, SB loss: 0.576674
+547.4s 175 0
+561.1s 176 10
+575.3s 177 20
+588.8s 178 30
+602.8s 179 40
+616.9s 180 50
+630.5s 181 60
+644.1s 182 70
+657.8s 183 80
+671.2s 184 90
+684.8s 185 100
+699.2s 186 110
+712.6s 187 120
+726.8s 188 130
+740.9s 189 140
+754.6s 190 150
+768.3s 191 160
+775.3s 192 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+775.4s 193 -----------------------------------------------------------------------------------------------
+775.4s 194 Number of selected classes: 3
+775.4s 195 Selected classes: forest (class 6), barren (class 5), agriculture (class 7)
+775.4s 196 Loss: 5.206, MeanIU:  0.1830, Best_mIoU:  0.1830
+775.4s 197 Per-class IoUs of the present ones in the batch:
+775.4s 198 - background (class 1): IoU = 0.0596
+775.4s 199 - building (class 2): IoU = 0.2213
+775.4s 200 - road (class 3): IoU = 0.1994
+775.4s 201 - water (class 4): IoU = 0.3045
+775.4s 202 - barren (class 5): IoU = 0.0438
+775.4s 203 - forest (class 6): IoU = 0.1433
+775.4s 204 - agriculture (class 7): IoU = 0.3092
+775.4s 205 -----------------------------------------------------------------------------------------------
+775.4s 206 [0.         0.059628   0.22128739 0.19935676 0.30448492 0.04376112
+775.4s 207 0.14327905 0.30921683]
+782.8s 208 Epoch: [1/20] Iter:[0/192], Time: 7.35, lr: [0.009548853816214998], Loss: 2.027277, Lambda: 0.02, Acc:0.279693, Semantic loss: 0.648497, BCE loss: 1.128298, SB loss: 0.250483
+803.3s 209 Epoch: [1/20] Iter:[10/192], Time: 2.54, lr: [0.009525292556561479], Loss: 2.599229, Lambda: 0.02, Acc:0.254668, Semantic loss: 0.752312, BCE loss: 1.474959, SB loss: 0.371958
+822.8s 210 Epoch: [1/20] Iter:[20/192], Time: 2.26, lr: [0.00950172481957719], Loss: 2.687215, Lambda: 0.02, Acc:0.286398, Semantic loss: 0.773628, BCE loss: 1.554702, SB loss: 0.358884
+839.4s 211 Epoch: [1/20] Iter:[30/192], Time: 2.07, lr: [0.009478150585620286], Loss: 2.628806, Lambda: 0.02, Acc:0.286095, Semantic loss: 0.744632, BCE loss: 1.542558, SB loss: 0.341616
+853.6s 212 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+856.7s 213 Epoch: [1/20] Iter:[40/192], Time: 1.98, lr: [0.009454569834934885], Loss: 2.611639, Lambda: 0.02, Acc:0.286082, Semantic loss: 0.738405, BCE loss: 1.535898, SB loss: 0.337336
+871.6s 214 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+873.3s 215 Epoch: [1/20] Iter:[50/192], Time: 1.92, lr: [0.009430982547650114], Loss: 2.621718, Lambda: 0.02, Acc:0.289630, Semantic loss: 0.741841, BCE loss: 1.528650, SB loss: 0.351228
+890.5s 216 Epoch: [1/20] Iter:[60/192], Time: 1.88, lr: [0.009407388703779091], Loss: 2.651859, Lambda: 0.02, Acc:0.291837, Semantic loss: 0.764924, BCE loss: 1.531572, SB loss: 0.355363
+905.8s 217 Epoch: [1/20] Iter:[70/192], Time: 1.84, lr: [0.009383788283217955], Loss: 2.683307, Lambda: 0.02, Acc:0.284638, Semantic loss: 0.779773, BCE loss: 1.548410, SB loss: 0.355124
+921.3s 218 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+922.7s 219 Epoch: [1/20] Iter:[80/192], Time: 1.82, lr: [0.00936018126574482], Loss: 2.683940, Lambda: 0.02, Acc:0.282581, Semantic loss: 0.782931, BCE loss: 1.542454, SB loss: 0.358555
+939.3s 220 Epoch: [1/20] Iter:[90/192], Time: 1.80, lr: [0.009336567631018769], Loss: 2.665358, Lambda: 0.02, Acc:0.286406, Semantic loss: 0.779658, BCE loss: 1.528873, SB loss: 0.356826
+955.1s 221 Epoch: [1/20] Iter:[100/192], Time: 1.77, lr: [0.009312947358578814], Loss: 2.639553, Lambda: 0.02, Acc:0.287325, Semantic loss: 0.765088, BCE loss: 1.523482, SB loss: 0.350983
+971.2s 222 Epoch: [1/20] Iter:[110/192], Time: 1.76, lr: [0.009289320427842841], Loss: 2.630369, Lambda: 0.02, Acc:0.288204, Semantic loss: 0.760033, BCE loss: 1.523875, SB loss: 0.346461
+989.1s 223 Epoch: [1/20] Iter:[120/192], Time: 1.77, lr: [0.009265686818106552], Loss: 2.611231, Lambda: 0.02, Acc:0.287642, Semantic loss: 0.749703, BCE loss: 1.516935, SB loss: 0.344593
+1008.0s 224 Epoch: [1/20] Iter:[130/192], Time: 1.78, lr: [0.009242046508542393], Loss: 2.593789, Lambda: 0.02, Acc:0.289388, Semantic loss: 0.745775, BCE loss: 1.509311, SB loss: 0.338702
+1017.6s 225 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+1027.2s 226 Epoch: [1/20] Iter:[140/192], Time: 1.79, lr: [0.009218399478198466], Loss: 2.592408, Lambda: 0.02, Acc:0.292294, Semantic loss: 0.737774, BCE loss: 1.511642, SB loss: 0.342992
+1046.1s 227 Epoch: [1/20] Iter:[150/192], Time: 1.79, lr: [0.009194745705997428], Loss: 2.583946, Lambda: 0.02, Acc:0.293572, Semantic loss: 0.739790, BCE loss: 1.500879, SB loss: 0.343278
+1062.0s 228 Epoch: [1/20] Iter:[160/192], Time: 1.78, lr: [0.00917108517073538], Loss: 2.572913, Lambda: 0.02, Acc:0.292448, Semantic loss: 0.731947, BCE loss: 1.499380, SB loss: 0.341586
+1076.9s 229 Epoch: [1/20] Iter:[170/192], Time: 1.76, lr: [0.00914741785108075], Loss: 2.565728, Lambda: 0.02, Acc:0.292274, Semantic loss: 0.725307, BCE loss: 1.501852, SB loss: 0.338569
+1092.9s 230 Epoch: [1/20] Iter:[180/192], Time: 1.75, lr: [0.00912374372557314], Loss: 2.557036, Lambda: 0.02, Acc:0.292902, Semantic loss: 0.718409, BCE loss: 1.503390, SB loss: 0.335237
+1096.4s 231 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+1104.3s 232 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+1110.2s 233 Epoch: [1/20] Iter:[190/192], Time: 1.75, lr: [0.009100062772622186], Loss: 2.553202, Lambda: 0.02, Acc:0.293462, Semantic loss: 0.717258, BCE loss: 1.496308, SB loss: 0.339635
+1116.1s 234 0
+1128.7s 235 10
+1139.7s 236 20
+1151.7s 237 30
+1164.0s 238 40
+1175.3s 239 50
+1187.2s 240 60
+1199.6s 241 70
+1211.0s 242 80
+1222.7s 243 90
+1235.1s 244 100
+1246.4s 245 110
+1258.1s 246 120
+1270.5s 247 130
+1281.9s 248 140
+1293.7s 249 150
+1305.8s 250 160
+1310.5s 251 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+1310.8s 252 -----------------------------------------------------------------------------------------------
+1310.8s 253 Number of selected classes: 3
+1310.8s 254 Selected classes: road (class 3), barren (class 5), background (class 1)
+1310.8s 255 Loss: 5.830, MeanIU:  0.2384, Best_mIoU:  0.2384
+1310.8s 256 Per-class IoUs of the present ones in the batch:
+1310.8s 257 - background (class 1): IoU = 0.2493
+1310.8s 258 - building (class 2): IoU = 0.2727
+1310.8s 259 - road (class 3): IoU = 0.1731
+1310.8s 260 - water (class 4): IoU = 0.3694
+1310.8s 261 - barren (class 5): IoU = 0.0712
+1310.8s 262 - forest (class 6): IoU = 0.1183
+1310.8s 263 - agriculture (class 7): IoU = 0.4151
+1310.8s 264 -----------------------------------------------------------------------------------------------
+1310.8s 265 [0.         0.24932831 0.27268181 0.17305106 0.36943152 0.07115924
+1310.8s 266 0.11834707 0.41507023]
+1319.7s 267 Epoch: [2/20] Iter:[0/192], Time: 8.94, lr: [0.009095325760829623], Loss: 2.926485, Lambda: 0.03, Acc:0.441273, Semantic loss: 1.038065, BCE loss: 1.538133, SB loss: 0.350286
+1334.8s 268 Epoch: [2/20] Iter:[10/192], Time: 2.18, lr: [0.009071636586262652], Loss: 2.589742, Lambda: 0.03, Acc:0.301025, Semantic loss: 0.669869, BCE loss: 1.527083, SB loss: 0.392790
+1350.7s 269 Epoch: [2/20] Iter:[20/192], Time: 1.87, lr: [0.009047940536290279], Loss: 2.553622, Lambda: 0.03, Acc:0.310696, Semantic loss: 0.669021, BCE loss: 1.501952, SB loss: 0.382650
+1351.4s 270 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+1366.3s 271 Epoch: [2/20] Iter:[30/192], Time: 1.79, lr: [0.009024237588898336], Loss: 2.506642, Lambda: 0.03, Acc:0.312601, Semantic loss: 0.667324, BCE loss: 1.482663, SB loss: 0.356655
+1382.7s 272 Epoch: [2/20] Iter:[40/192], Time: 1.73, lr: [0.009000527721937697], Loss: 2.501889, Lambda: 0.03, Acc:0.319064, Semantic loss: 0.652067, BCE loss: 1.501085, SB loss: 0.348737
+1397.6s 273 Epoch: [2/20] Iter:[50/192], Time: 1.70, lr: [0.008976810913123051], Loss: 2.487515, Lambda: 0.03, Acc:0.313562, Semantic loss: 0.642254, BCE loss: 1.497597, SB loss: 0.347663
+1418.1s 274 Epoch: [2/20] Iter:[60/192], Time: 1.75, lr: [0.008953087140031669], Loss: 2.492719, Lambda: 0.03, Acc:0.310637, Semantic loss: 0.655618, BCE loss: 1.494495, SB loss: 0.342605
+1432.5s 275 Epoch: [2/20] Iter:[70/192], Time: 1.71, lr: [0.008929356380102142], Loss: 2.489367, Lambda: 0.03, Acc:0.311914, Semantic loss: 0.653006, BCE loss: 1.498854, SB loss: 0.337507
+1448.9s 276 Epoch: [2/20] Iter:[80/192], Time: 1.70, lr: [0.008905618610633112], Loss: 2.481796, Lambda: 0.03, Acc:0.310730, Semantic loss: 0.649893, BCE loss: 1.500257, SB loss: 0.331646
+1457.4s 277 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+1464.7s 278 Epoch: [2/20] Iter:[90/192], Time: 1.69, lr: [0.008881873808781991], Loss: 2.476033, Lambda: 0.03, Acc:0.309993, Semantic loss: 0.663316, BCE loss: 1.477543, SB loss: 0.335175
+1482.5s 279 Epoch: [2/20] Iter:[100/192], Time: 1.69, lr: [0.008858121951563658], Loss: 2.462302, Lambda: 0.03, Acc:0.309217, Semantic loss: 0.665497, BCE loss: 1.457246, SB loss: 0.339559
+1498.5s 280 Epoch: [2/20] Iter:[110/192], Time: 1.69, lr: [0.008834363015849136], Loss: 2.467521, Lambda: 0.03, Acc:0.309968, Semantic loss: 0.661395, BCE loss: 1.457965, SB loss: 0.348161
+1516.6s 281 Epoch: [2/20] Iter:[120/192], Time: 1.69, lr: [0.008810596978364274], Loss: 2.486293, Lambda: 0.03, Acc:0.311241, Semantic loss: 0.675914, BCE loss: 1.461454, SB loss: 0.348925
+1531.1s 282 Epoch: [2/20] Iter:[130/192], Time: 1.68, lr: [0.008786823815688379], Loss: 2.486265, Lambda: 0.03, Acc:0.308332, Semantic loss: 0.676323, BCE loss: 1.462981, SB loss: 0.346961
+1548.4s 283 Epoch: [2/20] Iter:[140/192], Time: 1.68, lr: [0.008763043504252865], Loss: 2.485559, Lambda: 0.03, Acc:0.308484, Semantic loss: 0.669238, BCE loss: 1.466312, SB loss: 0.350009
+1548.7s 284 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+1565.2s 285 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+1569.7s 286 Epoch: [2/20] Iter:[150/192], Time: 1.71, lr: [0.008739256020339866], Loss: 2.499989, Lambda: 0.03, Acc:0.308114, Semantic loss: 0.665427, BCE loss: 1.480090, SB loss: 0.354472
+1585.8s 287 Epoch: [2/20] Iter:[160/192], Time: 1.70, lr: [0.00871546134008083], Loss: 2.509453, Lambda: 0.03, Acc:0.310000, Semantic loss: 0.667454, BCE loss: 1.485091, SB loss: 0.356908
+1602.3s 288 Epoch: [2/20] Iter:[170/192], Time: 1.70, lr: [0.008691659439455107], Loss: 2.510269, Lambda: 0.03, Acc:0.309559, Semantic loss: 0.670112, BCE loss: 1.482919, SB loss: 0.357238
+1618.6s 289 Epoch: [2/20] Iter:[180/192], Time: 1.70, lr: [0.008667850294288517], Loss: 2.501297, Lambda: 0.03, Acc:0.310888, Semantic loss: 0.665171, BCE loss: 1.481726, SB loss: 0.354400
+1631.6s 290 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+1634.6s 291 Epoch: [2/20] Iter:[190/192], Time: 1.70, lr: [0.008644033880251888], Loss: 2.493072, Lambda: 0.03, Acc:0.312589, Semantic loss: 0.660831, BCE loss: 1.481472, SB loss: 0.350769
+1640.6s 292 0
+1653.3s 293 10
+1664.5s 294 20
+1676.3s 295 30
+1689.0s 296 40
+1700.1s 297 50
+1711.8s 298 60
+1724.4s 299 70
+1735.8s 300 80
+1747.5s 301 90
+1760.2s 302 100
+1771.1s 303 110
+1782.9s 304 120
+1795.9s 305 130
+1806.8s 306 140
+1818.5s 307 150
+1831.1s 308 160
+1835.6s 309 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+1835.9s 310 -----------------------------------------------------------------------------------------------
+1835.9s 311 Number of selected classes: 3
+1835.9s 312 Selected classes: water (class 4), barren (class 5), forest (class 6)
+1835.9s 313 Loss: 5.382, MeanIU:  0.2510, Best_mIoU:  0.2510
+1835.9s 314 Per-class IoUs of the present ones in the batch:
+1835.9s 315 - background (class 1): IoU = 0.1207
+1835.9s 316 - building (class 2): IoU = 0.3543
+1835.9s 317 - road (class 3): IoU = 0.2980
+1835.9s 318 - water (class 4): IoU = 0.3484
+1835.9s 319 - barren (class 5): IoU = 0.0334
+1835.9s 320 - forest (class 6): IoU = 0.1554
+1835.9s 321 - agriculture (class 7): IoU = 0.4468
+1835.9s 322 -----------------------------------------------------------------------------------------------
+1835.9s 323 [0.         0.1207055  0.35425868 0.29796529 0.34835954 0.03342135
+1835.9s 324 0.15536206 0.44679989]
+1843.2s 325 Epoch: [3/20] Iter:[0/192], Time: 7.22, lr: [0.008639269723028191], Loss: 1.999310, Lambda: 0.04, Acc:0.365794, Semantic loss: 0.515509, BCE loss: 1.135791, SB loss: 0.348010
+1856.7s 326 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+1862.3s 327 Epoch: [3/20] Iter:[10/192], Time: 2.31, lr: [0.008615444554012613], Loss: 2.380972, Lambda: 0.04, Acc:0.342110, Semantic loss: 0.645060, BCE loss: 1.431038, SB loss: 0.304875
+1879.1s 328 Epoch: [3/20] Iter:[20/192], Time: 2.06, lr: [0.008591612062049989], Loss: 2.308664, Lambda: 0.04, Acc:0.347550, Semantic loss: 0.617232, BCE loss: 1.393694, SB loss: 0.297738
+1895.8s 329 Epoch: [3/20] Iter:[30/192], Time: 1.90, lr: [0.008567772222305215], Loss: 2.343413, Lambda: 0.04, Acc:0.342972, Semantic loss: 0.609349, BCE loss: 1.429006, SB loss: 0.305058
+1911.6s 330 Epoch: [3/20] Iter:[40/192], Time: 1.85, lr: [0.008543925009781886], Loss: 2.366896, Lambda: 0.04, Acc:0.343966, Semantic loss: 0.602366, BCE loss: 1.446203, SB loss: 0.318328
+1912.9s 331 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+1915.8s 332 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+1931.2s 333 Epoch: [3/20] Iter:[50/192], Time: 1.84, lr: [0.00852007039932076], Loss: 2.356179, Lambda: 0.04, Acc:0.340077, Semantic loss: 0.600793, BCE loss: 1.436521, SB loss: 0.318865
+1946.8s 334 Epoch: [3/20] Iter:[60/192], Time: 1.82, lr: [0.00849620836559818], Loss: 2.382259, Lambda: 0.04, Acc:0.339325, Semantic loss: 0.592799, BCE loss: 1.475753, SB loss: 0.313707
+1963.7s 335 Epoch: [3/20] Iter:[70/192], Time: 1.79, lr: [0.008472338883124477], Loss: 2.383339, Lambda: 0.04, Acc:0.336855, Semantic loss: 0.604857, BCE loss: 1.456621, SB loss: 0.321861
+1977.4s 336 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+1979.1s 337 Epoch: [3/20] Iter:[80/192], Time: 1.77, lr: [0.008448461926242374], Loss: 2.396043, Lambda: 0.04, Acc:0.336190, Semantic loss: 0.608522, BCE loss: 1.463345, SB loss: 0.324175
+1996.7s 338 Epoch: [3/20] Iter:[90/192], Time: 1.75, lr: [0.008424577469125337], Loss: 2.371307, Lambda: 0.04, Acc:0.334397, Semantic loss: 0.608109, BCE loss: 1.443183, SB loss: 0.320015
+2013.6s 339 Epoch: [3/20] Iter:[100/192], Time: 1.76, lr: [0.008400685485775935], Loss: 2.376180, Lambda: 0.04, Acc:0.335592, Semantic loss: 0.607463, BCE loss: 1.439652, SB loss: 0.329065
+2014.8s 340 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+2032.1s 341 Epoch: [3/20] Iter:[110/192], Time: 1.77, lr: [0.008376785950024154], Loss: 2.368254, Lambda: 0.04, Acc:0.334130, Semantic loss: 0.603832, BCE loss: 1.432928, SB loss: 0.331494
+2045.8s 342 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+2051.7s 343 Epoch: [3/20] Iter:[120/192], Time: 1.78, lr: [0.00835287883552571], Loss: 2.364642, Lambda: 0.04, Acc:0.335781, Semantic loss: 0.602529, BCE loss: 1.428780, SB loss: 0.333333
+2067.9s 344 Epoch: [3/20] Iter:[130/192], Time: 1.77, lr: [0.008328964115760324], Loss: 2.370668, Lambda: 0.04, Acc:0.336402, Semantic loss: 0.605810, BCE loss: 1.429958, SB loss: 0.334900
+2083.2s 345 Epoch: [3/20] Iter:[140/192], Time: 1.75, lr: [0.008305041764029988], Loss: 2.384959, Lambda: 0.04, Acc:0.337497, Semantic loss: 0.611068, BCE loss: 1.439193, SB loss: 0.334698
+2094.6s 346 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+2103.6s 347 Epoch: [3/20] Iter:[150/192], Time: 1.76, lr: [0.008281111753457188], Loss: 2.393969, Lambda: 0.04, Acc:0.338218, Semantic loss: 0.607853, BCE loss: 1.448542, SB loss: 0.337574
+2116.1s 348 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+2119.2s 349 Epoch: [3/20] Iter:[160/192], Time: 1.76, lr: [0.008257174056983133], Loss: 2.403922, Lambda: 0.04, Acc:0.337471, Semantic loss: 0.612412, BCE loss: 1.451918, SB loss: 0.339591
+2121.8s 350 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+2137.0s 351 Epoch: [3/20] Iter:[170/192], Time: 1.75, lr: [0.00823322864736593], Loss: 2.402406, Lambda: 0.04, Acc:0.338382, Semantic loss: 0.610631, BCE loss: 1.450472, SB loss: 0.341304
+2146.6s 352 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+2153.0s 353 Epoch: [3/20] Iter:[180/192], Time: 1.75, lr: [0.008209275497178764], Loss: 2.410646, Lambda: 0.04, Acc:0.338278, Semantic loss: 0.611913, BCE loss: 1.453957, SB loss: 0.344776
+2159.9s 354 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+2171.1s 355 Epoch: [3/20] Iter:[190/192], Time: 1.75, lr: [0.008185314578808021], Loss: 2.413098, Lambda: 0.04, Acc:0.337103, Semantic loss: 0.611135, BCE loss: 1.456611, SB loss: 0.345352
+2176.0s 356 0
+2188.0s 357 10
+2199.8s 358 20
+2212.7s 359 30
+2223.7s 360 40
+2235.5s 361 50
+2248.6s 362 60
+2259.5s 363 70
+2271.4s 364 80
+2284.7s 365 90
+2295.5s 366 100
+2307.7s 367 110
+2320.6s 368 120
+2331.6s 369 130
+2343.6s 370 140
+2356.5s 371 150
+2367.4s 372 160
+2372.6s 373 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+2372.8s 374 -----------------------------------------------------------------------------------------------
+2372.8s 375 Number of selected classes: 3
+2372.8s 376 Selected classes: water (class 4), building (class 2), agriculture (class 7)
+2372.8s 377 Loss: 6.692, MeanIU:  0.2413, Best_mIoU:  0.2510
+2372.8s 378 Per-class IoUs of the present ones in the batch:
+2372.8s 379 - background (class 1): IoU = 0.1353
+2372.8s 380 - building (class 2): IoU = 0.3602
+2372.8s 381 - road (class 3): IoU = 0.2428
+2372.8s 382 - water (class 4): IoU = 0.3587
+2372.8s 383 - barren (class 5): IoU = 0.0840
+2372.8s 384 - forest (class 6): IoU = 0.0938
+2372.8s 385 - agriculture (class 7): IoU = 0.4143
+2372.8s 386 -----------------------------------------------------------------------------------------------
+2372.8s 387 [0.         0.13533833 0.36024199 0.2427737  0.3586836  0.08403912
+2372.8s 388 0.09378617 0.41434787]
+2380.1s 389 Epoch: [4/20] Iter:[0/192], Time: 7.31, lr: [0.008180521460508584], Loss: 2.185483, Lambda: 0.05, Acc:0.356893, Semantic loss: 0.454068, BCE loss: 1.447708, SB loss: 0.283706
+2397.2s 390 Epoch: [4/20] Iter:[10/192], Time: 2.10, lr: [0.008156551183601795], Loss: 2.452154, Lambda: 0.05, Acc:0.312761, Semantic loss: 0.562979, BCE loss: 1.541554, SB loss: 0.347621
+2413.0s 391 Epoch: [4/20] Iter:[20/192], Time: 1.92, lr: [0.008132573077094668], Loss: 2.350536, Lambda: 0.05, Acc:0.319800, Semantic loss: 0.599420, BCE loss: 1.424179, SB loss: 0.326937
+2425.4s 392 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+2431.5s 393 Epoch: [4/20] Iter:[30/192], Time: 1.85, lr: [0.008108587112763079], Loss: 2.374962, Lambda: 0.05, Acc:0.327359, Semantic loss: 0.610578, BCE loss: 1.437475, SB loss: 0.326909
+2445.7s 394 Epoch: [4/20] Iter:[40/192], Time: 1.78, lr: [0.008084593262188028], Loss: 2.345464, Lambda: 0.05, Acc:0.327259, Semantic loss: 0.605984, BCE loss: 1.415930, SB loss: 0.323549
+2460.5s 395 Epoch: [4/20] Iter:[50/192], Time: 1.72, lr: [0.008060591496753653], Loss: 2.350383, Lambda: 0.05, Acc:0.327445, Semantic loss: 0.597073, BCE loss: 1.433390, SB loss: 0.319921
+2477.4s 396 Epoch: [4/20] Iter:[60/192], Time: 1.69, lr: [0.008036581787645204], Loss: 2.315040, Lambda: 0.05, Acc:0.331616, Semantic loss: 0.580177, BCE loss: 1.421895, SB loss: 0.312969
+2480.4s 397 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+2486.5s 398 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+2489.1s 399 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+2495.5s 400 Epoch: [4/20] Iter:[70/192], Time: 1.73, lr: [0.008012564105846994], Loss: 2.356003, Lambda: 0.05, Acc:0.334236, Semantic loss: 0.608793, BCE loss: 1.425103, SB loss: 0.322108
+2503.2s 401 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+2514.1s 402 Epoch: [4/20] Iter:[80/192], Time: 1.72, lr: [0.007988538422140333], Loss: 2.379655, Lambda: 0.05, Acc:0.334181, Semantic loss: 0.613737, BCE loss: 1.437373, SB loss: 0.328546
+2528.1s 403 Epoch: [4/20] Iter:[90/192], Time: 1.71, lr: [0.007964504707101411], Loss: 2.394307, Lambda: 0.05, Acc:0.335243, Semantic loss: 0.608190, BCE loss: 1.455331, SB loss: 0.330786
+2546.3s 404 Epoch: [4/20] Iter:[100/192], Time: 1.70, lr: [0.007940462931099176], Loss: 2.385159, Lambda: 0.05, Acc:0.332350, Semantic loss: 0.603782, BCE loss: 1.454322, SB loss: 0.327055
+2561.0s 405 Epoch: [4/20] Iter:[110/192], Time: 1.70, lr: [0.007916413064293163], Loss: 2.391822, Lambda: 0.05, Acc:0.336775, Semantic loss: 0.605525, BCE loss: 1.456276, SB loss: 0.330022
+2580.4s 406 Epoch: [4/20] Iter:[120/192], Time: 1.70, lr: [0.007892355076631318], Loss: 2.399348, Lambda: 0.05, Acc:0.338736, Semantic loss: 0.605523, BCE loss: 1.458408, SB loss: 0.335417
+2599.6s 407 Epoch: [4/20] Iter:[130/192], Time: 1.73, lr: [0.007868288937847752], Loss: 2.406517, Lambda: 0.05, Acc:0.339463, Semantic loss: 0.605818, BCE loss: 1.463980, SB loss: 0.336719
+2616.4s 408 Epoch: [4/20] Iter:[140/192], Time: 1.73, lr: [0.007844214617460508], Loss: 2.410336, Lambda: 0.05, Acc:0.340692, Semantic loss: 0.607880, BCE loss: 1.468838, SB loss: 0.333618
+2628.3s 409 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+2636.1s 410 Epoch: [4/20] Iter:[150/192], Time: 1.74, lr: [0.007820132084769268], Loss: 2.411001, Lambda: 0.05, Acc:0.340245, Semantic loss: 0.614203, BCE loss: 1.462658, SB loss: 0.334140
+2654.1s 411 Epoch: [4/20] Iter:[160/192], Time: 1.74, lr: [0.00779604130885303], Loss: 2.403869, Lambda: 0.05, Acc:0.339763, Semantic loss: 0.612398, BCE loss: 1.459998, SB loss: 0.331472
+2671.5s 412 Epoch: [4/20] Iter:[170/192], Time: 1.75, lr: [0.007771942258567773], Loss: 2.402110, Lambda: 0.05, Acc:0.340099, Semantic loss: 0.610550, BCE loss: 1.458440, SB loss: 0.333119
+2683.0s 413 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+2687.8s 414 Epoch: [4/20] Iter:[180/192], Time: 1.74, lr: [0.007747834902544056], Loss: 2.400919, Lambda: 0.05, Acc:0.340571, Semantic loss: 0.607964, BCE loss: 1.460124, SB loss: 0.332831
+2704.6s 415 Epoch: [4/20] Iter:[190/192], Time: 1.74, lr: [0.0077237192091846206], Loss: 2.403157, Lambda: 0.05, Acc:0.341437, Semantic loss: 0.606138, BCE loss: 1.461711, SB loss: 0.335308
+2710.6s 416 0
+2723.7s 417 10
+2734.8s 418 20
+2746.6s 419 30
+2759.8s 420 40
+2770.6s 421 50
+2782.3s 422 60
+2795.6s 423 70
+2806.1s 424 80
+2817.9s 425 90
+2831.3s 426 100
+2842.2s 427 110
+2854.2s 428 120
+2867.4s 429 130
+2878.2s 430 140
+2890.3s 431 150
+2903.1s 432 160
+2907.3s 433 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+2907.6s 434 -----------------------------------------------------------------------------------------------
+2907.6s 435 Number of selected classes: 3
+2907.6s 436 Selected classes: forest (class 6), road (class 3), agriculture (class 7)
+2907.6s 437 Loss: 5.486, MeanIU:  0.2566, Best_mIoU:  0.2566
+2907.6s 438 Per-class IoUs of the present ones in the batch:
+2907.6s 439 - background (class 1): IoU = 0.2023
+2907.6s 440 - building (class 2): IoU = 0.2836
+2907.6s 441 - road (class 3): IoU = 0.2670
+2907.6s 442 - water (class 4): IoU = 0.4306
+2907.6s 443 - barren (class 5): IoU = 0.0483
+2907.6s 444 - forest (class 6): IoU = 0.1454
+2907.6s 445 - agriculture (class 7): IoU = 0.4193
+2907.6s 446 -----------------------------------------------------------------------------------------------
+2907.6s 447 [0.         0.20233183 0.28357311 0.26697836 0.43062198 0.04832552
+2907.6s 448 0.14537997 0.41932213]
+2915.1s 449 Epoch: [5/20] Iter:[0/192], Time: 7.41, lr: [0.007718895067235705], Loss: 2.586267, Lambda: 0.06, Acc:0.265134, Semantic loss: 0.444426, BCE loss: 1.845632, SB loss: 0.296210
+2935.4s 450 Epoch: [5/20] Iter:[10/192], Time: 2.38, lr: [0.007694769327040611], Loss: 2.378360, Lambda: 0.06, Acc:0.296655, Semantic loss: 0.608966, BCE loss: 1.423787, SB loss: 0.345607
+2950.6s 451 Epoch: [5/20] Iter:[20/192], Time: 2.05, lr: [0.00767063517918174], Loss: 2.320296, Lambda: 0.06, Acc:0.296014, Semantic loss: 0.581079, BCE loss: 1.386640, SB loss: 0.352578
+2968.6s 452 Epoch: [5/20] Iter:[30/192], Time: 1.92, lr: [0.007646492591316132], Loss: 2.343873, Lambda: 0.06, Acc:0.298533, Semantic loss: 0.606711, BCE loss: 1.372130, SB loss: 0.365032
+2985.7s 453 Epoch: [5/20] Iter:[40/192], Time: 1.90, lr: [0.007622341530862476], Loss: 2.405478, Lambda: 0.06, Acc:0.303782, Semantic loss: 0.633931, BCE loss: 1.384667, SB loss: 0.386881
+2988.2s 454 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+2994.0s 455 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3004.3s 456 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3006.1s 457 Epoch: [5/20] Iter:[50/192], Time: 1.93, lr: [0.0075981819649984985], Loss: 2.409563, Lambda: 0.06, Acc:0.306579, Semantic loss: 0.622597, BCE loss: 1.409323, SB loss: 0.377642
+3010.3s 458 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3024.5s 459 Epoch: [5/20] Iter:[60/192], Time: 1.92, lr: [0.007574013860658317], Loss: 2.434359, Lambda: 0.06, Acc:0.304365, Semantic loss: 0.616103, BCE loss: 1.448570, SB loss: 0.369686
+3028.5s 460 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3042.6s 461 Epoch: [5/20] Iter:[70/192], Time: 1.90, lr: [0.007549837184529776], Loss: 2.444639, Lambda: 0.06, Acc:0.301569, Semantic loss: 0.619101, BCE loss: 1.453891, SB loss: 0.371648
+3046.9s 462 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3063.8s 463 Epoch: [5/20] Iter:[80/192], Time: 1.93, lr: [0.0075256519030517215], Loss: 2.432682, Lambda: 0.06, Acc:0.301114, Semantic loss: 0.614090, BCE loss: 1.451938, SB loss: 0.366654
+3069.3s 464 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3081.9s 465 Epoch: [5/20] Iter:[90/192], Time: 1.91, lr: [0.007501457982411236], Loss: 2.404639, Lambda: 0.06, Acc:0.298493, Semantic loss: 0.611157, BCE loss: 1.430512, SB loss: 0.362970
+3098.4s 466 Epoch: [5/20] Iter:[100/192], Time: 1.89, lr: [0.0074772553885408604], Loss: 2.403742, Lambda: 0.06, Acc:0.299033, Semantic loss: 0.609758, BCE loss: 1.431421, SB loss: 0.362562
+3117.7s 467 Epoch: [5/20] Iter:[110/192], Time: 1.88, lr: [0.007453044087115737], Loss: 2.408743, Lambda: 0.06, Acc:0.300617, Semantic loss: 0.605479, BCE loss: 1.439140, SB loss: 0.364124
+3131.0s 468 Epoch: [5/20] Iter:[120/192], Time: 1.85, lr: [0.007428824043550734], Loss: 2.409356, Lambda: 0.06, Acc:0.301958, Semantic loss: 0.603607, BCE loss: 1.442912, SB loss: 0.362837
+3149.7s 469 Epoch: [5/20] Iter:[130/192], Time: 1.83, lr: [0.007404595222997526], Loss: 2.386110, Lambda: 0.06, Acc:0.302377, Semantic loss: 0.595949, BCE loss: 1.430365, SB loss: 0.359796
+3163.4s 470 Epoch: [5/20] Iter:[140/192], Time: 1.81, lr: [0.007380357590341623], Loss: 2.380028, Lambda: 0.06, Acc:0.301801, Semantic loss: 0.590916, BCE loss: 1.429943, SB loss: 0.359169
+3178.6s 471 Epoch: [5/20] Iter:[150/192], Time: 1.79, lr: [0.007356111110199354], Loss: 2.384048, Lambda: 0.06, Acc:0.302703, Semantic loss: 0.587972, BCE loss: 1.436129, SB loss: 0.359947
+3187.2s 472 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3194.4s 473 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3196.0s 474 Epoch: [5/20] Iter:[160/192], Time: 1.79, lr: [0.00733185574691482], Loss: 2.385575, Lambda: 0.06, Acc:0.304535, Semantic loss: 0.585841, BCE loss: 1.441833, SB loss: 0.357900
+3211.8s 475 Epoch: [5/20] Iter:[170/192], Time: 1.78, lr: [0.007307591464556783], Loss: 2.389575, Lambda: 0.06, Acc:0.304921, Semantic loss: 0.586242, BCE loss: 1.445745, SB loss: 0.357588
+3228.9s 476 Epoch: [5/20] Iter:[180/192], Time: 1.77, lr: [0.007283318226915514], Loss: 2.385821, Lambda: 0.06, Acc:0.306616, Semantic loss: 0.584968, BCE loss: 1.445206, SB loss: 0.355648
+3243.5s 477 Epoch: [5/20] Iter:[190/192], Time: 1.76, lr: [0.007259035997499604], Loss: 2.388684, Lambda: 0.06, Acc:0.306626, Semantic loss: 0.588475, BCE loss: 1.443825, SB loss: 0.356384
+3249.3s 478 0
+3262.9s 479 10
+3273.3s 480 20
+3285.3s 481 30
+3298.5s 482 40
+3309.3s 483 50
+3321.0s 484 60
+3334.3s 485 70
+3344.8s 486 80
+3356.5s 487 90
+3370.2s 488 100
+3380.4s 489 110
+3392.1s 490 120
+3405.9s 491 130
+3416.1s 492 140
+3427.9s 493 150
+3441.0s 494 160
+3444.6s 495 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+3444.9s 496 -----------------------------------------------------------------------------------------------
+3444.9s 497 Number of selected classes: 1
+3444.9s 498 Selected classes: background (class 1)
+3444.9s 499 Loss: 6.269, MeanIU:  0.2601, Best_mIoU:  0.2601
+3444.9s 500 Per-class IoUs of the present ones in the batch:
+3444.9s 501 - background (class 1): IoU = 0.3021
+3444.9s 502 - building (class 2): IoU = 0.2490
+3444.9s 503 - road (class 3): IoU = 0.2389
+3444.9s 504 - water (class 4): IoU = 0.4797
+3444.9s 505 - barren (class 5): IoU = 0.0539
+3444.9s 506 - forest (class 6): IoU = 0.1212
+3444.9s 507 -----------------------------------------------------------------------------------------------
+3444.9s 508 [0.         0.30209517 0.24901902 0.23886845 0.47966014 0.05391044
+3444.9s 509 0.12118245 0.3761763 ]
+3452.0s 510 Epoch: [6/20] Iter:[0/192], Time: 7.10, lr: [0.007254178469372199], Loss: 2.262627, Lambda: 0.07, Acc:0.293785, Semantic loss: 0.585694, BCE loss: 1.305716, SB loss: 0.371217
+3467.9s 511 Epoch: [6/20] Iter:[10/192], Time: 2.09, lr: [0.007229885401256642], Loss: 2.271004, Lambda: 0.07, Acc:0.333150, Semantic loss: 0.559787, BCE loss: 1.384490, SB loss: 0.326727
+3485.1s 512 Epoch: [6/20] Iter:[20/192], Time: 1.91, lr: [0.0072055832600777334], Loss: 2.347924, Lambda: 0.07, Acc:0.338283, Semantic loss: 0.609399, BCE loss: 1.371199, SB loss: 0.367326
+3501.1s 513 Epoch: [6/20] Iter:[30/192], Time: 1.81, lr: [0.007181272008420604], Loss: 2.333960, Lambda: 0.07, Acc:0.340025, Semantic loss: 0.593493, BCE loss: 1.386020, SB loss: 0.354447
+3520.0s 514 Epoch: [6/20] Iter:[40/192], Time: 1.83, lr: [0.007156951608574727], Loss: 2.336350, Lambda: 0.07, Acc:0.344908, Semantic loss: 0.588319, BCE loss: 1.380225, SB loss: 0.367807
+3538.2s 515 Epoch: [6/20] Iter:[50/192], Time: 1.83, lr: [0.007132622022530447], Loss: 2.353998, Lambda: 0.07, Acc:0.344640, Semantic loss: 0.580024, BCE loss: 1.403920, SB loss: 0.370054
+3542.6s 516 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3557.2s 517 Epoch: [6/20] Iter:[60/192], Time: 1.81, lr: [0.007108283211975477], Loss: 2.348716, Lambda: 0.07, Acc:0.342606, Semantic loss: 0.582010, BCE loss: 1.400867, SB loss: 0.365839
+3570.2s 518 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3571.8s 519 Epoch: [6/20] Iter:[70/192], Time: 1.79, lr: [0.007083935138291319], Loss: 2.361797, Lambda: 0.07, Acc:0.345985, Semantic loss: 0.578316, BCE loss: 1.418026, SB loss: 0.365455
+3583.6s 520 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3589.4s 521 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3589.8s 522 Epoch: [6/20] Iter:[80/192], Time: 1.79, lr: [0.007059577762549636], Loss: 2.372220, Lambda: 0.07, Acc:0.348108, Semantic loss: 0.574567, BCE loss: 1.439100, SB loss: 0.358553
+3606.5s 523 Epoch: [6/20] Iter:[90/192], Time: 1.78, lr: [0.007035211045508576], Loss: 2.355884, Lambda: 0.07, Acc:0.347967, Semantic loss: 0.569221, BCE loss: 1.434997, SB loss: 0.351665
+3623.4s 524 Epoch: [6/20] Iter:[100/192], Time: 1.75, lr: [0.0070108349476090265], Loss: 2.354660, Lambda: 0.07, Acc:0.347508, Semantic loss: 0.567259, BCE loss: 1.437886, SB loss: 0.349515
+3629.4s 525 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3632.3s 526 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3640.5s 527 Epoch: [6/20] Iter:[110/192], Time: 1.76, lr: [0.00698644942897081], Loss: 2.360738, Lambda: 0.07, Acc:0.348115, Semantic loss: 0.573915, BCE loss: 1.435780, SB loss: 0.351042
+3644.8s 528 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3659.1s 529 Epoch: [6/20] Iter:[120/192], Time: 1.76, lr: [0.006962054449388827], Loss: 2.374654, Lambda: 0.07, Acc:0.349321, Semantic loss: 0.574968, BCE loss: 1.448423, SB loss: 0.351262
+3675.9s 530 Epoch: [6/20] Iter:[130/192], Time: 1.76, lr: [0.006937649968329135], Loss: 2.373843, Lambda: 0.07, Acc:0.346458, Semantic loss: 0.579656, BCE loss: 1.441679, SB loss: 0.352507
+3693.0s 531 Epoch: [6/20] Iter:[140/192], Time: 1.74, lr: [0.006913235944924954], Loss: 2.365203, Lambda: 0.07, Acc:0.347551, Semantic loss: 0.579980, BCE loss: 1.436905, SB loss: 0.348317
+3706.1s 532 Epoch: [6/20] Iter:[150/192], Time: 1.73, lr: [0.006888812337972621], Loss: 2.368336, Lambda: 0.07, Acc:0.348088, Semantic loss: 0.578279, BCE loss: 1.439639, SB loss: 0.350417
+3722.3s 533 Epoch: [6/20] Iter:[160/192], Time: 1.72, lr: [0.00686437910592748], Loss: 2.365323, Lambda: 0.07, Acc:0.350218, Semantic loss: 0.573949, BCE loss: 1.442861, SB loss: 0.348513
+3733.0s 534 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3739.0s 535 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3742.2s 536 Epoch: [6/20] Iter:[170/192], Time: 1.74, lr: [0.00683993620689969], Loss: 2.368548, Lambda: 0.07, Acc:0.350043, Semantic loss: 0.570679, BCE loss: 1.451419, SB loss: 0.346450
+3757.3s 537 Epoch: [6/20] Iter:[180/192], Time: 1.73, lr: [0.0068154835986499775], Loss: 2.365340, Lambda: 0.07, Acc:0.349705, Semantic loss: 0.570958, BCE loss: 1.447787, SB loss: 0.346595
+3770.0s 538 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+3774.6s 539 Epoch: [6/20] Iter:[190/192], Time: 1.73, lr: [0.006791021238585323], Loss: 2.368362, Lambda: 0.07, Acc:0.349159, Semantic loss: 0.568840, BCE loss: 1.450341, SB loss: 0.349180
+3780.5s 540 0
+3792.6s 541 10
+3806.6s 542 20
+3816.5s 543 30
+3828.7s 544 40
+3842.8s 545 50
+3852.7s 546 60
+3864.7s 547 70
+3878.7s 548 80
+3888.6s 549 90
+3900.5s 550 100
+3914.1s 551 110
+3924.8s 552 120
+3936.8s 553 130
+3950.5s 554 140
+3961.4s 555 150
+3973.4s 556 160
+3978.4s 557 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+3978.7s 558 -----------------------------------------------------------------------------------------------
+3978.7s 559 Number of selected classes: 3
+3978.7s 560 Selected classes: forest (class 6), road (class 3), background (class 1)
+3978.7s 561 Loss: 5.884, MeanIU:  0.2684, Best_mIoU:  0.2684
+3978.7s 562 Per-class IoUs of the present ones in the batch:
+3978.7s 563 - background (class 1): IoU = 0.2811
+3978.7s 564 - building (class 2): IoU = 0.3231
+3978.7s 565 - road (class 3): IoU = 0.2467
+3978.7s 566 - water (class 4): IoU = 0.4650
+3978.7s 567 - barren (class 5): IoU = 0.0835
+3978.7s 568 - forest (class 6): IoU = 0.1022
+3978.7s 569 - agriculture (class 7): IoU = 0.3771
+3978.7s 570 -----------------------------------------------------------------------------------------------
+3978.7s 571 [0.         0.28106499 0.32310088 0.24673437 0.46498648 0.08346212
+3978.7s 572 0.10224058 0.37714067]
+3988.8s 573 Epoch: [7/20] Iter:[0/192], Time: 7.98, lr: [0.006786127592581251], Loss: 2.350563, Lambda: 0.08, Acc:0.334739, Semantic loss: 0.444709, BCE loss: 1.625419, SB loss: 0.280435
+4004.9s 574 Epoch: [7/20] Iter:[10/192], Time: 2.38, lr: [0.006761653473611295], Loss: 2.267732, Lambda: 0.08, Acc:0.362722, Semantic loss: 0.510123, BCE loss: 1.462973, SB loss: 0.294636
+4007.7s 575 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+4025.9s 576 Epoch: [7/20] Iter:[20/192], Time: 2.14, lr: [0.006737169507854796], Loss: 2.214191, Lambda: 0.08, Acc:0.360019, Semantic loss: 0.497301, BCE loss: 1.408340, SB loss: 0.308549
+4042.8s 577 Epoch: [7/20] Iter:[30/192], Time: 2.07, lr: [0.006712675651556858], Loss: 2.199915, Lambda: 0.08, Acc:0.351368, Semantic loss: 0.522738, BCE loss: 1.357016, SB loss: 0.320160
+4062.5s 578 Epoch: [7/20] Iter:[40/192], Time: 1.99, lr: [0.006688171860589905], Loss: 2.216123, Lambda: 0.08, Acc:0.352792, Semantic loss: 0.534417, BCE loss: 1.359683, SB loss: 0.322023
+4076.2s 579 Epoch: [7/20] Iter:[50/192], Time: 1.91, lr: [0.0066636580904489585], Loss: 2.240665, Lambda: 0.08, Acc:0.357210, Semantic loss: 0.530659, BCE loss: 1.382274, SB loss: 0.327731
+4085.8s 580 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+4095.7s 581 Epoch: [7/20] Iter:[60/192], Time: 1.88, lr: [0.006639134296246874], Loss: 2.274241, Lambda: 0.08, Acc:0.355016, Semantic loss: 0.537033, BCE loss: 1.406538, SB loss: 0.330671
+4110.2s 582 Epoch: [7/20] Iter:[70/192], Time: 1.85, lr: [0.0066146004327094585], Loss: 2.297398, Lambda: 0.08, Acc:0.351068, Semantic loss: 0.541791, BCE loss: 1.418980, SB loss: 0.336628
+4128.8s 583 Epoch: [7/20] Iter:[80/192], Time: 1.83, lr: [0.006590056454170537], Loss: 2.324682, Lambda: 0.08, Acc:0.352878, Semantic loss: 0.545977, BCE loss: 1.440111, SB loss: 0.338594
+4134.5s 584 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+4144.3s 585 Epoch: [7/20] Iter:[90/192], Time: 1.82, lr: [0.006565502314566912], Loss: 2.328865, Lambda: 0.08, Acc:0.353523, Semantic loss: 0.546152, BCE loss: 1.441201, SB loss: 0.341512
+4147.0s 586 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+4151.6s 587 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+4165.9s 588 Epoch: [7/20] Iter:[100/192], Time: 1.84, lr: [0.006540937967433255], Loss: 2.337128, Lambda: 0.08, Acc:0.354469, Semantic loss: 0.540707, BCE loss: 1.457884, SB loss: 0.338537
+4181.7s 589 Epoch: [7/20] Iter:[110/192], Time: 1.83, lr: [0.006516363365896894], Loss: 2.340498, Lambda: 0.08, Acc:0.353820, Semantic loss: 0.542367, BCE loss: 1.456246, SB loss: 0.341886
+4200.1s 590 Epoch: [7/20] Iter:[120/192], Time: 1.81, lr: [0.006491778462672531], Loss: 2.332380, Lambda: 0.08, Acc:0.353288, Semantic loss: 0.546752, BCE loss: 1.445317, SB loss: 0.340310
+4209.0s 591 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+4212.0s 592 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+4217.0s 593 Epoch: [7/20] Iter:[130/192], Time: 1.82, lr: [0.006467183210056843], Loss: 2.336830, Lambda: 0.08, Acc:0.353550, Semantic loss: 0.550704, BCE loss: 1.444102, SB loss: 0.342023
+4235.2s 594 Epoch: [7/20] Iter:[140/192], Time: 1.80, lr: [0.006442577559923017], Loss: 2.340302, Lambda: 0.08, Acc:0.353411, Semantic loss: 0.555229, BCE loss: 1.445358, SB loss: 0.339715
+4250.0s 595 Epoch: [7/20] Iter:[150/192], Time: 1.80, lr: [0.006417961463715172], Loss: 2.350683, Lambda: 0.08, Acc:0.355067, Semantic loss: 0.554703, BCE loss: 1.455298, SB loss: 0.340683
+4269.5s 596 Epoch: [7/20] Iter:[160/192], Time: 1.79, lr: [0.006393334872442681], Loss: 2.344285, Lambda: 0.08, Acc:0.354564, Semantic loss: 0.553840, BCE loss: 1.449801, SB loss: 0.340645
+4283.8s 597 Epoch: [7/20] Iter:[170/192], Time: 1.78, lr: [0.006368697736674411], Loss: 2.354084, Lambda: 0.08, Acc:0.353996, Semantic loss: 0.552952, BCE loss: 1.459817, SB loss: 0.341316
+4303.1s 598 Epoch: [7/20] Iter:[180/192], Time: 1.78, lr: [0.006344050006532848], Loss: 2.359835, Lambda: 0.08, Acc:0.357075, Semantic loss: 0.555634, BCE loss: 1.460514, SB loss: 0.343688
+4317.9s 599 Epoch: [7/20] Iter:[190/192], Time: 1.78, lr: [0.006319391631688114], Loss: 2.346796, Lambda: 0.08, Acc:0.357550, Semantic loss: 0.553678, BCE loss: 1.451751, SB loss: 0.341367
+4324.2s 600 0
+4338.1s 601 10
+4348.2s 602 20
+4359.9s 603 30
+4373.7s 604 40
+4383.9s 605 50
+4395.6s 606 60
+4409.4s 607 70
+4419.5s 608 80
+4431.2s 609 90
+4445.5s 610 100
+4454.9s 611 110
+4466.5s 612 120
+4480.1s 613 130
+4490.4s 614 140
+4502.1s 615 150
+4515.6s 616 160
+4519.0s 617 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+4519.3s 618 -----------------------------------------------------------------------------------------------
+4519.3s 619 Number of selected classes: 3
+4519.3s 620 Selected classes: agriculture (class 7), forest (class 6), water (class 4)
+4519.3s 621 Loss: 6.259, MeanIU:  0.2814, Best_mIoU:  0.2814
+4519.3s 622 Per-class IoUs of the present ones in the batch:
+4519.3s 623 - background (class 1): IoU = 0.3697
+4519.3s 624 - building (class 2): IoU = 0.2993
+4519.3s 625 - road (class 3): IoU = 0.2440
+4519.3s 626 - water (class 4): IoU = 0.4892
+4519.3s 627 - barren (class 5): IoU = 0.0459
+4519.3s 628 - forest (class 6): IoU = 0.1263
+4519.3s 629 - agriculture (class 7): IoU = 0.3951
+4519.3s 630 -----------------------------------------------------------------------------------------------
+4519.3s 631 [0.         0.36965421 0.29931773 0.24398702 0.48915452 0.04589522
+4519.3s 632 0.12631279 0.39513665]
+4526.8s 633 Epoch: [8/20] Iter:[0/192], Time: 7.39, lr: [0.006314458674893553], Loss: 2.458969, Lambda: 0.09, Acc:0.247086, Semantic loss: 0.553781, BCE loss: 1.639577, SB loss: 0.265611
+4529.6s 634 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+4544.6s 635 Epoch: [8/20] Iter:[10/192], Time: 2.30, lr: [0.006289787459323657], Loss: 2.363541, Lambda: 0.09, Acc:0.332896, Semantic loss: 0.564395, BCE loss: 1.464354, SB loss: 0.334792
+4552.4s 636 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+4563.3s 637 Epoch: [8/20] Iter:[20/192], Time: 2.09, lr: [0.006265105486702424], Loss: 2.382197, Lambda: 0.09, Acc:0.347154, Semantic loss: 0.563286, BCE loss: 1.473616, SB loss: 0.345295
+4581.3s 638 Epoch: [8/20] Iter:[30/192], Time: 2.00, lr: [0.006240412705211017], Loss: 2.336793, Lambda: 0.09, Acc:0.348632, Semantic loss: 0.548230, BCE loss: 1.456816, SB loss: 0.331747
+4600.3s 639 Epoch: [8/20] Iter:[40/192], Time: 1.97, lr: [0.006215709062551949], Loss: 2.368102, Lambda: 0.09, Acc:0.342735, Semantic loss: 0.549083, BCE loss: 1.479012, SB loss: 0.340007
+4615.1s 640 Epoch: [8/20] Iter:[50/192], Time: 1.88, lr: [0.006190994505942529], Loss: 2.363737, Lambda: 0.09, Acc:0.341051, Semantic loss: 0.549305, BCE loss: 1.475672, SB loss: 0.338760
+4631.4s 641 Epoch: [8/20] Iter:[60/192], Time: 1.84, lr: [0.006166268982108192], Loss: 2.356702, Lambda: 0.09, Acc:0.337997, Semantic loss: 0.549544, BCE loss: 1.469039, SB loss: 0.338119
+4646.8s 642 Epoch: [8/20] Iter:[70/192], Time: 1.80, lr: [0.006141532437275693], Loss: 2.365668, Lambda: 0.09, Acc:0.341209, Semantic loss: 0.550476, BCE loss: 1.475860, SB loss: 0.339332
+4661.6s 643 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+4663.1s 644 Epoch: [8/20] Iter:[80/192], Time: 1.77, lr: [0.006116784817166194], Loss: 2.382670, Lambda: 0.09, Acc:0.342258, Semantic loss: 0.555975, BCE loss: 1.481542, SB loss: 0.345153
+4678.0s 645 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+4679.7s 646 Epoch: [8/20] Iter:[90/192], Time: 1.76, lr: [0.006092026066988214], Loss: 2.386319, Lambda: 0.09, Acc:0.339223, Semantic loss: 0.558405, BCE loss: 1.479992, SB loss: 0.347923
+4682.2s 647 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+4699.3s 648 Epoch: [8/20] Iter:[100/192], Time: 1.76, lr: [0.006067256131430442], Loss: 2.358749, Lambda: 0.09, Acc:0.338518, Semantic loss: 0.558464, BCE loss: 1.456653, SB loss: 0.343632
+4712.8s 649 Epoch: [8/20] Iter:[110/192], Time: 1.74, lr: [0.00604247495465443], Loss: 2.350011, Lambda: 0.09, Acc:0.340981, Semantic loss: 0.561136, BCE loss: 1.446675, SB loss: 0.342200
+4718.2s 650 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+4728.9s 651 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+4732.4s 652 Epoch: [8/20] Iter:[120/192], Time: 1.75, lr: [0.006017682480287143], Loss: 2.374072, Lambda: 0.09, Acc:0.340543, Semantic loss: 0.560281, BCE loss: 1.469426, SB loss: 0.344365
+4747.3s 653 Epoch: [8/20] Iter:[130/192], Time: 1.74, lr: [0.00599287865141337], Loss: 2.372212, Lambda: 0.09, Acc:0.337852, Semantic loss: 0.558964, BCE loss: 1.468745, SB loss: 0.344503
+4764.9s 654 Epoch: [8/20] Iter:[140/192], Time: 1.72, lr: [0.005968063410567983], Loss: 2.365648, Lambda: 0.09, Acc:0.337225, Semantic loss: 0.554470, BCE loss: 1.469155, SB loss: 0.342023
+4778.4s 655 Epoch: [8/20] Iter:[150/192], Time: 1.72, lr: [0.00594323669972807], Loss: 2.382126, Lambda: 0.09, Acc:0.339073, Semantic loss: 0.569397, BCE loss: 1.463285, SB loss: 0.349444
+4793.7s 656 Epoch: [8/20] Iter:[160/192], Time: 1.70, lr: [0.005918398460304892], Loss: 2.369411, Lambda: 0.09, Acc:0.339877, Semantic loss: 0.569136, BCE loss: 1.450328, SB loss: 0.349947
+4810.5s 657 Epoch: [8/20] Iter:[170/192], Time: 1.70, lr: [0.0058935486331357125], Loss: 2.368009, Lambda: 0.09, Acc:0.338987, Semantic loss: 0.571439, BCE loss: 1.445703, SB loss: 0.350867
+4823.9s 658 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+4827.3s 659 Epoch: [8/20] Iter:[180/192], Time: 1.70, lr: [0.005868687158475447], Loss: 2.365013, Lambda: 0.09, Acc:0.339993, Semantic loss: 0.572182, BCE loss: 1.442132, SB loss: 0.350700
+4842.9s 660 Epoch: [8/20] Iter:[190/192], Time: 1.69, lr: [0.005843813975988169], Loss: 2.362523, Lambda: 0.09, Acc:0.340072, Semantic loss: 0.570428, BCE loss: 1.440788, SB loss: 0.351308
+4848.9s 661 0
+4861.1s 662 10
+4872.9s 663 20
+4886.8s 664 30
+4897.1s 665 40
+4908.9s 666 50
+4923.0s 667 60
+4933.3s 668 70
+4945.1s 669 80
+4959.0s 670 90
+4969.2s 671 100
+4981.1s 672 110
+4995.2s 673 120
+5005.2s 674 130
+5017.0s 675 140
+5031.3s 676 150
+5041.4s 677 160
+5046.6s 678 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+5046.8s 679 -----------------------------------------------------------------------------------------------
+5046.8s 680 Number of selected classes: 2
+5046.8s 681 Selected classes: forest (class 6), barren (class 5)
+5046.8s 682 Loss: 6.420, MeanIU:  0.2749, Best_mIoU:  0.2814
+5046.8s 683 Per-class IoUs of the present ones in the batch:
+5046.8s 684 - background (class 1): IoU = 0.3699
+5046.8s 685 - building (class 2): IoU = 0.2923
+5046.8s 686 - road (class 3): IoU = 0.1952
+5046.8s 687 - water (class 4): IoU = 0.4912
+5046.8s 688 - barren (class 5): IoU = 0.0690
+5046.8s 689 - forest (class 6): IoU = 0.1254
+5046.8s 690 - agriculture (class 7): IoU = 0.3816
+5046.8s 691 -----------------------------------------------------------------------------------------------
+5046.8s 692 [0.         0.36991732 0.2922677  0.19520734 0.49118187 0.06901933
+5046.8s 693 0.12539055 0.38158508]
+5054.6s 694 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+5056.4s 695 Epoch: [9/20] Iter:[0/192], Time: 9.65, lr: [0.0058388379291998025], Loss: 1.930444, Lambda: 0.10, Acc:0.298503, Semantic loss: 0.424859, BCE loss: 1.240007, SB loss: 0.265579
+5071.3s 696 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+5072.8s 697 Epoch: [9/20] Iter:[10/192], Time: 2.36, lr: [0.0058139506168319475], Loss: 2.307006, Lambda: 0.10, Acc:0.323815, Semantic loss: 0.492442, BCE loss: 1.512107, SB loss: 0.302457
+5075.6s 698 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+5091.4s 699 Epoch: [9/20] Iter:[20/192], Time: 2.13, lr: [0.005789051461775303], Loss: 2.308725, Lambda: 0.10, Acc:0.357118, Semantic loss: 0.518374, BCE loss: 1.463626, SB loss: 0.326725
+5109.2s 700 Epoch: [9/20] Iter:[30/192], Time: 1.93, lr: [0.005764140401744157], Loss: 2.315524, Lambda: 0.10, Acc:0.368192, Semantic loss: 0.529468, BCE loss: 1.467910, SB loss: 0.318145
+5122.5s 701 Epoch: [9/20] Iter:[40/192], Time: 1.85, lr: [0.005739217373824397], Loss: 2.379985, Lambda: 0.10, Acc:0.372299, Semantic loss: 0.540204, BCE loss: 1.510475, SB loss: 0.329305
+5131.4s 702 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+5142.5s 703 Epoch: [9/20] Iter:[50/192], Time: 1.84, lr: [0.005714282314464109], Loss: 2.370052, Lambda: 0.10, Acc:0.370051, Semantic loss: 0.556565, BCE loss: 1.479606, SB loss: 0.333881
+5156.0s 704 Epoch: [9/20] Iter:[60/192], Time: 1.79, lr: [0.005689335159463984], Loss: 2.345879, Lambda: 0.10, Acc:0.362087, Semantic loss: 0.550915, BCE loss: 1.465461, SB loss: 0.329503
+5172.5s 705 Epoch: [9/20] Iter:[70/192], Time: 1.77, lr: [0.0056643758439675305], Loss: 2.336060, Lambda: 0.10, Acc:0.366289, Semantic loss: 0.555210, BCE loss: 1.447101, SB loss: 0.333750
+5191.2s 706 Epoch: [9/20] Iter:[80/192], Time: 1.78, lr: [0.005639404302451105], Loss: 2.328804, Lambda: 0.10, Acc:0.366075, Semantic loss: 0.548480, BCE loss: 1.449648, SB loss: 0.330677
+5196.9s 707 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+5210.2s 708 Epoch: [9/20] Iter:[90/192], Time: 1.80, lr: [0.005614420468713722], Loss: 2.322715, Lambda: 0.10, Acc:0.366669, Semantic loss: 0.546724, BCE loss: 1.446805, SB loss: 0.329186
+5217.7s 709 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+5231.1s 710 Epoch: [9/20] Iter:[100/192], Time: 1.83, lr: [0.005589424275866668], Loss: 2.327596, Lambda: 0.10, Acc:0.365048, Semantic loss: 0.548314, BCE loss: 1.451122, SB loss: 0.328160
+5248.9s 711 Epoch: [9/20] Iter:[110/192], Time: 1.79, lr: [0.005564415656322913], Loss: 2.320228, Lambda: 0.10, Acc:0.365921, Semantic loss: 0.546726, BCE loss: 1.444839, SB loss: 0.328663
+5261.7s 712 Epoch: [9/20] Iter:[120/192], Time: 1.78, lr: [0.00553939454178628], Loss: 2.320461, Lambda: 0.10, Acc:0.367836, Semantic loss: 0.547184, BCE loss: 1.444656, SB loss: 0.328622
+5276.8s 713 Epoch: [9/20] Iter:[130/192], Time: 1.76, lr: [0.005514360863240413], Loss: 2.315022, Lambda: 0.10, Acc:0.368186, Semantic loss: 0.543772, BCE loss: 1.442166, SB loss: 0.329084
+5284.8s 714 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+5293.6s 715 Epoch: [9/20] Iter:[140/192], Time: 1.75, lr: [0.005489314550937511], Loss: 2.321099, Lambda: 0.10, Acc:0.369372, Semantic loss: 0.543808, BCE loss: 1.445896, SB loss: 0.331395
+5309.9s 716 Epoch: [9/20] Iter:[150/192], Time: 1.74, lr: [0.005464255534386825], Loss: 2.331639, Lambda: 0.10, Acc:0.368855, Semantic loss: 0.550961, BCE loss: 1.445412, SB loss: 0.335266
+5311.0s 717 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+5329.5s 718 Epoch: [9/20] Iter:[160/192], Time: 1.74, lr: [0.005439183742342914], Loss: 2.334304, Lambda: 0.10, Acc:0.368834, Semantic loss: 0.549853, BCE loss: 1.447440, SB loss: 0.337010
+5342.3s 719 Epoch: [9/20] Iter:[170/192], Time: 1.73, lr: [0.00541409910279366], Loss: 2.338369, Lambda: 0.10, Acc:0.366954, Semantic loss: 0.552433, BCE loss: 1.446136, SB loss: 0.339800
+5346.6s 720 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+5349.4s 721 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+5363.2s 722 Epoch: [9/20] Iter:[180/192], Time: 1.73, lr: [0.005389001542948025], Loss: 2.343418, Lambda: 0.10, Acc:0.367493, Semantic loss: 0.553007, BCE loss: 1.447526, SB loss: 0.342885
+5374.8s 723 Epoch: [9/20] Iter:[190/192], Time: 1.72, lr: [0.005363890989223547], Loss: 2.342591, Lambda: 0.10, Acc:0.368356, Semantic loss: 0.550967, BCE loss: 1.448227, SB loss: 0.343396
+5381.1s 724 0
+5392.8s 725 10
+5407.4s 726 20
+5416.4s 727 30
+5428.1s 728 40
+5442.8s 729 50
+5452.6s 730 60
+5464.4s 731 70
+5478.7s 732 80
+5488.6s 733 90
+5500.5s 734 100
+5515.9s 735 110
+5524.8s 736 120
+5536.6s 737 130
+5551.0s 738 140
+5560.4s 739 150
+5572.3s 740 160
+5577.4s 741 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+5577.7s 742 -----------------------------------------------------------------------------------------------
+5577.7s 743 Number of selected classes: 3
+5577.7s 744 Selected classes: barren (class 5), forest (class 6), building (class 2)
+5577.7s 745 Loss: 6.133, MeanIU:  0.2962, Best_mIoU:  0.2962
+5577.7s 746 Per-class IoUs of the present ones in the batch:
+5577.7s 747 - background (class 1): IoU = 0.4005
+5577.7s 748 - building (class 2): IoU = 0.3415
+5577.7s 749 - road (class 3): IoU = 0.2731
+5577.7s 750 - water (class 4): IoU = 0.4621
+5577.7s 751 - barren (class 5): IoU = 0.0664
+5577.7s 752 - forest (class 6): IoU = 0.1158
+5577.7s 753 - agriculture (class 7): IoU = 0.4138
+5577.7s 754 -----------------------------------------------------------------------------------------------
+5577.7s 755 [0.         0.40048252 0.34149459 0.27311914 0.46207011 0.06644545
+5577.7s 756 0.11580969 0.41384654]
+5588.5s 757 Epoch: [10/20] Iter:[0/192], Time: 7.35, lr: [0.005358867312681466], Loss: 2.820372, Lambda: 0.11, Acc:0.430965, Semantic loss: 0.668803, BCE loss: 1.884629, SB loss: 0.266940
+5601.9s 758 Epoch: [10/20] Iter:[10/192], Time: 2.20, lr: [0.005333741068040314], Loss: 2.588904, Lambda: 0.11, Acc:0.357441, Semantic loss: 0.607662, BCE loss: 1.631119, SB loss: 0.350123
+5617.7s 759 Epoch: [10/20] Iter:[20/192], Time: 1.90, lr: [0.0053086016647897714], Loss: 2.450943, Lambda: 0.11, Acc:0.351414, Semantic loss: 0.557564, BCE loss: 1.570524, SB loss: 0.322855
+5634.4s 760 Epoch: [10/20] Iter:[30/192], Time: 1.83, lr: [0.005283449026727663], Loss: 2.397447, Lambda: 0.11, Acc:0.359311, Semantic loss: 0.545960, BCE loss: 1.524007, SB loss: 0.327481
+5650.1s 761 Epoch: [10/20] Iter:[40/192], Time: 1.76, lr: [0.005258283076804885], Loss: 2.346708, Lambda: 0.11, Acc:0.360094, Semantic loss: 0.542485, BCE loss: 1.478203, SB loss: 0.326020
+5665.6s 762 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+5666.7s 763 Epoch: [10/20] Iter:[50/192], Time: 1.75, lr: [0.00523310373711144], Loss: 2.314115, Lambda: 0.11, Acc:0.363362, Semantic loss: 0.530033, BCE loss: 1.464662, SB loss: 0.319421
+5684.3s 764 Epoch: [10/20] Iter:[60/192], Time: 1.75, lr: [0.005207910928862159], Loss: 2.326679, Lambda: 0.11, Acc:0.363389, Semantic loss: 0.533941, BCE loss: 1.463706, SB loss: 0.329031
+5705.2s 765 Epoch: [10/20] Iter:[70/192], Time: 1.75, lr: [0.005182704572382109], Loss: 2.315500, Lambda: 0.11, Acc:0.363693, Semantic loss: 0.534742, BCE loss: 1.445836, SB loss: 0.334923
+5718.6s 766 Epoch: [10/20] Iter:[80/192], Time: 1.74, lr: [0.005157484587091684], Loss: 2.303059, Lambda: 0.11, Acc:0.362740, Semantic loss: 0.537216, BCE loss: 1.433635, SB loss: 0.332209
+5740.9s 767 Epoch: [10/20] Iter:[90/192], Time: 1.76, lr: [0.005132250891491357], Loss: 2.313039, Lambda: 0.11, Acc:0.366498, Semantic loss: 0.536004, BCE loss: 1.444371, SB loss: 0.332664
+5755.3s 768 Epoch: [10/20] Iter:[100/192], Time: 1.76, lr: [0.005107003403146087], Loss: 2.319666, Lambda: 0.11, Acc:0.364578, Semantic loss: 0.539593, BCE loss: 1.445676, SB loss: 0.334397
+5766.3s 769 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+5774.7s 770 Epoch: [10/20] Iter:[110/192], Time: 1.77, lr: [0.005081742038669388], Loss: 2.316733, Lambda: 0.11, Acc:0.362478, Semantic loss: 0.539201, BCE loss: 1.444250, SB loss: 0.333282
+5790.1s 771 Epoch: [10/20] Iter:[120/192], Time: 1.76, lr: [0.005056466713707024], Loss: 2.317459, Lambda: 0.11, Acc:0.362957, Semantic loss: 0.542554, BCE loss: 1.442238, SB loss: 0.332667
+5809.5s 772 Epoch: [10/20] Iter:[130/192], Time: 1.75, lr: [0.005031177342920337], Loss: 2.316884, Lambda: 0.11, Acc:0.360913, Semantic loss: 0.539697, BCE loss: 1.444231, SB loss: 0.332956
+5823.5s 773 Epoch: [10/20] Iter:[140/192], Time: 1.74, lr: [0.005005873839969192], Loss: 2.322591, Lambda: 0.11, Acc:0.360621, Semantic loss: 0.540000, BCE loss: 1.449001, SB loss: 0.333590
+5843.0s 774 Epoch: [10/20] Iter:[150/192], Time: 1.74, lr: [0.00498055611749454], Loss: 2.322907, Lambda: 0.11, Acc:0.361619, Semantic loss: 0.540124, BCE loss: 1.449821, SB loss: 0.332962
+5857.1s 775 Epoch: [10/20] Iter:[160/192], Time: 1.74, lr: [0.004955224087100552], Loss: 2.319796, Lambda: 0.11, Acc:0.362679, Semantic loss: 0.543514, BCE loss: 1.443826, SB loss: 0.332456
+5876.1s 776 Epoch: [10/20] Iter:[170/192], Time: 1.73, lr: [0.004929877659336362], Loss: 2.321927, Lambda: 0.11, Acc:0.362379, Semantic loss: 0.543536, BCE loss: 1.446547, SB loss: 0.331845
+5889.5s 777 Epoch: [10/20] Iter:[180/192], Time: 1.72, lr: [0.004904516743677371], Loss: 2.326588, Lambda: 0.11, Acc:0.363998, Semantic loss: 0.546836, BCE loss: 1.446358, SB loss: 0.333395
+5904.6s 778 Epoch: [10/20] Iter:[190/192], Time: 1.71, lr: [0.00487914124850611], Loss: 2.332198, Lambda: 0.11, Acc:0.363103, Semantic loss: 0.547984, BCE loss: 1.448315, SB loss: 0.335899
+5913.2s 779 0
+5922.6s 780 10
+5934.6s 781 20
+5949.0s 782 30
+5958.2s 783 40
+5969.9s 784 50
+5983.9s 785 60
+5993.9s 786 70
+6005.6s 787 80
+6020.0s 788 90
+6029.5s 789 100
+6041.2s 790 110
+6056.0s 791 120
+6065.1s 792 130
+6076.8s 793 140
+6091.3s 794 150
+6100.6s 795 160
+6105.7s 796 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+6105.9s 797 -----------------------------------------------------------------------------------------------
+6105.9s 798 Number of selected classes: 2
+6105.9s 799 Selected classes: water (class 4), barren (class 5)
+6105.9s 800 Loss: 6.943, MeanIU:  0.2772, Best_mIoU:  0.2962
+6105.9s 801 Per-class IoUs of the present ones in the batch:
+6105.9s 802 - background (class 1): IoU = 0.4578
+6105.9s 803 - building (class 2): IoU = 0.1972
+6105.9s 804 - road (class 3): IoU = 0.2190
+6105.9s 805 - water (class 4): IoU = 0.5311
+6105.9s 806 - barren (class 5): IoU = 0.0594
+6105.9s 807 - forest (class 6): IoU = 0.0768
+6105.9s 808 - agriculture (class 7): IoU = 0.3990
+6105.9s 809 -----------------------------------------------------------------------------------------------
+6105.9s 810 [0.         0.45777066 0.19723881 0.21903923 0.53108594 0.05942507
+6105.9s 811 0.07684031 0.39895978]
+6113.2s 812 Epoch: [11/20] Iter:[0/192], Time: 7.32, lr: [0.004874064391789954], Loss: 2.522669, Lambda: 0.12, Acc:0.491241, Semantic loss: 0.940722, BCE loss: 1.178278, SB loss: 0.403668
+6132.6s 813 Epoch: [11/20] Iter:[10/192], Time: 2.38, lr: [0.004848671278701159], Loss: 2.435671, Lambda: 0.12, Acc:0.365009, Semantic loss: 0.546706, BCE loss: 1.569620, SB loss: 0.319344
+6149.5s 814 Epoch: [11/20] Iter:[20/192], Time: 2.08, lr: [0.0048232633805975296], Loss: 2.280301, Lambda: 0.12, Acc:0.361451, Semantic loss: 0.519890, BCE loss: 1.446285, SB loss: 0.314126
+6168.9s 815 Epoch: [11/20] Iter:[30/192], Time: 1.92, lr: [0.00479784060223045], Loss: 2.352372, Lambda: 0.12, Acc:0.372106, Semantic loss: 0.536748, BCE loss: 1.474809, SB loss: 0.340815
+6168.9s 816 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+6183.0s 817 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+6184.6s 818 Epoch: [11/20] Iter:[40/192], Time: 1.92, lr: [0.004772402847172951], Loss: 2.311206, Lambda: 0.12, Acc:0.375322, Semantic loss: 0.541018, BCE loss: 1.433414, SB loss: 0.336774
+6204.2s 819 Epoch: [11/20] Iter:[50/192], Time: 1.87, lr: [0.004746950017798064], Loss: 2.318383, Lambda: 0.12, Acc:0.373220, Semantic loss: 0.542513, BCE loss: 1.441281, SB loss: 0.334589
+6217.4s 820 Epoch: [11/20] Iter:[60/192], Time: 1.83, lr: [0.004721482015256639], Loss: 2.314965, Lambda: 0.12, Acc:0.374802, Semantic loss: 0.542664, BCE loss: 1.443266, SB loss: 0.329034
+6238.1s 821 Epoch: [11/20] Iter:[70/192], Time: 1.81, lr: [0.004695998739454633], Loss: 2.328640, Lambda: 0.12, Acc:0.379218, Semantic loss: 0.553670, BCE loss: 1.448373, SB loss: 0.326598
+6254.2s 822 Epoch: [11/20] Iter:[80/192], Time: 1.83, lr: [0.004670500089029817], Loss: 2.322480, Lambda: 0.12, Acc:0.381678, Semantic loss: 0.547478, BCE loss: 1.447234, SB loss: 0.327768
+6273.0s 823 Epoch: [11/20] Iter:[90/192], Time: 1.80, lr: [0.004644985961327915], Loss: 2.305559, Lambda: 0.12, Acc:0.382154, Semantic loss: 0.544281, BCE loss: 1.436918, SB loss: 0.324360
+6287.3s 824 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+6292.4s 825 Epoch: [11/20] Iter:[100/192], Time: 1.85, lr: [0.004619456252378151], Loss: 2.313411, Lambda: 0.12, Acc:0.383124, Semantic loss: 0.539773, BCE loss: 1.450519, SB loss: 0.323120
+6311.5s 826 Epoch: [11/20] Iter:[110/192], Time: 1.82, lr: [0.004593910856868159], Loss: 2.301418, Lambda: 0.12, Acc:0.383563, Semantic loss: 0.538654, BCE loss: 1.441419, SB loss: 0.321344
+6311.6s 827 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+6328.4s 828 Epoch: [11/20] Iter:[120/192], Time: 1.84, lr: [0.004568349668118281], Loss: 2.295966, Lambda: 0.12, Acc:0.385164, Semantic loss: 0.537813, BCE loss: 1.436195, SB loss: 0.321958
+6348.8s 829 Epoch: [11/20] Iter:[130/192], Time: 1.83, lr: [0.004542772578055196], Loss: 2.299807, Lambda: 0.12, Acc:0.383898, Semantic loss: 0.541995, BCE loss: 1.431962, SB loss: 0.325849
+6363.2s 830 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+6364.8s 831 Epoch: [11/20] Iter:[140/192], Time: 1.84, lr: [0.00451717947718487], Loss: 2.312160, Lambda: 0.12, Acc:0.385418, Semantic loss: 0.540140, BCE loss: 1.447764, SB loss: 0.324257
+6383.8s 832 Epoch: [11/20] Iter:[150/192], Time: 1.82, lr: [0.004491570254564817], Loss: 2.328820, Lambda: 0.12, Acc:0.385008, Semantic loss: 0.541332, BCE loss: 1.460970, SB loss: 0.326518
+6395.8s 833 Epoch: [11/20] Iter:[160/192], Time: 1.80, lr: [0.004465944797775636], Loss: 2.342207, Lambda: 0.12, Acc:0.385800, Semantic loss: 0.544825, BCE loss: 1.469605, SB loss: 0.327776
+6398.5s 834 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+6404.3s 835 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+6416.9s 836 Epoch: [11/20] Iter:[170/192], Time: 1.80, lr: [0.004440302992891796], Loss: 2.333949, Lambda: 0.12, Acc:0.387326, Semantic loss: 0.541825, BCE loss: 1.464224, SB loss: 0.327900
+6430.7s 837 Epoch: [11/20] Iter:[180/192], Time: 1.79, lr: [0.004414644724451659], Loss: 2.329822, Lambda: 0.12, Acc:0.388091, Semantic loss: 0.543071, BCE loss: 1.457567, SB loss: 0.329184
+6440.1s 838 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+6450.8s 839 Epoch: [11/20] Iter:[190/192], Time: 1.79, lr: [0.004388969875426714], Loss: 2.340437, Lambda: 0.12, Acc:0.388853, Semantic loss: 0.546912, BCE loss: 1.463276, SB loss: 0.330249
+6453.7s 840 0
+6465.5s 841 10
+6477.3s 842 20
+6492.1s 843 30
+6501.1s 844 40
+6513.2s 845 50
+6527.4s 846 60
+6537.0s 847 70
+6548.7s 848 80
+6563.3s 849 90
+6572.1s 850 100
+6584.0s 851 110
+6598.3s 852 120
+6608.0s 853 130
+6619.6s 854 140
+6634.1s 855 150
+6643.5s 856 160
+6648.5s 857 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+6648.7s 858 -----------------------------------------------------------------------------------------------
+6648.7s 859 Number of selected classes: 2
+6648.7s 860 Selected classes: building (class 2), water (class 4)
+6648.7s 861 Loss: 6.480, MeanIU:  0.2894, Best_mIoU:  0.2962
+6648.7s 862 Per-class IoUs of the present ones in the batch:
+6648.7s 863 - background (class 1): IoU = 0.4986
+6648.7s 864 - building (class 2): IoU = 0.2851
+6648.7s 865 - road (class 3): IoU = 0.2215
+6648.7s 866 - water (class 4): IoU = 0.4837
+6648.7s 867 - barren (class 5): IoU = 0.0812
+6648.7s 868 - forest (class 6): IoU = 0.0538
+6648.7s 869 -----------------------------------------------------------------------------------------------
+6648.7s 870 [0.         0.49855621 0.28505737 0.22148935 0.48368833 0.08117642
+6648.7s 871 0.05384484 0.40218395]
+6656.0s 872 Epoch: [12/20] Iter:[0/192], Time: 7.36, lr: [0.0043838329055408696], Loss: 2.805598, Lambda: 0.13, Acc:0.348923, Semantic loss: 0.529891, BCE loss: 1.863926, SB loss: 0.411781
+6675.3s 873 Epoch: [12/20] Iter:[10/192], Time: 2.42, lr: [0.004358138003083593], Loss: 2.456558, Lambda: 0.13, Acc:0.371693, Semantic loss: 0.559251, BCE loss: 1.527363, SB loss: 0.369944
+6692.6s 874 Epoch: [12/20] Iter:[20/192], Time: 2.09, lr: [0.0043324262569064236], Loss: 2.413506, Lambda: 0.13, Acc:0.385043, Semantic loss: 0.562419, BCE loss: 1.490537, SB loss: 0.360549
+6712.0s 875 Epoch: [12/20] Iter:[30/192], Time: 1.93, lr: [0.0043066975447503065], Loss: 2.392796, Lambda: 0.13, Acc:0.386391, Semantic loss: 0.557745, BCE loss: 1.484414, SB loss: 0.350637
+6724.0s 876 Epoch: [12/20] Iter:[40/192], Time: 1.84, lr: [0.00428095174265078], Loss: 2.403038, Lambda: 0.13, Acc:0.384581, Semantic loss: 0.561864, BCE loss: 1.490819, SB loss: 0.350355
+6728.3s 877 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+6741.1s 878 Epoch: [12/20] Iter:[50/192], Time: 1.81, lr: [0.004255188724902623], Loss: 2.425670, Lambda: 0.13, Acc:0.385486, Semantic loss: 0.558722, BCE loss: 1.523082, SB loss: 0.343866
+6748.6s 879 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+6754.4s 880 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+6762.1s 881 Epoch: [12/20] Iter:[60/192], Time: 1.86, lr: [0.004229408364023519], Loss: 2.388061, Lambda: 0.13, Acc:0.388325, Semantic loss: 0.547329, BCE loss: 1.503544, SB loss: 0.337188
+6781.3s 882 Epoch: [12/20] Iter:[70/192], Time: 1.82, lr: [0.004203610530716726], Loss: 2.386816, Lambda: 0.13, Acc:0.386314, Semantic loss: 0.549359, BCE loss: 1.508016, SB loss: 0.329441
+6797.6s 883 Epoch: [12/20] Iter:[80/192], Time: 1.84, lr: [0.004177795093832693], Loss: 2.367955, Lambda: 0.13, Acc:0.387779, Semantic loss: 0.550011, BCE loss: 1.488225, SB loss: 0.329719
+6810.8s 884 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+6818.9s 885 Epoch: [12/20] Iter:[90/192], Time: 1.87, lr: [0.004151961920329593], Loss: 2.355620, Lambda: 0.13, Acc:0.385953, Semantic loss: 0.548225, BCE loss: 1.479268, SB loss: 0.328127
+6834.8s 886 Epoch: [12/20] Iter:[100/192], Time: 1.84, lr: [0.004126110875232744], Loss: 2.354930, Lambda: 0.13, Acc:0.386439, Semantic loss: 0.543747, BCE loss: 1.481155, SB loss: 0.330028
+6851.4s 887 Epoch: [12/20] Iter:[110/192], Time: 1.83, lr: [0.004100241821592866], Loss: 2.349784, Lambda: 0.13, Acc:0.387433, Semantic loss: 0.544913, BCE loss: 1.472716, SB loss: 0.332156
+6856.9s 888 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+6859.9s 889 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+6869.6s 890 Epoch: [12/20] Iter:[120/192], Time: 1.83, lr: [0.00407435462044314], Loss: 2.341010, Lambda: 0.13, Acc:0.391597, Semantic loss: 0.545679, BCE loss: 1.462615, SB loss: 0.332716
+6889.8s 891 Epoch: [12/20] Iter:[130/192], Time: 1.81, lr: [0.004048449130755016], Loss: 2.342438, Lambda: 0.13, Acc:0.393042, Semantic loss: 0.544716, BCE loss: 1.464301, SB loss: 0.333421
+6894.9s 892 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+6904.3s 893 Epoch: [12/20] Iter:[140/192], Time: 1.81, lr: [0.004022525209392749], Loss: 2.338925, Lambda: 0.13, Acc:0.392330, Semantic loss: 0.542679, BCE loss: 1.460836, SB loss: 0.335410
+6924.4s 894 Epoch: [12/20] Iter:[150/192], Time: 1.80, lr: [0.003996582711066572], Loss: 2.334114, Lambda: 0.13, Acc:0.394019, Semantic loss: 0.541698, BCE loss: 1.458605, SB loss: 0.333811
+6938.1s 895 Epoch: [12/20] Iter:[160/192], Time: 1.80, lr: [0.003970621488284514], Loss: 2.338193, Lambda: 0.13, Acc:0.395323, Semantic loss: 0.542404, BCE loss: 1.462096, SB loss: 0.333694
+6958.7s 896 Epoch: [12/20] Iter:[170/192], Time: 1.79, lr: [0.003944641391302759], Loss: 2.342531, Lambda: 0.13, Acc:0.394707, Semantic loss: 0.542213, BCE loss: 1.467028, SB loss: 0.333290
+6967.4s 897 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+6973.5s 898 Epoch: [12/20] Iter:[180/192], Time: 1.79, lr: [0.003918642268074522], Loss: 2.341453, Lambda: 0.13, Acc:0.395585, Semantic loss: 0.546197, BCE loss: 1.460452, SB loss: 0.334805
+6993.0s 899 Epoch: [12/20] Iter:[190/192], Time: 1.79, lr: [0.003892623964197378], Loss: 2.336790, Lambda: 0.13, Acc:0.397141, Semantic loss: 0.543804, BCE loss: 1.458524, SB loss: 0.334462
+6997.0s 900 0
+7008.7s 901 10
+7020.5s 902 20
+7036.3s 903 30
+7044.7s 904 40
+7056.5s 905 50
+7072.2s 906 60
+7080.8s 907 70
+7093.0s 908 80
+7107.5s 909 90
+7117.0s 910 100
+7129.1s 911 110
+7144.2s 912 120
+7152.8s 913 130
+7164.7s 914 140
+7180.0s 915 150
+7188.5s 916 160
+7193.5s 917 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+7193.8s 918 -----------------------------------------------------------------------------------------------
+7193.8s 919 Number of selected classes: 3
+7193.8s 920 Selected classes: water (class 4), building (class 2), road (class 3)
+7193.8s 921 Loss: 6.650, MeanIU:  0.3051, Best_mIoU:  0.3051
+7193.8s 922 Per-class IoUs of the present ones in the batch:
+7193.8s 923 - background (class 1): IoU = 0.4592
+7193.8s 924 - building (class 2): IoU = 0.3156
+7193.8s 925 - road (class 3): IoU = 0.2822
+7193.8s 926 - water (class 4): IoU = 0.5142
+7193.8s 927 - barren (class 5): IoU = 0.0731
+7193.8s 928 - forest (class 6): IoU = 0.0712
+7193.8s 929 - agriculture (class 7): IoU = 0.4205
+7193.8s 930 -----------------------------------------------------------------------------------------------
+7193.8s 931 [0.         0.45924687 0.31555627 0.28221661 0.514152   0.07309798
+7193.8s 932 0.07115641 0.42054149]
+7200.6s 933 Epoch: [13/20] Iter:[0/192], Time: 6.80, lr: [0.0038874179879876346], Loss: 2.415286, Lambda: 0.14, Acc:0.421690, Semantic loss: 0.575928, BCE loss: 1.375845, SB loss: 0.463513
+7221.6s 934 Epoch: [13/20] Iter:[10/192], Time: 2.16, lr: [0.003861376460123532], Loss: 2.337771, Lambda: 0.14, Acc:0.418048, Semantic loss: 0.497973, BCE loss: 1.512986, SB loss: 0.326812
+7234.8s 935 Epoch: [13/20] Iter:[20/192], Time: 1.95, lr: [0.003835315403363414], Loss: 2.437432, Lambda: 0.14, Acc:0.402312, Semantic loss: 0.536524, BCE loss: 1.567945, SB loss: 0.332964
+7257.8s 936 Epoch: [13/20] Iter:[30/192], Time: 1.94, lr: [0.00380923465539378], Loss: 2.414421, Lambda: 0.14, Acc:0.405720, Semantic loss: 0.539792, BCE loss: 1.541458, SB loss: 0.333172
+7272.5s 937 Epoch: [13/20] Iter:[40/192], Time: 1.92, lr: [0.0037831340513060203], Loss: 2.386427, Lambda: 0.14, Acc:0.402767, Semantic loss: 0.527754, BCE loss: 1.529004, SB loss: 0.329669
+7291.6s 938 Epoch: [13/20] Iter:[50/192], Time: 1.85, lr: [0.003757013423534689], Loss: 2.365130, Lambda: 0.14, Acc:0.401113, Semantic loss: 0.527392, BCE loss: 1.509391, SB loss: 0.328348
+7306.1s 939 Epoch: [13/20] Iter:[60/192], Time: 1.84, lr: [0.003730872601793835], Loss: 2.365432, Lambda: 0.14, Acc:0.400649, Semantic loss: 0.532387, BCE loss: 1.499391, SB loss: 0.333654
+7311.9s 940 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+7321.3s 941 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+7326.0s 942 Epoch: [13/20] Iter:[70/192], Time: 1.85, lr: [0.0037047114130112895], Loss: 2.372332, Lambda: 0.14, Acc:0.405991, Semantic loss: 0.535491, BCE loss: 1.496754, SB loss: 0.340087
+7329.7s 943 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+7342.0s 944 Epoch: [13/20] Iter:[80/192], Time: 1.83, lr: [0.0036785296812608405], Loss: 2.376116, Lambda: 0.14, Acc:0.404776, Semantic loss: 0.533054, BCE loss: 1.507578, SB loss: 0.335484
+7363.8s 945 Epoch: [13/20] Iter:[90/192], Time: 1.82, lr: [0.003652327227692201], Loss: 2.372897, Lambda: 0.14, Acc:0.403689, Semantic loss: 0.540678, BCE loss: 1.499883, SB loss: 0.332336
+7376.2s 946 Epoch: [13/20] Iter:[100/192], Time: 1.81, lr: [0.0036261038704587037], Loss: 2.364753, Lambda: 0.14, Acc:0.403805, Semantic loss: 0.542187, BCE loss: 1.487649, SB loss: 0.334918
+7392.8s 947 Epoch: [13/20] Iter:[110/192], Time: 1.79, lr: [0.003599859424642584], Loss: 2.363917, Lambda: 0.14, Acc:0.405546, Semantic loss: 0.540874, BCE loss: 1.485670, SB loss: 0.337373
+7412.7s 948 Epoch: [13/20] Iter:[120/192], Time: 1.77, lr: [0.0035735937021778063], Loss: 2.366371, Lambda: 0.14, Acc:0.403665, Semantic loss: 0.542568, BCE loss: 1.488714, SB loss: 0.335090
+7422.9s 949 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+7426.1s 950 Epoch: [13/20] Iter:[130/192], Time: 1.77, lr: [0.0035473065117702885], Loss: 2.364753, Lambda: 0.14, Acc:0.404097, Semantic loss: 0.541361, BCE loss: 1.489114, SB loss: 0.334277
+7442.2s 951 Epoch: [13/20] Iter:[140/192], Time: 1.76, lr: [0.003520997658815433], Loss: 2.352460, Lambda: 0.14, Acc:0.404348, Semantic loss: 0.539692, BCE loss: 1.480129, SB loss: 0.332640
+7456.4s 952 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+7459.7s 953 Epoch: [13/20] Iter:[150/192], Time: 1.76, lr: [0.003494666945312851], Loss: 2.356740, Lambda: 0.14, Acc:0.404995, Semantic loss: 0.540227, BCE loss: 1.483335, SB loss: 0.333178
+7475.8s 954 Epoch: [13/20] Iter:[160/192], Time: 1.75, lr: [0.00346831416977816], Loss: 2.355136, Lambda: 0.14, Acc:0.405446, Semantic loss: 0.540246, BCE loss: 1.480137, SB loss: 0.334752
+7493.6s 955 Epoch: [13/20] Iter:[170/192], Time: 1.75, lr: [0.003441939127151716], Loss: 2.348812, Lambda: 0.14, Acc:0.405868, Semantic loss: 0.544596, BCE loss: 1.468267, SB loss: 0.335949
+7515.3s 956 Epoch: [13/20] Iter:[180/192], Time: 1.78, lr: [0.0034155416087041646], Loss: 2.358935, Lambda: 0.14, Acc:0.405909, Semantic loss: 0.548892, BCE loss: 1.470612, SB loss: 0.339431
+7519.8s 957 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+7535.4s 958 Epoch: [13/20] Iter:[190/192], Time: 1.77, lr: [0.0033891214019386652], Loss: 2.356960, Lambda: 0.14, Acc:0.407643, Semantic loss: 0.551919, BCE loss: 1.464491, SB loss: 0.340550
+7538.5s 959 0
+7550.5s 960 10
+7562.2s 961 20
+7577.8s 962 30
+7586.6s 963 40
+7598.3s 964 50
+7613.3s 965 60
+7622.6s 966 70
+7634.4s 967 80
+7650.3s 968 90
+7658.2s 969 100
+7670.0s 970 110
+7684.8s 971 120
+7694.5s 972 130
+7706.3s 973 140
+7720.9s 974 150
+7730.2s 975 160
+7735.2s 976 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+7735.4s 977 -----------------------------------------------------------------------------------------------
+7735.4s 978 Number of selected classes: 3
+7735.4s 979 Selected classes: road (class 3), forest (class 6), building (class 2)
+7735.4s 980 Loss: 6.981, MeanIU:  0.3028, Best_mIoU:  0.3051
+7735.4s 981 Per-class IoUs of the present ones in the batch:
+7735.4s 982 - background (class 1): IoU = 0.4849
+7735.4s 983 - building (class 2): IoU = 0.3392
+7735.4s 984 - road (class 3): IoU = 0.2585
+7735.4s 985 - water (class 4): IoU = 0.5228
+7735.4s 986 - barren (class 5): IoU = 0.0579
+7735.4s 987 - forest (class 6): IoU = 0.0425
+7735.4s 988 - agriculture (class 7): IoU = 0.4140
+7735.4s 989 -----------------------------------------------------------------------------------------------
+7735.4s 990 [0.         0.48489889 0.3392432  0.25852091 0.52279794 0.05786495
+7735.4s 991 0.04254092 0.41398833]
+7743.2s 992 Epoch: [14/20] Iter:[0/192], Time: 7.72, lr: [0.0033838346190164987], Loss: 2.083872, Lambda: 0.15, Acc:0.444684, Semantic loss: 0.543541, BCE loss: 1.199050, SB loss: 0.341281
+7762.6s 993 Epoch: [14/20] Iter:[10/192], Time: 2.33, lr: [0.0033573869003190927], Loss: 2.178959, Lambda: 0.15, Acc:0.423717, Semantic loss: 0.564183, BCE loss: 1.272890, SB loss: 0.341886
+7778.8s 994 Epoch: [14/20] Iter:[20/192], Time: 2.07, lr: [0.0033309160120447595], Loss: 2.294686, Lambda: 0.15, Acc:0.435163, Semantic loss: 0.547445, BCE loss: 1.417751, SB loss: 0.329489
+7791.3s 995 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+7800.0s 996 Epoch: [14/20] Iter:[30/192], Time: 1.96, lr: [0.0033044217289421207], Loss: 2.344624, Lambda: 0.15, Acc:0.430204, Semantic loss: 0.565275, BCE loss: 1.432527, SB loss: 0.346823
+7816.6s 997 Epoch: [14/20] Iter:[40/192], Time: 1.98, lr: [0.0032779038215418194], Loss: 2.327858, Lambda: 0.15, Acc:0.423049, Semantic loss: 0.555954, BCE loss: 1.425077, SB loss: 0.346827
+7836.4s 998 Epoch: [14/20] Iter:[50/192], Time: 1.88, lr: [0.0032513620560388795], Loss: 2.342902, Lambda: 0.15, Acc:0.420843, Semantic loss: 0.554330, BCE loss: 1.433399, SB loss: 0.355172
+7841.2s 999 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+7850.4s 1000 Epoch: [14/20] Iter:[60/192], Time: 1.88, lr: [0.003224796194170671], Loss: 2.363646, Lambda: 0.15, Acc:0.422516, Semantic loss: 0.549519, BCE loss: 1.461805, SB loss: 0.352322
+7865.5s 1001 Epoch: [14/20] Iter:[70/192], Time: 1.83, lr: [0.003198205993090303], Loss: 2.373092, Lambda: 0.15, Acc:0.422854, Semantic loss: 0.561179, BCE loss: 1.456251, SB loss: 0.355662
+7882.6s 1002 Epoch: [14/20] Iter:[80/192], Time: 1.82, lr: [0.0031715912052352204], Loss: 2.374226, Lambda: 0.15, Acc:0.418752, Semantic loss: 0.559642, BCE loss: 1.458597, SB loss: 0.355987
+7885.0s 1003 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+7898.7s 1004 Epoch: [14/20] Iter:[90/192], Time: 1.79, lr: [0.0031449515781907557], Loss: 2.371066, Lambda: 0.15, Acc:0.419181, Semantic loss: 0.561153, BCE loss: 1.453942, SB loss: 0.355970
+7920.5s 1005 Epoch: [14/20] Iter:[100/192], Time: 1.79, lr: [0.003118286854548424], Loss: 2.363740, Lambda: 0.15, Acc:0.417693, Semantic loss: 0.561093, BCE loss: 1.446493, SB loss: 0.356153
+7928.9s 1006 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+7934.0s 1007 Epoch: [14/20] Iter:[110/192], Time: 1.79, lr: [0.003091596771758693], Loss: 2.350725, Lambda: 0.15, Acc:0.419030, Semantic loss: 0.555214, BCE loss: 1.444361, SB loss: 0.351149
+7942.9s 1008 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+7950.4s 1009 Epoch: [14/20] Iter:[120/192], Time: 1.78, lr: [0.0030648810619779434], Loss: 2.350166, Lambda: 0.15, Acc:0.417054, Semantic loss: 0.556157, BCE loss: 1.443533, SB loss: 0.350475
+7955.0s 1010 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+7968.0s 1011 Epoch: [14/20] Iter:[130/192], Time: 1.78, lr: [0.0030381394519093602], Loss: 2.358019, Lambda: 0.15, Acc:0.417581, Semantic loss: 0.556174, BCE loss: 1.451247, SB loss: 0.350597
+7984.8s 1012 Epoch: [14/20] Iter:[140/192], Time: 1.77, lr: [0.0030113716626374316], Loss: 2.365504, Lambda: 0.15, Acc:0.418275, Semantic loss: 0.555948, BCE loss: 1.460682, SB loss: 0.348873
+8005.0s 1013 Epoch: [14/20] Iter:[150/192], Time: 1.75, lr: [0.0029845774094557345], Loss: 2.362648, Lambda: 0.15, Acc:0.419487, Semantic loss: 0.551928, BCE loss: 1.464062, SB loss: 0.346658
+8017.6s 1014 Epoch: [14/20] Iter:[160/192], Time: 1.75, lr: [0.002957756401687678], Loss: 2.363804, Lambda: 0.15, Acc:0.419541, Semantic loss: 0.550710, BCE loss: 1.468695, SB loss: 0.344399
+8032.9s 1015 Epoch: [14/20] Iter:[170/192], Time: 1.74, lr: [0.002930908342499829], Loss: 2.367227, Lambda: 0.15, Acc:0.420011, Semantic loss: 0.554415, BCE loss: 1.467991, SB loss: 0.344822
+8052.1s 1016 Epoch: [14/20] Iter:[180/192], Time: 1.73, lr: [0.002904032928707437], Loss: 2.364581, Lambda: 0.15, Acc:0.419407, Semantic loss: 0.554308, BCE loss: 1.466831, SB loss: 0.343442
+8065.0s 1017 Epoch: [14/20] Iter:[190/192], Time: 1.73, lr: [0.0028771298505717554], Loss: 2.376045, Lambda: 0.15, Acc:0.419145, Semantic loss: 0.555121, BCE loss: 1.475668, SB loss: 0.345257
+8071.0s 1018 0
+8086.8s 1019 10
+8094.9s 1020 20
+8106.7s 1021 30
+8122.6s 1022 40
+8130.5s 1023 50
+8142.1s 1024 60
+8157.1s 1025 70
+8166.3s 1026 80
+8178.0s 1027 90
+8193.9s 1028 100
+8202.1s 1029 110
+8213.9s 1030 120
+8229.1s 1031 130
+8238.4s 1032 140
+8250.1s 1033 150
+8265.0s 1034 160
+8267.2s 1035 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+8267.4s 1036 -----------------------------------------------------------------------------------------------
+8267.4s 1037 Number of selected classes: 3
+8267.4s 1038 Selected classes: barren (class 5), background (class 1), water (class 4)
+8267.4s 1039 Loss: 7.271, MeanIU:  0.2863, Best_mIoU:  0.3051
+8267.4s 1040 Per-class IoUs of the present ones in the batch:
+8267.4s 1041 - background (class 1): IoU = 0.4776
+8267.4s 1042 - building (class 2): IoU = 0.2784
+8267.4s 1043 - road (class 3): IoU = 0.2271
+8267.4s 1044 - water (class 4): IoU = 0.5044
+8267.4s 1045 - barren (class 5): IoU = 0.0795
+8267.4s 1046 - forest (class 6): IoU = 0.0461
+8267.4s 1047 -----------------------------------------------------------------------------------------------
+8267.4s 1048 [0.         0.47755357 0.27842674 0.22712296 0.50441681 0.07953153
+8267.4s 1049 0.0460684  0.39105958]
+8274.9s 1050 Epoch: [15/20] Iter:[0/192], Time: 7.41, lr: [0.0028717458874925874], Loss: 2.367760, Lambda: 0.16, Acc:0.407806, Semantic loss: 0.652238, BCE loss: 1.365746, SB loss: 0.349777
+8293.2s 1051 Epoch: [15/20] Iter:[10/192], Time: 2.34, lr: [0.0028448091937488323], Loss: 2.397452, Lambda: 0.16, Acc:0.447880, Semantic loss: 0.582007, BCE loss: 1.464923, SB loss: 0.350522
+8312.2s 1052 Epoch: [15/20] Iter:[20/192], Time: 1.93, lr: [0.002817844130111582], Loss: 2.431234, Lambda: 0.16, Acc:0.413462, Semantic loss: 0.577819, BCE loss: 1.509017, SB loss: 0.344398
+8325.5s 1053 Epoch: [15/20] Iter:[30/192], Time: 1.87, lr: [0.0027908503644035994], Loss: 2.386133, Lambda: 0.16, Acc:0.415597, Semantic loss: 0.576530, BCE loss: 1.459921, SB loss: 0.349682
+8340.6s 1054 Epoch: [15/20] Iter:[40/192], Time: 1.78, lr: [0.0027638275569424097], Loss: 2.400156, Lambda: 0.16, Acc:0.418616, Semantic loss: 0.570342, BCE loss: 1.480010, SB loss: 0.349805
+8360.2s 1055 Epoch: [15/20] Iter:[50/192], Time: 1.73, lr: [0.002736775360287257], Loss: 2.399236, Lambda: 0.16, Acc:0.411462, Semantic loss: 0.572001, BCE loss: 1.482257, SB loss: 0.344978
+8374.5s 1056 Epoch: [15/20] Iter:[60/192], Time: 1.75, lr: [0.002709693418974644], Loss: 2.384509, Lambda: 0.16, Acc:0.409728, Semantic loss: 0.568458, BCE loss: 1.474090, SB loss: 0.341960
+8390.0s 1057 Epoch: [15/20] Iter:[70/192], Time: 1.73, lr: [0.0026825813692418162], Loss: 2.371520, Lambda: 0.16, Acc:0.410554, Semantic loss: 0.571864, BCE loss: 1.462030, SB loss: 0.337626
+8408.7s 1058 Epoch: [15/20] Iter:[80/192], Time: 1.74, lr: [0.0026554388387375], Loss: 2.391271, Lambda: 0.16, Acc:0.412064, Semantic loss: 0.583518, BCE loss: 1.463667, SB loss: 0.344086
+8417.8s 1059 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+8427.4s 1060 Epoch: [15/20] Iter:[90/192], Time: 1.76, lr: [0.002628265446219161], Loss: 2.388689, Lambda: 0.16, Acc:0.409733, Semantic loss: 0.574730, BCE loss: 1.473372, SB loss: 0.340587
+8444.9s 1061 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+8445.2s 1062 Epoch: [15/20] Iter:[100/192], Time: 1.76, lr: [0.002601060801235972], Loss: 2.389453, Lambda: 0.16, Acc:0.411045, Semantic loss: 0.582017, BCE loss: 1.464951, SB loss: 0.342485
+8463.8s 1063 Epoch: [15/20] Iter:[110/192], Time: 1.77, lr: [0.002573824503796671], Loss: 2.398646, Lambda: 0.16, Acc:0.411883, Semantic loss: 0.575108, BCE loss: 1.482258, SB loss: 0.341281
+8481.4s 1064 Epoch: [15/20] Iter:[120/192], Time: 1.77, lr: [0.00254655614402138], Loss: 2.398682, Lambda: 0.16, Acc:0.411860, Semantic loss: 0.572194, BCE loss: 1.486399, SB loss: 0.340088
+8492.3s 1065 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+8500.4s 1066 Epoch: [15/20] Iter:[130/192], Time: 1.78, lr: [0.0025192553017764118], Loss: 2.395462, Lambda: 0.16, Acc:0.414167, Semantic loss: 0.571397, BCE loss: 1.482720, SB loss: 0.341346
+8503.0s 1067 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+8518.3s 1068 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+8519.5s 1069 Epoch: [15/20] Iter:[140/192], Time: 1.79, lr: [0.002491921546291034], Loss: 2.397118, Lambda: 0.16, Acc:0.413597, Semantic loss: 0.570653, BCE loss: 1.483718, SB loss: 0.342747
+8536.4s 1070 Epoch: [15/20] Iter:[150/192], Time: 1.78, lr: [0.0024645544357550573], Loss: 2.389364, Lambda: 0.16, Acc:0.415444, Semantic loss: 0.566945, BCE loss: 1.480854, SB loss: 0.341564
+8558.5s 1071 Epoch: [15/20] Iter:[160/192], Time: 1.78, lr: [0.002437153516896028], Loss: 2.392339, Lambda: 0.16, Acc:0.415699, Semantic loss: 0.567738, BCE loss: 1.481765, SB loss: 0.342835
+8569.9s 1072 Epoch: [15/20] Iter:[170/192], Time: 1.77, lr: [0.0024097183245347467], Loss: 2.387764, Lambda: 0.16, Acc:0.416537, Semantic loss: 0.565949, BCE loss: 1.481035, SB loss: 0.340779
+8586.1s 1073 Epoch: [15/20] Iter:[180/192], Time: 1.76, lr: [0.0023822483811177], Loss: 2.387181, Lambda: 0.16, Acc:0.417395, Semantic loss: 0.566175, BCE loss: 1.479644, SB loss: 0.341362
+8598.0s 1074 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+8604.1s 1075 Epoch: [15/20] Iter:[190/192], Time: 1.76, lr: [0.002354743196224891], Loss: 2.385832, Lambda: 0.16, Acc:0.417612, Semantic loss: 0.567314, BCE loss: 1.476992, SB loss: 0.341525
+8610.2s 1076 0
+8622.2s 1077 10
+8637.6s 1078 20
+8646.7s 1079 30
+8658.5s 1080 40
+8674.3s 1081 50
+8682.8s 1082 60
+8694.6s 1083 70
+8710.9s 1084 80
+8718.9s 1085 90
+8730.7s 1086 100
+8746.2s 1087 110
+8755.2s 1088 120
+8766.9s 1089 130
+8782.2s 1090 140
+8791.3s 1091 150
+8803.0s 1092 160
+8808.2s 1093 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+8808.5s 1094 -----------------------------------------------------------------------------------------------
+8808.5s 1095 Number of selected classes: 3
+8808.5s 1096 Selected classes: barren (class 5), background (class 1), water (class 4)
+8808.5s 1097 Loss: 7.797, MeanIU:  0.3060, Best_mIoU:  0.3060
+8808.5s 1098 Per-class IoUs of the present ones in the batch:
+8808.5s 1099 - background (class 1): IoU = 0.5207
+8808.5s 1100 - building (class 2): IoU = 0.2530
+8808.5s 1101 - road (class 3): IoU = 0.2570
+8808.5s 1102 - water (class 4): IoU = 0.5529
+8808.5s 1103 - barren (class 5): IoU = 0.1005
+8808.5s 1104 - forest (class 6): IoU = 0.0452
+8808.5s 1105 - agriculture (class 7): IoU = 0.4129
+8808.5s 1106 -----------------------------------------------------------------------------------------------
+8808.5s 1107 [0.         0.52071453 0.25297182 0.25703091 0.55287251 0.10048419
+8808.5s 1108 0.04521777 0.41292516]
+8819.8s 1109 Epoch: [16/20] Iter:[0/192], Time: 7.40, lr: [0.0023492378861760376], Loss: 2.468817, Lambda: 0.17, Acc:0.411041, Semantic loss: 0.722934, BCE loss: 1.403073, SB loss: 0.342810
+8829.9s 1110 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+8836.4s 1111 Epoch: [16/20] Iter:[10/192], Time: 2.53, lr: [0.0023216897452738748], Loss: 2.433974, Lambda: 0.17, Acc:0.423320, Semantic loss: 0.583353, BCE loss: 1.506693, SB loss: 0.343928
+8855.1s 1112 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+8857.7s 1113 Epoch: [16/20] Iter:[20/192], Time: 2.34, lr: [0.0022941052360858027], Loss: 2.405347, Lambda: 0.17, Acc:0.429536, Semantic loss: 0.587037, BCE loss: 1.449485, SB loss: 0.368826
+8875.1s 1114 Epoch: [16/20] Iter:[30/192], Time: 2.15, lr: [0.0022664838233947228], Loss: 2.437725, Lambda: 0.17, Acc:0.420474, Semantic loss: 0.583659, BCE loss: 1.484967, SB loss: 0.369100
+8890.5s 1115 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+8893.5s 1116 Epoch: [16/20] Iter:[40/192], Time: 2.07, lr: [0.0022388249567421017], Loss: 2.388402, Lambda: 0.17, Acc:0.424543, Semantic loss: 0.583416, BCE loss: 1.440316, SB loss: 0.364669
+8897.9s 1117 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+8914.5s 1118 Epoch: [16/20] Iter:[50/192], Time: 2.08, lr: [0.002211128069778427], Loss: 2.396275, Lambda: 0.17, Acc:0.418182, Semantic loss: 0.587081, BCE loss: 1.446753, SB loss: 0.362442
+8917.2s 1119 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+8937.3s 1120 Epoch: [16/20] Iter:[60/192], Time: 2.02, lr: [0.0021833925795765436], Loss: 2.382288, Lambda: 0.17, Acc:0.424136, Semantic loss: 0.580705, BCE loss: 1.444501, SB loss: 0.357082
+8948.9s 1121 Epoch: [16/20] Iter:[70/192], Time: 1.98, lr: [0.0021556178859051967], Loss: 2.397761, Lambda: 0.17, Acc:0.425477, Semantic loss: 0.577760, BCE loss: 1.465478, SB loss: 0.354523
+8972.5s 1122 Epoch: [16/20] Iter:[80/192], Time: 1.97, lr: [0.002127803370459852], Loss: 2.396025, Lambda: 0.17, Acc:0.427922, Semantic loss: 0.576039, BCE loss: 1.462360, SB loss: 0.357627
+8972.5s 1123 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+8980.7s 1124 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+8988.3s 1125 Epoch: [16/20] Iter:[90/192], Time: 1.98, lr: [0.0020999483960476508], Loss: 2.417066, Lambda: 0.17, Acc:0.430341, Semantic loss: 0.578111, BCE loss: 1.477538, SB loss: 0.361418
+9011.0s 1126 Epoch: [16/20] Iter:[100/192], Time: 1.95, lr: [0.0020720523057230294], Loss: 2.423800, Lambda: 0.17, Acc:0.430511, Semantic loss: 0.577382, BCE loss: 1.485363, SB loss: 0.361055
+9022.6s 1127 Epoch: [16/20] Iter:[110/192], Time: 1.93, lr: [0.002044114421870228], Loss: 2.425276, Lambda: 0.17, Acc:0.430733, Semantic loss: 0.577364, BCE loss: 1.489936, SB loss: 0.357977
+9046.4s 1128 Epoch: [16/20] Iter:[120/192], Time: 1.93, lr: [0.0020161340452285867], Loss: 2.421824, Lambda: 0.17, Acc:0.431477, Semantic loss: 0.577433, BCE loss: 1.487895, SB loss: 0.356497
+9046.4s 1129 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+9060.0s 1130 Epoch: [16/20] Iter:[130/192], Time: 1.92, lr: [0.001988110453856112], Loss: 2.420288, Lambda: 0.17, Acc:0.430466, Semantic loss: 0.573606, BCE loss: 1.493523, SB loss: 0.353158
+9072.9s 1131 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+9083.0s 1132 Epoch: [16/20] Iter:[140/192], Time: 1.92, lr: [0.0019600429020263607], Loss: 2.437089, Lambda: 0.17, Acc:0.428536, Semantic loss: 0.579535, BCE loss: 1.503307, SB loss: 0.354248
+9083.0s 1133 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+9097.8s 1134 Epoch: [16/20] Iter:[150/192], Time: 1.92, lr: [0.0019319306190532476], Loss: 2.426420, Lambda: 0.17, Acc:0.425591, Semantic loss: 0.581466, BCE loss: 1.492506, SB loss: 0.352448
+9117.8s 1135 Epoch: [16/20] Iter:[160/192], Time: 1.89, lr: [0.0019037728080378042], Loss: 2.411415, Lambda: 0.17, Acc:0.424502, Semantic loss: 0.578317, BCE loss: 1.483144, SB loss: 0.349954
+9133.6s 1136 Epoch: [16/20] Iter:[170/192], Time: 1.90, lr: [0.0018755686445303314], Loss: 2.401435, Lambda: 0.17, Acc:0.426157, Semantic loss: 0.575953, BCE loss: 1.476720, SB loss: 0.348762
+9154.8s 1137 Epoch: [16/20] Iter:[180/192], Time: 1.89, lr: [0.001847317275100738], Loss: 2.404221, Lambda: 0.17, Acc:0.427566, Semantic loss: 0.576669, BCE loss: 1.477863, SB loss: 0.349690
+9167.1s 1138 Epoch: [16/20] Iter:[190/192], Time: 1.88, lr: [0.0018190178158090872], Loss: 2.410963, Lambda: 0.17, Acc:0.426645, Semantic loss: 0.578777, BCE loss: 1.481050, SB loss: 0.351136
+9173.0s 1139 0
+9189.9s 1140 10
+9196.9s 1141 20
+9208.5s 1142 30
+9225.0s 1143 40
+9232.6s 1144 50
+9244.2s 1145 60
+9260.1s 1146 70
+9268.4s 1147 80
+9280.0s 1148 90
+9296.2s 1149 100
+9304.1s 1150 110
+9315.7s 1151 120
+9331.8s 1152 130
+9339.8s 1153 140
+9351.6s 1154 150
+9366.9s 1155 160
+9368.7s 1156 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+9368.9s 1157 -----------------------------------------------------------------------------------------------
+9368.9s 1158 Number of selected classes: 3
+9368.9s 1159 Selected classes: forest (class 6), agriculture (class 7), building (class 2)
+9368.9s 1160 Loss: 8.259, MeanIU:  0.2959, Best_mIoU:  0.3060
+9368.9s 1161 Per-class IoUs of the present ones in the batch:
+9368.9s 1162 - background (class 1): IoU = 0.4742
+9368.9s 1163 - building (class 2): IoU = 0.2217
+9368.9s 1164 - road (class 3): IoU = 0.2989
+9368.9s 1165 - water (class 4): IoU = 0.5149
+9368.9s 1166 - barren (class 5): IoU = 0.0849
+9368.9s 1167 - forest (class 6): IoU = 0.0504
+9368.9s 1168 - agriculture (class 7): IoU = 0.4262
+9368.9s 1169 -----------------------------------------------------------------------------------------------
+9368.9s 1170 [0.         0.47420194 0.22174076 0.2989298  0.51493105 0.08487749
+9368.9s 1171 0.05044418 0.42616751]
+9376.1s 1172 Epoch: [17/20] Iter:[0/192], Time: 7.22, lr: [0.0018133520731367456], Loss: 2.587898, Lambda: 0.18, Acc:0.475826, Semantic loss: 0.578667, BCE loss: 1.524069, SB loss: 0.485163
+9392.5s 1173 Epoch: [17/20] Iter:[10/192], Time: 2.14, lr: [0.001784993693823396], Loss: 2.318515, Lambda: 0.18, Acc:0.443154, Semantic loss: 0.555022, BCE loss: 1.404164, SB loss: 0.359330
+9412.9s 1174 Epoch: [17/20] Iter:[20/192], Time: 1.87, lr: [0.0017565851643374117], Loss: 2.383887, Lambda: 0.18, Acc:0.447694, Semantic loss: 0.558406, BCE loss: 1.468636, SB loss: 0.356845
+9412.9s 1175 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+9426.8s 1176 Epoch: [17/20] Iter:[30/192], Time: 1.87, lr: [0.0017281254915000803], Loss: 2.427450, Lambda: 0.18, Acc:0.444834, Semantic loss: 0.563607, BCE loss: 1.497749, SB loss: 0.366094
+9451.0s 1177 Epoch: [17/20] Iter:[40/192], Time: 1.88, lr: [0.0016996136438923032], Loss: 2.439641, Lambda: 0.18, Acc:0.443871, Semantic loss: 0.555342, BCE loss: 1.517184, SB loss: 0.367116
+9462.9s 1178 Epoch: [17/20] Iter:[50/192], Time: 1.84, lr: [0.0016710485496403851], Loss: 2.437357, Lambda: 0.18, Acc:0.445310, Semantic loss: 0.561102, BCE loss: 1.510055, SB loss: 0.366200
+9472.5s 1179 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+9480.6s 1180 Epoch: [17/20] Iter:[60/192], Time: 1.83, lr: [0.0016424290940290059], Loss: 2.425472, Lambda: 0.18, Acc:0.440868, Semantic loss: 0.560469, BCE loss: 1.499403, SB loss: 0.365600
+9491.1s 1181 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+9498.5s 1182 Epoch: [17/20] Iter:[70/192], Time: 1.83, lr: [0.0016137541169242962], Loss: 2.437490, Lambda: 0.18, Acc:0.438048, Semantic loss: 0.570301, BCE loss: 1.497392, SB loss: 0.369797
+9514.1s 1183 Epoch: [17/20] Iter:[80/192], Time: 1.79, lr: [0.0015850224099878446], Loss: 2.446489, Lambda: 0.18, Acc:0.436692, Semantic loss: 0.575255, BCE loss: 1.505719, SB loss: 0.365515
+9534.7s 1184 Epoch: [17/20] Iter:[90/192], Time: 1.77, lr: [0.001556232713660091], Loss: 2.440206, Lambda: 0.18, Acc:0.435345, Semantic loss: 0.575812, BCE loss: 1.503575, SB loss: 0.360820
+9547.8s 1185 Epoch: [17/20] Iter:[100/192], Time: 1.77, lr: [0.0015273837138888994], Loss: 2.435833, Lambda: 0.18, Acc:0.440621, Semantic loss: 0.580192, BCE loss: 1.494910, SB loss: 0.360730
+9564.1s 1186 Epoch: [17/20] Iter:[110/192], Time: 1.76, lr: [0.0014984740385759552], Loss: 2.426972, Lambda: 0.18, Acc:0.441832, Semantic loss: 0.579729, BCE loss: 1.489804, SB loss: 0.357438
+9576.8s 1187 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+9583.4s 1188 Epoch: [17/20] Iter:[120/192], Time: 1.77, lr: [0.0014695022537100475], Loss: 2.435499, Lambda: 0.18, Acc:0.440566, Semantic loss: 0.577261, BCE loss: 1.502686, SB loss: 0.355551
+9598.9s 1189 Epoch: [17/20] Iter:[130/192], Time: 1.76, lr: [0.0014404668591521846], Loss: 2.433944, Lambda: 0.18, Acc:0.441655, Semantic loss: 0.574019, BCE loss: 1.505011, SB loss: 0.354914
+9620.7s 1190 Epoch: [17/20] Iter:[140/192], Time: 1.75, lr: [0.0014113662840326588], Loss: 2.434761, Lambda: 0.18, Acc:0.440956, Semantic loss: 0.574127, BCE loss: 1.504663, SB loss: 0.355972
+9631.7s 1191 Epoch: [17/20] Iter:[150/192], Time: 1.74, lr: [0.0013821988817145786], Loss: 2.419236, Lambda: 0.18, Acc:0.440274, Semantic loss: 0.569986, BCE loss: 1.495470, SB loss: 0.353779
+9648.0s 1192 Epoch: [17/20] Iter:[160/192], Time: 1.73, lr: [0.0013529629242719093], Loss: 2.427839, Lambda: 0.18, Acc:0.438001, Semantic loss: 0.571742, BCE loss: 1.501959, SB loss: 0.354138
+9668.9s 1193 Epoch: [17/20] Iter:[170/192], Time: 1.72, lr: [0.0013236565964223801], Loss: 2.431833, Lambda: 0.18, Acc:0.438449, Semantic loss: 0.571434, BCE loss: 1.506102, SB loss: 0.354297
+9681.8s 1194 Epoch: [17/20] Iter:[180/192], Time: 1.73, lr: [0.0012942779888466518], Loss: 2.430079, Lambda: 0.18, Acc:0.439535, Semantic loss: 0.574740, BCE loss: 1.499579, SB loss: 0.355760
+9688.7s 1195 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+9705.5s 1196 Epoch: [17/20] Iter:[190/192], Time: 1.73, lr: [0.0012648250908145803], Loss: 2.432732, Lambda: 0.18, Acc:0.438373, Semantic loss: 0.574900, BCE loss: 1.501401, SB loss: 0.356431
+9706.2s 1197 0
+9718.5s 1198 10
+9730.4s 1199 20
+9747.1s 1200 30
+9755.3s 1201 40
+9767.2s 1202 50
+9784.1s 1203 60
+9792.0s 1204 70
+9804.0s 1205 80
+9820.5s 1206 90
+9828.7s 1207 100
+9840.7s 1208 110
+9857.8s 1209 120
+9864.9s 1210 130
+9877.2s 1211 140
+9893.4s 1212 150
+9901.6s 1213 160
+9906.7s 1214 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+9907.0s 1215 -----------------------------------------------------------------------------------------------
+9907.0s 1216 Number of selected classes: 2
+9907.0s 1217 Selected classes: background (class 1), forest (class 6)
+9907.0s 1218 Loss: 7.703, MeanIU:  0.3071, Best_mIoU:  0.3071
+9907.0s 1219 Per-class IoUs of the present ones in the batch:
+9907.0s 1220 - background (class 1): IoU = 0.5184
+9907.0s 1221 - building (class 2): IoU = 0.2907
+9907.0s 1222 - road (class 3): IoU = 0.2455
+9907.0s 1223 - barren (class 5): IoU = 0.1113
+9907.0s 1224 - forest (class 6): IoU = 0.0467
+9907.0s 1225 -----------------------------------------------------------------------------------------------
+9907.0s 1226 [0.         0.5183817  0.29066504 0.24545383 0.53154708 0.11128911
+9907.0s 1227 0.04670281 0.40597077]
+9914.4s 1228 Epoch: [18/20] Iter:[0/192], Time: 7.45, lr: [0.001258925411794167], Loss: 2.696097, Lambda: 0.19, Acc:0.519365, Semantic loss: 0.617995, BCE loss: 1.583417, SB loss: 0.494685
+9937.8s 1229 Epoch: [18/20] Iter:[10/192], Time: 2.30, lr: [0.0012293805561511607], Loss: 2.504107, Lambda: 0.19, Acc:0.458148, Semantic loss: 0.621006, BCE loss: 1.468270, SB loss: 0.414831
+9948.2s 1230 Epoch: [18/20] Iter:[20/192], Time: 1.96, lr: [0.0011997565879500753], Loss: 2.369632, Lambda: 0.19, Acc:0.469899, Semantic loss: 0.623231, BCE loss: 1.352218, SB loss: 0.394183
+9963.6s 1231 Epoch: [18/20] Iter:[30/192], Time: 1.83, lr: [0.0011700511125444005], Loss: 2.374007, Lambda: 0.19, Acc:0.448951, Semantic loss: 0.593835, BCE loss: 1.402495, SB loss: 0.377678
+9972.9s 1232 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+9977.5s 1233 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+9983.5s 1234 Epoch: [18/20] Iter:[40/192], Time: 1.87, lr: [0.0011402615929770753], Loss: 2.403819, Lambda: 0.19, Acc:0.436226, Semantic loss: 0.587478, BCE loss: 1.443331, SB loss: 0.373009
+10008.4s 1235 Epoch: [18/20] Iter:[50/192], Time: 1.88, lr: [0.0011103853371305413], Loss: 2.407262, Lambda: 0.19, Acc:0.439414, Semantic loss: 0.587854, BCE loss: 1.452201, SB loss: 0.367207
+10019.0s 1236 Epoch: [18/20] Iter:[60/192], Time: 1.84, lr: [0.001080419483295973], Loss: 2.396241, Lambda: 0.19, Acc:0.437978, Semantic loss: 0.583968, BCE loss: 1.450404, SB loss: 0.361869
+10036.2s 1237 Epoch: [18/20] Iter:[70/192], Time: 1.82, lr: [0.0010503609839122385], Loss: 2.402329, Lambda: 0.19, Acc:0.437942, Semantic loss: 0.572080, BCE loss: 1.475285, SB loss: 0.354964
+10057.0s 1238 Epoch: [18/20] Iter:[80/192], Time: 1.78, lr: [0.0010202065871765603], Loss: 2.404834, Lambda: 0.19, Acc:0.436348, Semantic loss: 0.576724, BCE loss: 1.474866, SB loss: 0.353244
+10062.1s 1239 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+10068.9s 1240 Epoch: [18/20] Iter:[90/192], Time: 1.78, lr: [0.000989952816168914], Loss: 2.397168, Lambda: 0.19, Acc:0.436306, Semantic loss: 0.577021, BCE loss: 1.465062, SB loss: 0.355085
+10080.4s 1241 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+10086.4s 1242 Epoch: [18/20] Iter:[100/192], Time: 1.78, lr: [0.0009595959450576828], Loss: 2.409133, Lambda: 0.19, Acc:0.436212, Semantic loss: 0.577292, BCE loss: 1.475933, SB loss: 0.355908
+10106.7s 1243 Epoch: [18/20] Iter:[110/192], Time: 1.75, lr: [0.000929131971860904], Loss: 2.410644, Lambda: 0.19, Acc:0.436292, Semantic loss: 0.575093, BCE loss: 1.478255, SB loss: 0.357296
+10119.5s 1244 Epoch: [18/20] Iter:[120/192], Time: 1.76, lr: [0.0008985565871200918], Loss: 2.412912, Lambda: 0.19, Acc:0.438261, Semantic loss: 0.575125, BCE loss: 1.480956, SB loss: 0.356832
+10136.1s 1245 Epoch: [18/20] Iter:[130/192], Time: 1.75, lr: [0.0008678651376944955], Loss: 2.435031, Lambda: 0.19, Acc:0.438181, Semantic loss: 0.578470, BCE loss: 1.501514, SB loss: 0.355047
+10146.9s 1246 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+10153.5s 1247 Epoch: [18/20] Iter:[140/192], Time: 1.75, lr: [0.000837052584692747], Loss: 2.436501, Lambda: 0.19, Acc:0.435966, Semantic loss: 0.576676, BCE loss: 1.505607, SB loss: 0.354219
+10169.0s 1248 Epoch: [18/20] Iter:[150/192], Time: 1.74, lr: [0.000806113454312208], Loss: 2.448329, Lambda: 0.19, Acc:0.437768, Semantic loss: 0.574771, BCE loss: 1.518560, SB loss: 0.354998
+10170.1s 1249 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+10181.9s 1250 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+10188.4s 1251 Epoch: [18/20] Iter:[160/192], Time: 1.75, lr: [0.0007750417800344363], Loss: 2.447053, Lambda: 0.19, Acc:0.437711, Semantic loss: 0.573951, BCE loss: 1.517607, SB loss: 0.355495
+10204.0s 1252 Epoch: [18/20] Iter:[170/192], Time: 1.74, lr: [0.0007438310342008949], Loss: 2.441811, Lambda: 0.19, Acc:0.437819, Semantic loss: 0.574194, BCE loss: 1.513197, SB loss: 0.354420
+10222.3s 1253 Epoch: [18/20] Iter:[180/192], Time: 1.73, lr: [0.0007124740464272778], Loss: 2.443695, Lambda: 0.19, Acc:0.438352, Semantic loss: 0.577408, BCE loss: 1.510238, SB loss: 0.356049
+10234.9s 1254 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+10236.6s 1255 Epoch: [18/20] Iter:[190/192], Time: 1.73, lr: [0.0006809629055511224], Loss: 2.443192, Lambda: 0.19, Acc:0.437598, Semantic loss: 0.579459, BCE loss: 1.506629, SB loss: 0.357104
+10242.7s 1256 0
+10259.1s 1257 10
+10267.1s 1258 20
+10278.9s 1259 30
+10295.6s 1260 40
+10303.4s 1261 50
+10315.2s 1262 60
+10330.7s 1263 70
+10339.8s 1264 80
+10351.5s 1265 90
+10368.2s 1266 100
+10376.1s 1267 110
+10387.9s 1268 120
+10404.7s 1269 130
+10412.1s 1270 140
+10423.9s 1271 150
+10439.4s 1272 160
+10440.6s 1273 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+10440.8s 1274 -----------------------------------------------------------------------------------------------
+10440.8s 1275 Number of selected classes: 3
+10440.8s 1276 Selected classes: building (class 2), barren (class 5), forest (class 6)
+10440.8s 1277 Loss: 8.725, MeanIU:  0.2995, Best_mIoU:  0.3071
+10440.8s 1278 Per-class IoUs of the present ones in the batch:
+10440.8s 1279 - background (class 1): IoU = 0.5140
+10440.8s 1280 - building (class 2): IoU = 0.2339
+10440.8s 1281 - road (class 3): IoU = 0.2353
+10440.8s 1282 - water (class 4): IoU = 0.5566
+10440.8s 1283 - barren (class 5): IoU = 0.1166
+10440.8s 1284 - forest (class 6): IoU = 0.0479
+10440.8s 1285 - agriculture (class 7): IoU = 0.3925
+10440.8s 1286 -----------------------------------------------------------------------------------------------
+10440.8s 1287 [0.         0.51404943 0.23386411 0.23529853 0.55656285 0.11661172
+10440.8s 1288 0.04788323 0.39247959]
+10447.8s 1289 Epoch: [19/20] Iter:[0/192], Time: 7.01, lr: [0.0006746414238367822], Loss: 2.619325, Lambda: 0.20, Acc:0.432545, Semantic loss: 0.484873, BCE loss: 1.807236, SB loss: 0.327216
+10463.5s 1290 Epoch: [19/20] Iter:[10/192], Time: 2.06, lr: [0.0006429336362339898], Loss: 2.616111, Lambda: 0.20, Acc:0.418242, Semantic loss: 0.568713, BCE loss: 1.711785, SB loss: 0.335612
+10484.3s 1291 Epoch: [19/20] Iter:[20/192], Time: 1.80, lr: [0.0006110510578510947], Loss: 2.526178, Lambda: 0.20, Acc:0.429404, Semantic loss: 0.599963, BCE loss: 1.554627, SB loss: 0.371588
+10494.7s 1292 Epoch: [19/20] Iter:[30/192], Time: 1.74, lr: [0.0005789824653018995], Loss: 2.430831, Lambda: 0.20, Acc:0.425563, Semantic loss: 0.591542, BCE loss: 1.467981, SB loss: 0.371307
+10512.6s 1293 Epoch: [19/20] Iter:[40/192], Time: 1.75, lr: [0.0005467151732202777], Loss: 2.419387, Lambda: 0.20, Acc:0.425995, Semantic loss: 0.580860, BCE loss: 1.469215, SB loss: 0.369311
+10531.5s 1294 Epoch: [19/20] Iter:[50/192], Time: 1.78, lr: [0.0005142347343351296], Loss: 2.434957, Lambda: 0.20, Acc:0.429449, Semantic loss: 0.587297, BCE loss: 1.473832, SB loss: 0.373828
+10534.2s 1295 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+10549.7s 1296 Epoch: [19/20] Iter:[60/192], Time: 1.79, lr: [0.0004815245523312483], Loss: 2.456979, Lambda: 0.20, Acc:0.430412, Semantic loss: 0.589857, BCE loss: 1.494698, SB loss: 0.372424
+10567.4s 1297 Epoch: [19/20] Iter:[70/192], Time: 1.78, lr: [0.000448565373510549], Loss: 2.454304, Lambda: 0.20, Acc:0.431420, Semantic loss: 0.589129, BCE loss: 1.493667, SB loss: 0.371507
+10585.1s 1298 Epoch: [19/20] Iter:[80/192], Time: 1.78, lr: [0.00041533460609889997], Loss: 2.446096, Lambda: 0.20, Acc:0.436329, Semantic loss: 0.588534, BCE loss: 1.488154, SB loss: 0.369408
+10606.1s 1299 Epoch: [19/20] Iter:[90/192], Time: 1.75, lr: [0.00038180538785330436], Loss: 2.447577, Lambda: 0.20, Acc:0.436433, Semantic loss: 0.585471, BCE loss: 1.493729, SB loss: 0.368376
+10618.1s 1300 Epoch: [19/20] Iter:[100/192], Time: 1.76, lr: [0.00034794527452517863], Loss: 2.440177, Lambda: 0.20, Acc:0.435330, Semantic loss: 0.581311, BCE loss: 1.494813, SB loss: 0.364053
+10633.8s 1301 Epoch: [19/20] Iter:[110/192], Time: 1.74, lr: [0.00031371433588231993], Loss: 2.447703, Lambda: 0.20, Acc:0.437555, Semantic loss: 0.585711, BCE loss: 1.494417, SB loss: 0.367575
+10652.0s 1302 Epoch: [19/20] Iter:[120/192], Time: 1.75, lr: [0.0002790622842837163], Loss: 2.443198, Lambda: 0.20, Acc:0.438900, Semantic loss: 0.588786, BCE loss: 1.485597, SB loss: 0.368814
+10668.4s 1303 Epoch: [19/20] Iter:[130/192], Time: 1.74, lr: [0.0002439239356353784], Loss: 2.460550, Lambda: 0.20, Acc:0.438048, Semantic loss: 0.591035, BCE loss: 1.498450, SB loss: 0.371065
+10689.3s 1304 Epoch: [19/20] Iter:[140/192], Time: 1.72, lr: [0.00020821159321002047], Loss: 2.465870, Lambda: 0.20, Acc:0.437373, Semantic loss: 0.592942, BCE loss: 1.501828, SB loss: 0.371100
+10701.2s 1305 Epoch: [19/20] Iter:[150/192], Time: 1.72, lr: [0.00017180122628828942], Loss: 2.463769, Lambda: 0.20, Acc:0.436708, Semantic loss: 0.592372, BCE loss: 1.501088, SB loss: 0.370309
+10716.7s 1306 Epoch: [19/20] Iter:[160/192], Time: 1.71, lr: [0.00013450451987183818], Loss: 2.468332, Lambda: 0.20, Acc:0.436389, Semantic loss: 0.590723, BCE loss: 1.507674, SB loss: 0.369935
+10734.6s 1307 Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+10736.3s 1308 Epoch: [19/20] Iter:[170/192], Time: 1.73, lr: [9.600244875192536e-05], Loss: 2.460670, Lambda: 0.20, Acc:0.437479, Semantic loss: 0.591633, BCE loss: 1.499162, SB loss: 0.369875
+10751.6s 1309 Epoch: [19/20] Iter:[180/192], Time: 1.72, lr: [5.563716848048335e-05], Loss: 2.459504, Lambda: 0.20, Acc:0.437456, Semantic loss: 0.591659, BCE loss: 1.498850, SB loss: 0.368994
+10772.3s 1310 Epoch: [19/20] Iter:[190/192], Time: 1.70, lr: [1.1092486125349496e-05], Loss: 2.466917, Lambda: 0.20, Acc:0.437465, Semantic loss: 0.591075, BCE loss: 1.506831, SB loss: 0.369011
+10772.8s 1311 0
+10784.8s 1312 10
+10796.4s 1313 20
+10813.4s 1314 30
+10820.4s 1315 40
+10832.1s 1316 50
+10849.0s 1317 60
+10856.2s 1318 70
+10867.9s 1319 80
+10885.1s 1320 90
+10891.9s 1321 100
+10903.6s 1322 110
+10919.9s 1323 120
+10928.3s 1324 130
+10940.0s 1325 140
+10956.6s 1326 150
+10965.0s 1327 160
+10970.0s 1328 => saving checkpoint to output/loveda/pidnet_small_loveda/dacs_cjcheckpoint.pth.tar
+10970.2s 1329 -----------------------------------------------------------------------------------------------
+10970.2s 1330 Number of selected classes: 3
+10970.2s 1331 Selected classes: agriculture (class 7), road (class 3), background (class 1)
+10970.2s 1332 Loss: 8.397, MeanIU:  0.2864, Best_mIoU:  0.3071
+10970.2s 1333 Per-class IoUs of the present ones in the batch:
+10970.2s 1334 - background (class 1): IoU = 0.4428
+10970.2s 1335 - building (class 2): IoU = 0.2073
+10970.2s 1336 - road (class 3): IoU = 0.2904
+10970.2s 1337 - water (class 4): IoU = 0.4970
+10970.2s 1338 - barren (class 5): IoU = 0.0836
+10970.2s 1339 - forest (class 6): IoU = 0.0586
+10970.2s 1340 - agriculture (class 7): IoU = 0.4251
+10970.2s 1341 -----------------------------------------------------------------------------------------------
+10970.2s 1342 [0.         0.44278526 0.20731773 0.29040885 0.49695363 0.08359371
+10970.2s 1343 0.0585638  0.42513326]
+10970.2s 1344 Hours: 2
+10970.2s 1345 Done
+10995.1s 1346 /usr/local/lib/python3.11/dist-packages/traitlets/traitlets.py:2915: FutureWarning: --Exporter.preprocessors=["remove_papermill_header.RemovePapermillHeader"] for containers is deprecated in traitlets 5.0. You can pass `--Exporter.preprocessors item` ... multiple times to add items to a list.
+10995.1s 1347 warn(
+10995.3s 1348 [NbConvertApp] Converting notebook __notebook__.ipynb to notebook
+11001.0s 1349 [NbConvertApp] Writing 250079353 bytes to __notebook__.ipynb
+11003.2s 1350 /usr/local/lib/python3.11/dist-packages/traitlets/traitlets.py:2915: FutureWarning: --Exporter.preprocessors=["nbconvert.preprocessors.ExtractOutputPreprocessor"] for containers is deprecated in traitlets 5.0. You can pass `--Exporter.preprocessors item` ... multiple times to add items to a list.
+11003.2s 1351 warn(
+11003.2s 1352 [NbConvertApp] Converting notebook __notebook__.ipynb to html
+11007.8s 1353 [NbConvertApp] Support files will be in __results___files/
+11007.8s 1354 [NbConvertApp] Making directory __results___files
+11007.8s 1355 [NbConvertApp] Making directory __results___files
+11007.8s 1356 [NbConvertApp] Making directory __results___files
+11007.8s 1357 [NbConvertApp] Making directory __results___files
+11007.8s 1358 [NbConvertApp] Making directory __results___files
+11007.8s 1359 [NbConvertApp] Making directory __results___files
+11007.8s 1360 [NbConvertApp] Making directory __results___files
+11007.8s 1361 [NbConvertApp] Making directory __results___files
+11007.8s 1362 [NbConvertApp] Making directory __results___files
+11007.8s 1363 [NbConvertApp] Making directory __results___files
+11007.8s 1364 [NbConvertApp] Making directory __results___files
+11007.8s 1365 [NbConvertApp] Making directory __results___files
+11007.8s 1366 [NbConvertApp] Making directory __results___files
+11007.8s 1367 [NbConvertApp] Making directory __results___files
+11007.8s 1368 [NbConvertApp] Making directory __results___files
+11007.8s 1369 [NbConvertApp] Making directory __results___files
+11007.8s 1370 [NbConvertApp] Making directory __results___files
+11007.8s 1371 [NbConvertApp] Making directory __results___files
+11007.8s 1372 [NbConvertApp] Making directory __results___files
+11007.8s 1373 [NbConvertApp] Making directory __results___files
+11007.8s 1374 [NbConvertApp] Making directory __results___files
+11007.8s 1375 [NbConvertApp] Making directory __results___files
+11007.8s 1376 [NbConvertApp] Making directory __results___files
+11007.8s 1377 [NbConvertApp] Making directory __results___files
+11007.8s 1378 [NbConvertApp] Making directory __results___files
+11007.8s 1379 [NbConvertApp] Making directory __results___files
+11007.8s 1380 [NbConvertApp] Making directory __results___files
+11007.8s 1381 [NbConvertApp] Making directory __results___files
+11007.8s 1382 [NbConvertApp] Making directory __results___files
+11007.8s 1383 [NbConvertApp] Making directory __results___files
+11007.8s 1384 [NbConvertApp] Making directory __results___files
+11007.8s 1385 [NbConvertApp] Making directory __results___files
+11007.8s 1386 [NbConvertApp] Making directory __results___files
+11007.8s 1387 [NbConvertApp] Making directory __results___files
+11007.8s 1388 [NbConvertApp] Making directory __results___files
+11007.8s 1389 [NbConvertApp] Making directory __results___files
+11007.8s 1390 [NbConvertApp] Making directory __results___files
+11007.8s 1391 [NbConvertApp] Making directory __results___files
+11007.8s 1392 [NbConvertApp] Making directory __results___files
+11007.8s 1393 [NbConvertApp] Making directory __results___files
+11007.8s 1394 [NbConvertApp] Making directory __results___files
+11007.8s 1395 [NbConvertApp] Making directory __results___files
+11007.8s 1396 [NbConvertApp] Making directory __results___files
+11007.8s 1397 [NbConvertApp] Making directory __results___files
+11007.8s 1398 [NbConvertApp] Making directory __results___files
+11007.8s 1399 [NbConvertApp] Making directory __results___files
+11007.8s 1400 [NbConvertApp] Making directory __results___files
+11007.8s 1401 [NbConvertApp] Making directory __results___files
+11007.8s 1402 [NbConvertApp] Making directory __results___files
+11007.8s 1403 [NbConvertApp] Making directory __results___files
+11007.8s 1404 [NbConvertApp] Making directory __results___files
+11007.8s 1405 [NbConvertApp] Making directory __results___files
+11007.8s 1406 [NbConvertApp] Making directory __results___files
+11007.8s 1407 [NbConvertApp] Making directory __results___files
+11007.8s 1408 [NbConvertApp] Making directory __results___files
+11007.8s 1409 [NbConvertApp] Making directory __results___files
+11007.8s 1410 [NbConvertApp] Making directory __results___files
+11007.8s 1411 [NbConvertApp] Making directory __results___files
+11007.8s 1412 [NbConvertApp] Making directory __results___files
+11007.8s 1413 [NbConvertApp] Making directory __results___files
+11007.8s 1414 [NbConvertApp] Making directory __results___files
+11007.8s 1415 [NbConvertApp] Making directory __results___files
+11007.8s 1416 [NbConvertApp] Making directory __results___files
+11007.8s 1417 [NbConvertApp] Making directory __results___files
+11007.8s 1418 [NbConvertApp] Making directory __results___files
+11007.8s 1419 [NbConvertApp] Making directory __results___files
+11007.8s 1420 [NbConvertApp] Making directory __results___files
+11007.8s 1421 [NbConvertApp] Making directory __results___files
+11007.8s 1422 [NbConvertApp] Making directory __results___files
+11007.8s 1423 [NbConvertApp] Making directory __results___files
+11007.8s 1424 [NbConvertApp] Making directory __results___files
+11007.8s 1425 [NbConvertApp] Making directory __results___files
+11007.8s 1426 [NbConvertApp] Making directory __results___files
+11007.8s 1427 [NbConvertApp] Making directory __results___files
+11007.8s 1428 [NbConvertApp] Making directory __results___files
+11007.8s 1429 [NbConvertApp] Making directory __results___files
+11007.8s 1430 [NbConvertApp] Making directory __results___files
+11007.8s 1431 [NbConvertApp] Making directory __results___files
+11007.8s 1432 [NbConvertApp] Making directory __results___files
+11007.8s 1433 [NbConvertApp] Making directory __results___files
+11007.8s 1434 [NbConvertApp] Making directory __results___files
+11007.8s 1435 [NbConvertApp] Making directory __results___files
+11007.8s 1436 [NbConvertApp] Making directory __results___files
+11007.8s 1437 [NbConvertApp] Making directory __results___files
+11007.8s 1438 [NbConvertApp] Making directory __results___files
+11007.8s 1439 [NbConvertApp] Making directory __results___files
+11007.8s 1440 [NbConvertApp] Making directory __results___files
+11007.8s 1441 [NbConvertApp] Making directory __results___files
+11007.8s 1442 [NbConvertApp] Making directory __results___files
+11007.8s 1443 [NbConvertApp] Making directory __results___files
+11007.8s 1444 [NbConvertApp] Making directory __results___files
+11007.8s 1445 [NbConvertApp] Making directory __results___files
+11007.8s 1446 [NbConvertApp] Making directory __results___files
+11007.8s 1447 [NbConvertApp] Making directory __results___files
+11007.8s 1448 [NbConvertApp] Making directory __results___files
+11007.8s 1449 [NbConvertApp] Making directory __results___files
+11007.8s 1450 [NbConvertApp] Making directory __results___files
+11007.8s 1451 [NbConvertApp] Making directory __results___files
+11007.8s 1452 [NbConvertApp] Making directory __results___files
+11007.8s 1453 [NbConvertApp] Making directory __results___files
+11007.8s 1454 [NbConvertApp] Making directory __results___files
+11007.8s 1455 [NbConvertApp] Making directory __results___files
+11007.8s 1456 [NbConvertApp] Making directory __results___files
+11007.8s 1457 [NbConvertApp] Making directory __results___files
+11007.8s 1458 [NbConvertApp] Making directory __results___files
+11007.8s 1459 [NbConvertApp] Making directory __results___files
+11007.8s 1460 [NbConvertApp] Making directory __results___files
+11007.8s 1461 [NbConvertApp] Making directory __results___files
+11007.8s 1462 [NbConvertApp] Making directory __results___files
+11007.8s 1463 [NbConvertApp] Making directory __results___files
+11007.8s 1464 [NbConvertApp] Making directory __results___files
+11007.8s 1465 [NbConvertApp] Making directory __results___files
+11007.8s 1466 [NbConvertApp] Making directory __results___files
+11007.8s 1467 [NbConvertApp] Making directory __results___files
+11007.8s 1468 [NbConvertApp] Making directory __results___files
+11007.8s 1469 [NbConvertApp] Making directory __results___files
+11007.8s 1470 [NbConvertApp] Making directory __results___files
+11007.8s 1471 [NbConvertApp] Making directory __results___files
+11007.8s 1472 [NbConvertApp] Making directory __results___files
+11007.8s 1473 [NbConvertApp] Making directory __results___files
+11007.8s 1474 [NbConvertApp] Making directory __results___files
+11007.8s 1475 [NbConvertApp] Making directory __results___files
+11007.8s 1476 [NbConvertApp] Making directory __results___files
+11007.8s 1477 [NbConvertApp] Making directory __results___files
+11007.8s 1478 [NbConvertApp] Making directory __results___files
+11007.8s 1479 [NbConvertApp] Making directory __results___files
+11007.8s 1480 [NbConvertApp] Making directory __results___files
+11007.8s 1481 [NbConvertApp] Making directory __results___files
+11007.8s 1482 [NbConvertApp] Making directory __results___files
+11007.8s 1483 [NbConvertApp] Making directory __results___files
+11007.8s 1484 [NbConvertApp] Making directory __results___files
+11007.8s 1485 [NbConvertApp] Making directory __results___files
+11007.8s 1486 [NbConvertApp] Making directory __results___files
+11007.8s 1487 [NbConvertApp] Making directory __results___files
+11007.8s 1488 [NbConvertApp] Making directory __results___files
+11007.8s 1489 [NbConvertApp] Making directory __results___files
+11007.9s 1490 [NbConvertApp] Making directory __results___files
+11007.9s 1491 [NbConvertApp] Making directory __results___files
+11007.9s 1492 [NbConvertApp] Making directory __results___files
+11007.9s 1493 [NbConvertApp] Making directory __results___files
+11007.9s 1494 [NbConvertApp] Making directory __results___files
+11007.9s 1495 [NbConvertApp] Making directory __results___files
+11007.9s 1496 [NbConvertApp] Making directory __results___files
+11007.9s 1497 [NbConvertApp] Making directory __results___files
+11007.9s 1498 [NbConvertApp] Making directory __results___files
+11007.9s 1499 [NbConvertApp] Making directory __results___files
+11007.9s 1500 [NbConvertApp] Making directory __results___files
+11007.9s 1501 [NbConvertApp] Making directory __results___files
+11007.9s 1502 [NbConvertApp] Making directory __results___files
+11007.9s 1503 [NbConvertApp] Making directory __results___files
+11007.9s 1504 [NbConvertApp] Making directory __results___files
+11007.9s 1505 [NbConvertApp] Making directory __results___files
+11007.9s 1506 [NbConvertApp] Making directory __results___files
+11007.9s 1507 [NbConvertApp] Making directory __results___files
+11007.9s 1508 [NbConvertApp] Making directory __results___files
+11007.9s 1509 [NbConvertApp] Making directory __results___files
+11007.9s 1510 [NbConvertApp] Making directory __results___files
+11007.9s 1511 [NbConvertApp] Making directory __results___files
+11007.9s 1512 [NbConvertApp] Making directory __results___files
+11007.9s 1513 [NbConvertApp] Making directory __results___files
+11007.9s 1514 [NbConvertApp] Making directory __results___files
+11007.9s 1515 [NbConvertApp] Making directory __results___files
+11007.9s 1516 [NbConvertApp] Making directory __results___files
+11007.9s 1517 [NbConvertApp] Making directory __results___files
+11007.9s 1518 [NbConvertApp] Making directory __results___files
+11007.9s 1519 [NbConvertApp] Making directory __results___files
+11007.9s 1520 [NbConvertApp] Making directory __results___files
+11007.9s 1521 [NbConvertApp] Making directory __results___files
+11007.9s 1522 [NbConvertApp] Making directory __results___files
+11007.9s 1523 [NbConvertApp] Making directory __results___files
+11007.9s 1524 [NbConvertApp] Making directory __results___files
+11007.9s 1525 [NbConvertApp] Making directory __results___files
+11007.9s 1526 [NbConvertApp] Making directory __results___files
+11007.9s 1527 [NbConvertApp] Making directory __results___files
+11007.9s 1528 [NbConvertApp] Making directory __results___files
+11007.9s 1529 [NbConvertApp] Making directory __results___files
+11007.9s 1530 [NbConvertApp] Making directory __results___files
+11007.9s 1531 [NbConvertApp] Making directory __results___files
+11007.9s 1532 [NbConvertApp] Making directory __results___files
+11007.9s 1533 [NbConvertApp] Making directory __results___files
+11007.9s 1534 [NbConvertApp] Making directory __results___files
+11007.9s 1535 [NbConvertApp] Making directory __results___files
+11007.9s 1536 [NbConvertApp] Making directory __results___files
+11007.9s 1537 [NbConvertApp] Making directory __results___files
+11007.9s 1538 [NbConvertApp] Making directory __results___files
+11007.9s 1539 [NbConvertApp] Making directory __results___files
+11007.9s 1540 [NbConvertApp] Making directory __results___files
+11007.9s 1541 [NbConvertApp] Making directory __results___files
+11007.9s 1542 [NbConvertApp] Making directory __results___files
+11007.9s 1543 [NbConvertApp] Making directory __results___files
+11007.9s 1544 [NbConvertApp] Making directory __results___files
+11007.9s 1545 [NbConvertApp] Making directory __results___files
+11007.9s 1546 [NbConvertApp] Making directory __results___files
+11007.9s 1547 [NbConvertApp] Making directory __results___files
+11007.9s 1548 [NbConvertApp] Making directory __results___files
+11007.9s 1549 [NbConvertApp] Making directory __results___files
+11007.9s 1550 [NbConvertApp] Making directory __results___files
+11007.9s 1551 [NbConvertApp] Making directory __results___files
+11007.9s 1552 [NbConvertApp] Making directory __results___files
+11007.9s 1553 [NbConvertApp] Making directory __results___files
+11007.9s 1554 [NbConvertApp] Making directory __results___files
+11007.9s 1555 [NbConvertApp] Making directory __results___files
+11007.9s 1556 [NbConvertApp] Making directory __results___files
+11007.9s 1557 [NbConvertApp] Making directory __results___files
+11007.9s 1558 [NbConvertApp] Making directory __results___files
+11007.9s 1559 [NbConvertApp] Making directory __results___files
+11007.9s 1560 [NbConvertApp] Making directory __results___files
+11007.9s 1561 [NbConvertApp] Making directory __results___files
+11007.9s 1562 [NbConvertApp] Making directory __results___files
+11007.9s 1563 [NbConvertApp] Making directory __results___files
+11007.9s 1564 [NbConvertApp] Making directory __results___files
+11007.9s 1565 [NbConvertApp] Making directory __results___files
+11007.9s 1566 [NbConvertApp] Making directory __results___files
+11007.9s 1567 [NbConvertApp] Making directory __results___files
+11007.9s 1568 [NbConvertApp] Making directory __results___files
+11007.9s 1569 [NbConvertApp] Making directory __results___files
+11007.9s 1570 [NbConvertApp] Making directory __results___files
+11007.9s 1571 [NbConvertApp] Making directory __results___files
+11007.9s 1572 [NbConvertApp] Making directory __results___files
+11007.9s 1573 [NbConvertApp] Making directory __results___files
+11007.9s 1574 [NbConvertApp] Making directory __results___files
+11007.9s 1575 [NbConvertApp] Making directory __results___files
+11007.9s 1576 [NbConvertApp] Making directory __results___files
+11007.9s 1577 [NbConvertApp] Making directory __results___files
+11007.9s 1578 [NbConvertApp] Making directory __results___files
+11007.9s 1579 [NbConvertApp] Making directory __results___files
+11007.9s 1580 [NbConvertApp] Making directory __results___files
+11007.9s 1581 [NbConvertApp] Making directory __results___files
+11007.9s 1582 [NbConvertApp] Making directory __results___files
+11007.9s 1583 [NbConvertApp] Making directory __results___files
+11007.9s 1584 [NbConvertApp] Making directory __results___files
+11007.9s 1585 [NbConvertApp] Making directory __results___files
+11007.9s 1586 [NbConvertApp] Making directory __results___files
+11007.9s 1587 [NbConvertApp] Making directory __results___files
+11007.9s 1588 [NbConvertApp] Making directory __results___files
+11007.9s 1589 [NbConvertApp] Making directory __results___files
+11007.9s 1590 [NbConvertApp] Making directory __results___files
+11007.9s 1591 [NbConvertApp] Making directory __results___files
+11007.9s 1592 [NbConvertApp] Making directory __results___files
+11007.9s 1593 [NbConvertApp] Making directory __results___files
+11007.9s 1594 [NbConvertApp] Making directory __results___files
+11007.9s 1595 [NbConvertApp] Making directory __results___files
+11007.9s 1596 [NbConvertApp] Making directory __results___files
+11007.9s 1597 [NbConvertApp] Making directory __results___files
+11007.9s 1598 [NbConvertApp] Making directory __results___files
+11007.9s 1599 [NbConvertApp] Making directory __results___files
+11007.9s 1600 [NbConvertApp] Making directory __results___files
+11007.9s 1601 [NbConvertApp] Making directory __results___files
+11007.9s 1602 [NbConvertApp] Making directory __results___files
+11007.9s 1603 [NbConvertApp] Making directory __results___files
+11007.9s 1604 [NbConvertApp] Making directory __results___files
+11007.9s 1605 [NbConvertApp] Making directory __results___files
+11007.9s 1606 [NbConvertApp] Making directory __results___files
+11007.9s 1607 [NbConvertApp] Making directory __results___files
+11007.9s 1608 [NbConvertApp] Making directory __results___files
+11007.9s 1609 [NbConvertApp] Making directory __results___files
+11007.9s 1610 [NbConvertApp] Making directory __results___files
+11007.9s 1611 [NbConvertApp] Making directory __results___files
+11007.9s 1612 [NbConvertApp] Making directory __results___files
+11007.9s 1613 [NbConvertApp] Making directory __results___files
+11007.9s 1614 [NbConvertApp] Making directory __results___files
+11007.9s 1615 [NbConvertApp] Making directory __results___files
+11007.9s 1616 [NbConvertApp] Making directory __results___files
+11007.9s 1617 [NbConvertApp] Making directory __results___files
+11007.9s 1618 [NbConvertApp] Making directory __results___files
+11007.9s 1619 [NbConvertApp] Making directory __results___files
+11007.9s 1620 [NbConvertApp] Making directory __results___files
+11007.9s 1621 [NbConvertApp] Making directory __results___files
+11007.9s 1622 [NbConvertApp] Making directory __results___files
+11007.9s 1623 [NbConvertApp] Making directory __results___files
+11007.9s 1624 [NbConvertApp] Making directory __results___files
+11007.9s 1625 [NbConvertApp] Making directory __results___files
+11007.9s 1626 [NbConvertApp] Making directory __results___files
+11007.9s 1627 [NbConvertApp] Making directory __results___files
+11007.9s 1628 [NbConvertApp] Making directory __results___files
+11007.9s 1629 [NbConvertApp] Making directory __results___files
+11007.9s 1630 [NbConvertApp] Making directory __results___files
+11007.9s 1631 [NbConvertApp] Making directory __results___files
+11007.9s 1632 [NbConvertApp] Making directory __results___files
+11007.9s 1633 [NbConvertApp] Making directory __results___files
+11007.9s 1634 [NbConvertApp] Making directory __results___files
+11007.9s 1635 [NbConvertApp] Making directory __results___files
+11007.9s 1636 [NbConvertApp] Making directory __results___files
+11007.9s 1637 [NbConvertApp] Making directory __results___files
+11007.9s 1638 [NbConvertApp] Making directory __results___files
+11007.9s 1639 [NbConvertApp] Making directory __results___files
+11007.9s 1640 [NbConvertApp] Making directory __results___files
+11007.9s 1641 [NbConvertApp] Making directory __results___files
+11007.9s 1642 [NbConvertApp] Making directory __results___files
+11007.9s 1643 [NbConvertApp] Making directory __results___files
+11007.9s 1644 [NbConvertApp] Making directory __results___files
+11007.9s 1645 [NbConvertApp] Making directory __results___files
+11007.9s 1646 [NbConvertApp] Making directory __results___files
+11007.9s 1647 [NbConvertApp] Making directory __results___files
+11007.9s 1648 [NbConvertApp] Making directory __results___files
+11007.9s 1649 [NbConvertApp] Making directory __results___files
+11007.9s 1650 [NbConvertApp] Making directory __results___files
+11007.9s 1651 [NbConvertApp] Making directory __results___files
+11007.9s 1652 [NbConvertApp] Making directory __results___files
+11007.9s 1653 [NbConvertApp] Making directory __results___files
+11007.9s 1654 [NbConvertApp] Making directory __results___files
+11007.9s 1655 [NbConvertApp] Making directory __results___files
+11007.9s 1656 [NbConvertApp] Making directory __results___files
+11007.9s 1657 [NbConvertApp] Making directory __results___files
+11007.9s 1658 [NbConvertApp] Making directory __results___files
+11007.9s 1659 [NbConvertApp] Making directory __results___files
+11007.9s 1660 [NbConvertApp] Making directory __results___files
+11007.9s 1661 [NbConvertApp] Making directory __results___files
+11007.9s 1662 [NbConvertApp] Making directory __results___files
+11007.9s 1663 [NbConvertApp] Making directory __results___files
+11007.9s 1664 [NbConvertApp] Making directory __results___files
+11008.0s 1665 [NbConvertApp] Making directory __results___files
+11008.0s 1666 [NbConvertApp] Making directory __results___files
+11008.0s 1667 [NbConvertApp] Making directory __results___files
+11008.0s 1668 [NbConvertApp] Making directory __results___files
+11008.0s 1669 [NbConvertApp] Making directory __results___files
+11008.0s 1670 [NbConvertApp] Making directory __results___files
+11008.0s 1671 [NbConvertApp] Making directory __results___files
+11008.0s 1672 [NbConvertApp] Making directory __results___files
+11008.0s 1673 [NbConvertApp] Making directory __results___files
+11008.0s 1674 [NbConvertApp] Making directory __results___files
+11008.0s 1675 [NbConvertApp] Making directory __results___files
+11008.0s 1676 [NbConvertApp] Making directory __results___files
+11008.0s 1677 [NbConvertApp] Making directory __results___files
+11008.0s 1678 [NbConvertApp] Making directory __results___files
+11008.0s 1679 [NbConvertApp] Making directory __results___files
+11008.0s 1680 [NbConvertApp] Making directory __results___files
+11008.0s 1681 [NbConvertApp] Making directory __results___files
+11008.0s 1682 [NbConvertApp] Making directory __results___files
+11008.0s 1683 [NbConvertApp] Making directory __results___files
+11008.0s 1684 [NbConvertApp] Making directory __results___files
+11008.0s 1685 [NbConvertApp] Making directory __results___files
+11008.0s 1686 [NbConvertApp] Making directory __results___files
+11008.0s 1687 [NbConvertApp] Making directory __results___files
+11008.0s 1688 [NbConvertApp] Making directory __results___files
+11008.0s 1689 [NbConvertApp] Making directory __results___files
+11008.0s 1690 [NbConvertApp] Making directory __results___files
+11008.0s 1691 [NbConvertApp] Making directory __results___files
+11008.0s 1692 [NbConvertApp] Making directory __results___files
+11008.0s 1693 [NbConvertApp] Making directory __results___files
+11008.0s 1694 [NbConvertApp] Making directory __results___files
+11008.0s 1695 [NbConvertApp] Making directory __results___files
+11008.0s 1696 [NbConvertApp] Making directory __results___files
+11008.0s 1697 [NbConvertApp] Making directory __results___files
+11008.0s 1698 [NbConvertApp] Making directory __results___files
+11008.0s 1699 [NbConvertApp] Making directory __results___files
+11008.0s 1700 [NbConvertApp] Making directory __results___files
+11008.0s 1701 [NbConvertApp] Making directory __results___files
+11008.0s 1702 [NbConvertApp] Making directory __results___files
+11008.0s 1703 [NbConvertApp] Making directory __results___files
+11008.0s 1704 [NbConvertApp] Making directory __results___files
+11008.0s 1705 [NbConvertApp] Making directory __results___files
+11008.0s 1706 [NbConvertApp] Making directory __results___files
+11008.0s 1707 [NbConvertApp] Making directory __results___files
+11008.0s 1708 [NbConvertApp] Making directory __results___files
+11008.0s 1709 [NbConvertApp] Making directory __results___files
+11008.0s 1710 [NbConvertApp] Making directory __results___files
+11008.0s 1711 [NbConvertApp] Making directory __results___files
+11008.0s 1712 [NbConvertApp] Making directory __results___files
+11008.0s 1713 [NbConvertApp] Making directory __results___files
+11008.0s 1714 [NbConvertApp] Making directory __results___files
+11008.0s 1715 [NbConvertApp] Making directory __results___files
+11008.0s 1716 [NbConvertApp] Making directory __results___files
+11008.0s 1717 [NbConvertApp] Making directory __results___files
+11008.0s 1718 [NbConvertApp] Making directory __results___files
+11008.0s 1719 [NbConvertApp] Making directory __results___files
+11008.0s 1720 [NbConvertApp] Making directory __results___files
+11008.0s 1721 [NbConvertApp] Making directory __results___files
+11008.0s 1722 [NbConvertApp] Making directory __results___files
+11008.0s 1723 [NbConvertApp] Making directory __results___files
+11008.0s 1724 [NbConvertApp] Making directory __results___files
+11008.0s 1725 [NbConvertApp] Making directory __results___files
+11008.0s 1726 [NbConvertApp] Making directory __results___files
+11008.0s 1727 [NbConvertApp] Making directory __results___files
+11008.0s 1728 [NbConvertApp] Making directory __results___files
+11008.0s 1729 [NbConvertApp] Making directory __results___files
+11008.0s 1730 [NbConvertApp] Making directory __results___files
+11008.0s 1731 [NbConvertApp] Making directory __results___files
+11008.0s 1732 [NbConvertApp] Making directory __results___files
+11008.0s 1733 [NbConvertApp] Making directory __results___files
+11008.0s 1734 [NbConvertApp] Making directory __results___files
+11008.0s 1735 [NbConvertApp] Making directory __results___files
+11008.0s 1736 [NbConvertApp] Making directory __results___files
+11008.0s 1737 [NbConvertApp] Making directory __results___files
+11008.0s 1738 [NbConvertApp] Making directory __results___files
+11008.0s 1739 [NbConvertApp] Making directory __results___files
+11008.0s 1740 [NbConvertApp] Making directory __results___files
+11008.0s 1741 [NbConvertApp] Making directory __results___files
+11008.0s 1742 [NbConvertApp] Making directory __results___files
+11008.0s 1743 [NbConvertApp] Making directory __results___files
+11008.0s 1744 [NbConvertApp] Making directory __results___files
+11008.0s 1745 [NbConvertApp] Making directory __results___files
+11008.0s 1746 [NbConvertApp] Making directory __results___files
+11008.0s 1747 [NbConvertApp] Making directory __results___files
+11008.0s 1748 [NbConvertApp] Making directory __results___files
+11008.0s 1749 [NbConvertApp] Writing 1121090 bytes to __results__.html
